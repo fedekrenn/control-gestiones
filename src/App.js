@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { doc, getDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import db from './utils/firebaseConfig'
+
+import Header from "./components/Header/Header";
+import ManagementLoad from "./components/ManagementLoad/ManagementLoad";
+import NewAgent from "./components/NewAgent/NewAgent";
 
 function App() {
+
+  const [agents, setAgents] = useState({});
+
+  const getManagement = async () => {
+    const docRef = doc(db, "listadoAsesores", "pXWMSXmrz7C2DWbo9I7E");
+    const docSnap = await getDoc(docRef);
+
+    docSnap.exists() ? setAgents(docSnap.data()) : console.log("No such document!")
+  }
+
+  useEffect(() => {
+
+    getManagement();
+  }, [])
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <ManagementLoad agents={agents} />
+      <NewAgent agents={agents}/>
+    </>
   );
 }
 
