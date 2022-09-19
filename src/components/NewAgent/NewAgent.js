@@ -44,7 +44,7 @@ const NewAgent = ({ cells }) => {
     }
 
     return (
-        <>
+        <section className='new-agent'>
             <h2>Agregar agente</h2>
             <form onSubmit={handleSubmit}>
                 <TextField
@@ -66,7 +66,7 @@ const NewAgent = ({ cells }) => {
                     size="small"
                     required
                 />
-                <FormControl sx={{ m: 1, minWidth: 120 }} size="small" required>
+                <FormControl sx={{ minWidth: 120 }} size="small" required>
                     <InputLabel id="demo-simple-select-label">Célula</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
@@ -82,7 +82,7 @@ const NewAgent = ({ cells }) => {
                 </FormControl>
                 <Button variant="contained" type="submit">Agregar</Button>
             </form>
-        </>
+        </section>
     )
 }
 

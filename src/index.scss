@@ -1,0 +1,10 @@
+/* Abstracts */
+@use './scss/abstracts/variables';
+@use './scss/abstracts/mixins';
+
+/* Base */
+@use './scss/base/resets';
+@use './scss/base/base';
+
+/* Components */
+@use './components/NewAgent/newAgent';
