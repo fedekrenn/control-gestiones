@@ -9,17 +9,27 @@ import NewAgent from "./components/NewAgent/NewAgent";
 function App() {
 
   const [agents, setAgents] = useState({});
+  const [cells, setCells] = useState([]);
 
   const getManagement = async () => {
-    const docRef = doc(db, "listadoAsesores", "pXWMSXmrz7C2DWbo9I7E");
+    const docRef = doc(db, "listadoAsesores", "Svnqcl3BtN6xxZT2ggqw");
     const docSnap = await getDoc(docRef);
 
     docSnap.exists() ? setAgents(docSnap.data()) : console.log("No such document!")
   }
 
+  const getCells = async () => {
+    const docRef = doc(db, "listadoAsesores", "4KpZYmZikVbntR1C1aiC");
+    const docSnap = await getDoc(docRef);
+
+    docSnap.exists() ? setCells(docSnap.data().celulas) : console.log("No such document!")
+  }
+
   useEffect(() => {
 
     getManagement();
+    getCells();
+    
   }, [])
 
 
@@ -27,7 +37,7 @@ function App() {
     <>
       <Header />
       <ManagementLoad agents={agents} />
-      <NewAgent agents={agents}/>
+      <NewAgent cells={cells}/>
     </>
   );
 }

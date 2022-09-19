@@ -1,33 +1,86 @@
+// React
+import { useState } from 'react'
+// Librerías
+import { Button } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material';
+import Swal from 'sweetalert2'
+// Firebase
 import { doc, setDoc } from "firebase/firestore";
 import db from "../../utils/firebaseConfig";
 
-const NewAgent = ({ agents }) => {
+const NewAgent = ({ cells }) => {
+
+    const [cell, setCell] = useState('');
+
+    const handleChange = (event) => {
+        setCell(event.target.value);
+    };
 
     const handleKeyDown = (e) => {
         e.keyCode === 32 && e.preventDefault();
     }
 
-
     const handleSubmit = async (e) => {
+
         e.preventDefault();
 
         const key = e.target.exa.value.toLowerCase()
-        const value = e.target.nombre.value
+        const nameValue = e.target.nombre.value
+        const cellValue = cell
 
-        await setDoc(doc(db, "listadoAsesores", "pXWMSXmrz7C2DWbo9I7E"), {
-            [key]: value.trim()
+        await setDoc(doc(db, "listadoAsesores", "Svnqcl3BtN6xxZT2ggqw"), {
+            [key]: {
+                nombre: nameValue.trim(),
+                celula: cellValue.trim()
+            }
         }, { merge: true });
+
+        Swal.fire({
+            title: 'Realizado!',
+            text: 'El nuevo agente ha sido agregado',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+        })
     }
 
     return (
         <>
             <h2>Agregar agente</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="exa">Exa</label>
-                <input type="text" name="exa" id="exa" onKeyDown={handleKeyDown} />
-                <label htmlFor="nombre">Nombre completo</label>
-                <input type="text" name="nombre" id="nombre" />
-                <input type="submit" value="Agregar" />
+                <TextField
+                    id="outlined-basic"
+                    label="EXA"
+                    type="text"
+                    variant="outlined"
+                    name="exa"
+                    onKeyDown={handleKeyDown}
+                    size="small"
+                    required
+                />
+                <TextField
+                    id="outlined-basic"
+                    label="Nombre completo"
+                    type="text"
+                    variant="outlined"
+                    name="nombre"
+                    size="small"
+                    required
+                />
+                <FormControl sx={{ m: 1, minWidth: 120 }} size="small" required>
+                    <InputLabel id="demo-simple-select-label">Célula</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={cell}
+                        label="Célula"
+                        onChange={handleChange}
+                    >
+                        {cells.map((cell, index) => (
+                            <MenuItem key={index} value={cell}>{cell}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+                <Button variant="contained" type="submit">Agregar</Button>
             </form>
         </>
     )
