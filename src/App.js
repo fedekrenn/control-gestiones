@@ -2,9 +2,11 @@ import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import db from './utils/firebaseConfig'
 
+// Components
 import Header from "./components/Header/Header";
 import ManagementLoad from "./components/ManagementLoad/ManagementLoad";
 import NewAgent from "./components/NewAgent/NewAgent";
+import NewCase from "./components/NewCase/NewCase";
 
 function App() {
 
@@ -38,6 +40,7 @@ function App() {
       <Header />
       <ManagementLoad agents={agents} />
       <NewAgent cells={cells}/>
+      <NewCase agents={agents}/>
     </>
   );
 }
