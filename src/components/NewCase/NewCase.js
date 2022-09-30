@@ -12,7 +12,7 @@ const NewCase = ({ agents }) => {
     const [agentName, setAgentName] = useState('Nombre');
     const [agentGroup, setAgentGroup] = useState('Célula');
     const [agentProcess, setAgentProcess] = useState('Proceso');
-    const [way, setWay] = useState('Caso');
+    const [way, setWay] = useState('');
     const [errValue, setErrValue] = useState('');
     const [omsValue, setOmsValue] = useState('');
 
@@ -74,51 +74,51 @@ const NewCase = ({ agents }) => {
                     renderInput={(params) => <TextField {...params} label="Exa" />}
                     onChange={handleChangeAutocomplete}
                 />
-                <TextField id="outlined-basic" size="small" disabled value={agentName} variant="outlined" />
-                <TextField id="outlined-basic" size="small" disabled value={agentGroup} variant="outlined" />
-                <TextField id="outlined-basic" size="small" disabled value={agentProcess} variant="outlined" />
+                <TextField id="outlined-basicOne" size="small" disabled value={agentName} variant="outlined" />
+                <TextField id="outlined-basicTwo" size="small" disabled value={agentGroup} variant="outlined" />
+                <TextField id="outlined-basicThree" size="small" disabled value={agentProcess} variant="outlined" />
 
                 <FormControl sx={{ minWidth: 120 }} size="small" required>
-                    <InputLabel id="demo-simple-select-label">Realizó</InputLabel>
+                    <InputLabel id="demo-simple-select-label-one">Realizó</InputLabel>
                     <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        labelId="demo-simple-select-label--one"
+                        id="demo-simple-select-one"
                         value={way}
-                        label="Errores"
+                        label="ways"
                         onChange={handleChangeWay}
                     >
-                        {ways.map((error, index) => (
-                            <MenuItem key={index} value={error}>{error}</MenuItem>
+                        {ways.map((wy, index) => (
+                            <MenuItem key={index} value={wy}>{wy}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>
 
                 <FormControl sx={{ minWidth: 120 }} size="small" required>
-                    <InputLabel id="demo-simple-select-label">Errores</InputLabel>
+                    <InputLabel id="demo-simple-select-label-two">Errores</InputLabel>
                     <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        labelId="demo-simple-select-label--two"
+                        id="demo-simple-select-two"
                         value={errValue}
                         label="Errores"
                         onChange={handleChangeErr}
                     >
-                        {Object.keys(errors).map((error, index) => (
-                            <MenuItem key={index} value={error}>{error}</MenuItem>
+                        {Object.keys(errors).map((err, index) => (
+                            <MenuItem key={index} value={err}>{err}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>
                 <FormControl sx={{ minWidth: 120 }} size="small" required>
-                    <InputLabel id="demo-simple-select-label">OMS</InputLabel>
+                    <InputLabel id="demo-simple-select-label-three">OMS</InputLabel>
                     <Select
 
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        labelId="demo-simple-select-label--three"
+                        id="demo-simple-select-three"
                         value={omsValue}
                         label="OMS"
                         onChange={handleChangeOms}
                     >
-                        {Object.keys(oms).map((oms, index) => (
-                            <MenuItem key={index} value={oms}>{oms}</MenuItem>
+                        {Object.keys(oms).map((om, index) => (
+                            <MenuItem key={index} value={om}>{om}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>

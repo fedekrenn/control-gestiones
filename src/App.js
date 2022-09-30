@@ -7,6 +7,8 @@ import Header from "./components/Header/Header";
 import ManagementLoad from "./components/ManagementLoad/ManagementLoad";
 import NewAgent from "./components/NewAgent/NewAgent";
 import NewCase from "./components/NewCase/NewCase";
+import Register from "./components/Register/Register";
+import Login from "./components/Login/Login";
 
 function App() {
 
@@ -41,6 +43,8 @@ function App() {
       <ManagementLoad agents={agents} />
       <NewAgent cells={cells}/>
       <NewCase agents={agents}/>
+      <Register />
+      <Login />
     </>
   );
 }

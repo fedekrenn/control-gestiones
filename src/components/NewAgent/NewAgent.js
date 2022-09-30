@@ -13,7 +13,7 @@ const NewAgent = ({ cells }) => {
     const [cell, setCell] = useState('');
     const [proc, setProc] = useState('');
 
-    const celulitas = cells[proc] || [''];
+    const cellsSelected = cells[proc] || [''];
 
     const handleChangeCell = (event) => {
         setCell(event.target.value);
@@ -64,7 +64,7 @@ const NewAgent = ({ cells }) => {
             <h2>Agregar agente</h2>
             <form onSubmit={handleSubmit}>
                 <TextField
-                    id="outlined-basic"
+                    id="outlined-basic-one"
                     label="EXA"
                     type="text"
                     variant="outlined"
@@ -74,7 +74,7 @@ const NewAgent = ({ cells }) => {
                     required
                 />
                 <TextField
-                    id="outlined-basic"
+                    id="outlined-basic-two"
                     label="Nombre completo"
                     type="text"
                     variant="outlined"
@@ -105,7 +105,7 @@ const NewAgent = ({ cells }) => {
                         label="Célula"
                         onChange={handleChangeCell}
                     >
-                        {celulitas.map((cell, index) => (
+                        {cellsSelected.map((cell, index) => (
                             <MenuItem key={index} value={cell}>{cell}</MenuItem>
                         ))}
                     </Select>
