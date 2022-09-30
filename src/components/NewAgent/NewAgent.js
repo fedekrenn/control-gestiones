@@ -11,9 +11,17 @@ import db from "../../utils/firebaseConfig";
 const NewAgent = ({ cells }) => {
 
     const [cell, setCell] = useState('');
+    const [proc, setProc] = useState('');
 
-    const handleChange = (event) => {
+    const celulitas = cells[proc] || [''];
+
+    const handleChangeCell = (event) => {
         setCell(event.target.value);
+    };
+
+    const handleChangeProc = (event) => {
+        setProc(event.target.value);
+        setCell('');
     };
 
     const handleKeyDown = (e) => {
@@ -31,7 +39,8 @@ const NewAgent = ({ cells }) => {
         await setDoc(doc(db, "listadoAsesores", "Svnqcl3BtN6xxZT2ggqw"), {
             [key]: {
                 nombre: nameValue.trim(),
-                celula: cellValue.trim()
+                celula: cellValue.trim(),
+                proceso: proc.trim()
             }
         }, { merge: true });
 
@@ -41,7 +50,14 @@ const NewAgent = ({ cells }) => {
             icon: 'success',
             confirmButtonText: 'Ok'
         })
+
+        e.target.exa.value = '';
+        e.target.nombre.value = '';
+        setCell('');
+        setProc('');
     }
+
+    const process = Object.keys(cells)
 
     return (
         <section className='new-agent'>
@@ -67,15 +83,29 @@ const NewAgent = ({ cells }) => {
                     required
                 />
                 <FormControl sx={{ minWidth: 120 }} size="small" required>
+                    <InputLabel id="demo-simple-select-label">Proceso</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={proc}
+                        label="Célula"
+                        onChange={handleChangeProc}
+                    >
+                        {process.map((proc, index) => (
+                            <MenuItem key={index} value={proc}>{proc}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+                <FormControl sx={{ minWidth: 120 }} size="small" required>
                     <InputLabel id="demo-simple-select-label">Célula</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={cell}
                         label="Célula"
-                        onChange={handleChange}
+                        onChange={handleChangeCell}
                     >
-                        {cells.map((cell, index) => (
+                        {celulitas.map((cell, index) => (
                             <MenuItem key={index} value={cell}>{cell}</MenuItem>
                         ))}
                     </Select>

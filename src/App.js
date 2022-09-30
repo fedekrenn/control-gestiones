@@ -24,7 +24,7 @@ function App() {
     const docRef = doc(db, "listadoAsesores", "4KpZYmZikVbntR1C1aiC");
     const docSnap = await getDoc(docRef);
 
-    docSnap.exists() ? setCells(docSnap.data().celulas) : console.log("No such document!")
+    docSnap.exists() ? setCells(docSnap.data()) : console.log("No such document!")
   }
 
   useEffect(() => {

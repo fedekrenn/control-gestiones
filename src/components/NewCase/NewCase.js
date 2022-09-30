@@ -11,9 +11,17 @@ const NewCase = ({ agents }) => {
     const [oms, setOms] = useState([]);
     const [agentName, setAgentName] = useState('Nombre');
     const [agentGroup, setAgentGroup] = useState('Célula');
-
+    const [agentProcess, setAgentProcess] = useState('Proceso');
+    const [way, setWay] = useState('Caso');
     const [errValue, setErrValue] = useState('');
     const [omsValue, setOmsValue] = useState('');
+
+
+    const ways = ['Cmm', 'Calidad Cec', 'Coordinador'];
+
+    const handleChangeWay = (event) => {
+        setWay(event.target.value);
+    };
 
     const handleChangeErr = (event) => {
         setErrValue(event.target.value);
@@ -29,9 +37,11 @@ const NewCase = ({ agents }) => {
         const findAgent = value && convertArray.find(agent => agent[0] === value.toLowerCase());
 
         // Asignar los datos del agente a los estados
-        findAgent && setAgentName(findAgent[1].nombre);
-        findAgent && setAgentGroup(findAgent[1].celula);
-
+        if (findAgent) {
+            setAgentName(findAgent[1].nombre);
+            setAgentGroup(findAgent[1].celula);
+            setAgentProcess(findAgent[1].proceso);
+        }
     };
 
     const getCriteria = async () => {
@@ -66,6 +76,23 @@ const NewCase = ({ agents }) => {
                 />
                 <TextField id="outlined-basic" size="small" disabled value={agentName} variant="outlined" />
                 <TextField id="outlined-basic" size="small" disabled value={agentGroup} variant="outlined" />
+                <TextField id="outlined-basic" size="small" disabled value={agentProcess} variant="outlined" />
+
+                <FormControl sx={{ minWidth: 120 }} size="small" required>
+                    <InputLabel id="demo-simple-select-label">Realizó</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={way}
+                        label="Errores"
+                        onChange={handleChangeWay}
+                    >
+                        {ways.map((error, index) => (
+                            <MenuItem key={index} value={error}>{error}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
                 <FormControl sx={{ minWidth: 120 }} size="small" required>
                     <InputLabel id="demo-simple-select-label">Errores</InputLabel>
                     <Select
