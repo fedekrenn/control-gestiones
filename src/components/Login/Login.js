@@ -1,19 +1,50 @@
 import { TextField, Button } from '@mui/material';
 import { useState } from 'react';
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth } from '../../utils/firebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import Swal from 'sweetalert2';
 
 const Login = () => {
 
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = (e) => {
+
+        e.preventDefault();
+
+        signInWithEmailAndPassword(auth, email, password)
+
+            .then((userCredential) => {
+                // Signed in
+                const token = userCredential.user.accessToken;
+                sessionStorage.setItem('token', token);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Bienvenido',
+                    text: 'Has iniciado sesión correctamente',
+                    confirmButtonText: 'Aceptar'
+                })
+            })
+            .catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ha ocurrido un error al iniciar sesión',
+                    confirmButtonText: 'Aceptar'
+                })
+            });
+    }
+
     return (
-        <form className='login-form' >
+        <form className='login-form' onSubmit={handleLogin}>
             <TextField
                 id="outlined-basic-usr"
                 label="Usuario"
                 variant="outlined"
                 name='email'
-                // Set the value of the input to the value of the state
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
                 id="outlined-basic-pss"
@@ -21,10 +52,10 @@ const Login = () => {
                 type='password'
                 variant="outlined"
                 name='password'
-                // Set the value of the input to the value of the state
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
             />
             <Button variant="contained" size='large' type='submit'>Acceder</Button>
-            <Button variant="contained" size='large' type='submit'>Crear Cuenta</Button>
         </form>
     )
 }

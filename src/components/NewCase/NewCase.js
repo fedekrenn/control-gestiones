@@ -8,27 +8,66 @@ import { TextField, Autocomplete, Button, FormControl, InputLabel, Select, MenuI
 const NewCase = ({ agents }) => {
 
     const [errors, setErrors] = useState([]);
+    const [errorsSubAtributte, setErrorsSubAtributte] = useState([]);
+
     const [oms, setOms] = useState([]);
+    const [omsSubAtributte, setOmsSubAtributte] = useState([]);
+
     const [agentName, setAgentName] = useState('Nombre');
     const [agentGroup, setAgentGroup] = useState('Célula');
     const [agentProcess, setAgentProcess] = useState('Proceso');
+
     const [way, setWay] = useState('');
+
     const [errValue, setErrValue] = useState('');
+    const [errDescription, setErrDescription] = useState('');
+
     const [omsValue, setOmsValue] = useState('');
+    const [omsDescription, setOmsDescription] = useState('');
+    
 
 
     const ways = ['Cmm', 'Calidad Cec', 'Coordinador'];
+
+    useEffect(() => {
+        getCriteria()
+    }, [])
+
+    // DE PRUEBA
+    useEffect(() => {
+        console.log(errorsSubAtributte)
+    }, [errorsSubAtributte])
+
+    useEffect(() => {
+        console.log(omsSubAtributte)
+    }, [omsSubAtributte])
+
+    const isEmpty = (myState) => {
+        return myState === "" || myState === "n/a"
+    }
 
     const handleChangeWay = (event) => {
         setWay(event.target.value);
     };
 
     const handleChangeErr = (event) => {
+        setErrDescription('')
         setErrValue(event.target.value);
+        setErrorsSubAtributte(errors[event.target.value])
+    };
+    
+    const handleChangeOms = (event) => {
+        setOmsDescription('')
+        setOmsValue(event.target.value);
+        setOmsSubAtributte(oms[event.target.value])
     };
 
-    const handleChangeOms = (event) => {
-        setOmsValue(event.target.value);
+    const handleChangeSubErr = (event) => {
+        setErrDescription(event.target.value);
+    };
+
+    const handleChangeSubOms = (event) => {
+        setOmsDescription(event.target.value);
     };
 
     const handleChangeAutocomplete = (event, value) => {
@@ -55,11 +94,6 @@ const NewCase = ({ agents }) => {
             console.log("No such document!")
         }
     }
-
-    useEffect(() => {
-        getCriteria()
-    }, [])
-
 
     return (
         <section className='new-case'>
@@ -107,6 +141,25 @@ const NewCase = ({ agents }) => {
                         ))}
                     </Select>
                 </FormControl>
+
+                {isEmpty(errValue) ? null : (
+                    <FormControl sx={{ minWidth: 120 }} size="small" required>
+                    <InputLabel id="demo-simple-select-label-three">Detalle EC:</InputLabel>
+                    <Select
+
+                        labelId="demo-simple-select-label--three"
+                        id="demo-simple-select-three"
+                        value={errDescription}
+                        label="OMS"
+                        onChange={handleChangeSubErr}
+                    >
+                        {errorsSubAtributte.map((om, index) => (
+                            <MenuItem key={index} value={om}>{om}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+                )}
+
                 <FormControl sx={{ minWidth: 120 }} size="small" required>
                     <InputLabel id="demo-simple-select-label-three">OMS</InputLabel>
                     <Select
@@ -122,6 +175,26 @@ const NewCase = ({ agents }) => {
                         ))}
                     </Select>
                 </FormControl>
+
+                {isEmpty(omsValue) ? null : (
+                    <FormControl sx={{ minWidth: 120 }} size="small" required>
+                    <InputLabel id="demo-simple-select-label-three">Detalle OMS:</InputLabel>
+                    <Select
+
+                        labelId="demo-simple-select-label--three"
+                        id="demo-simple-select-three"
+                        value={omsDescription}
+                        label="OMS"
+                        onChange={handleChangeSubOms}
+                    >
+                        {omsSubAtributte.map((om, index) => (
+                            <MenuItem key={index} value={om}>{om}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+                )}
+
+
                 <Button variant="contained" type="submit">Agregar</Button>
             </form>
         </section>
