@@ -3,11 +3,14 @@ import { useState } from 'react';
 import { auth } from '../../utils/firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import Swal from 'sweetalert2';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const navigate = useNavigate();
 
     const handleLogin = (e) => {
 
@@ -19,12 +22,17 @@ const Login = () => {
                 // Signed in
                 const token = userCredential.user.accessToken;
                 sessionStorage.setItem('token', token);
+
                 Swal.fire({
                     icon: 'success',
                     title: 'Bienvenido',
                     text: 'Has iniciado sesión correctamente',
                     confirmButtonText: 'Aceptar'
                 })
+
+                setTimeout(() => {
+                    navigate('/nuevo-caso');
+                }, 2000);
             })
             .catch(() => {
                 Swal.fire({

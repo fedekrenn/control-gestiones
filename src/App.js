@@ -1,6 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import db from './utils/firebaseConfig'
+import { Routes, Route } from "react-router-dom";
 
 // Components
 import Header from "./components/Header/Header";
@@ -32,17 +33,19 @@ function App() {
 
     getManagement();
     getCells();
-    
+
   }, [])
 
 
   return (
     <>
       <Header />
-      <ManagementLoad agents={agents} />
-      <NewAgent cells={cells}/>
-      <NewCase agents={agents}/>
-      <Login />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/inicio" element={<ManagementLoad agents={agents} />} />
+        <Route path="/nuevo-asesor" element={<NewAgent cells={cells} />} />
+        <Route path="/nuevo-caso" element={<NewCase agents={agents} />} />
+      </Routes>
     </>
   );
 }
