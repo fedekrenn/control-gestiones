@@ -8,10 +8,14 @@ import Swal from 'sweetalert2'
 import { doc, setDoc } from "firebase/firestore";
 import db from "../../utils/firebaseConfig";
 
+import { Navigate } from 'react-router-dom';
+
 const NewAgent = ({ cells }) => {
 
     const [cell, setCell] = useState('');
     const [proc, setProc] = useState('');
+
+    const token = sessionStorage.getItem('token');
 
     const cellsSelected = cells[proc] || [''];
 
@@ -58,6 +62,8 @@ const NewAgent = ({ cells }) => {
     }
 
     const process = Object.keys(cells)
+
+    if (!token) return <Navigate to='/' />
 
     return (
         <section className='new-agent'>

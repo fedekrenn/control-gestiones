@@ -3,12 +3,13 @@ import { useState } from 'react';
 import { auth } from '../../utils/firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import Swal from 'sweetalert2';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const token = sessionStorage.getItem('token');
 
     const navigate = useNavigate();
 
@@ -32,7 +33,7 @@ const Login = () => {
 
                 setTimeout(() => {
                     navigate('/nuevo-caso');
-                }, 2000);
+                }, 1500);
             })
             .catch(() => {
                 Swal.fire({
@@ -43,6 +44,8 @@ const Login = () => {
                 })
             });
     }
+
+    if (token) return <Navigate to='/nuevo-caso' />
 
     return (
         <form className='login-form' onSubmit={handleLogin}>

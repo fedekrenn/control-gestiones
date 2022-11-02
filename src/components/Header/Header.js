@@ -13,14 +13,16 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = [{ name: 'Nuevo asesor', link: '/nuevo-asesor' }, { name: 'Nueva gestión', link: '/nuevo-caso' }];
 
-function ResponsiveAppBar() {
+const ResponsiveAppBar = () => {
+
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+    const navigate = useNavigate();
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -37,8 +39,16 @@ function ResponsiveAppBar() {
         setAnchorElUser(null);
     };
 
+    const handleSignOut = () => {
+        sessionStorage.removeItem('token')
+        handleCloseUserMenu();
+        setTimeout(() => {
+            navigate('/');
+        }, 500);
+    }
+
     return (
-        <AppBar position="static"  color='error'>
+        <AppBar position="static" color='error'>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Link to='/'><img className='img-logo' src='/assets/logo-startek.jpg' alt='logo' /></Link>
@@ -71,23 +81,26 @@ function ResponsiveAppBar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
+                            {pages.map((page, index) => (
+                                <MenuItem key={index} onClick={handleCloseNavMenu}>
+                                    <Link to={page.link}>
+                                        <Typography textAlign="center">{page.name}</Typography>
+                                    </Link>
                                 </MenuItem>
                             ))}
                         </Menu>
                     </Box>
                     <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
+                        {pages.map((page, index) => (
+                            <Link to={page.link} key={index}>
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    {page.name}
+                                </Button>
+                            </Link>
                         ))}
                     </Box>
 
@@ -113,11 +126,9 @@ function ResponsiveAppBar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem onClick={handleCloseUserMenu}>
+                                <Typography textAlign="center" onClick={handleSignOut}>Cerrar Sesión</Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>

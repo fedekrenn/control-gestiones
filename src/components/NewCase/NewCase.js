@@ -4,6 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import db from '../../utils/firebaseConfig';
 // Librerías
 import { TextField, Autocomplete, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Navigate } from 'react-router-dom';
 
 const NewCase = ({ agents }) => {
 
@@ -27,6 +28,8 @@ const NewCase = ({ agents }) => {
     const [omsDescription, setOmsDescription] = useState('');
 
     const ways = ['Cmm', 'Calidad Cec', 'Coordinador'];
+
+    const token = sessionStorage.getItem('token');
 
     useEffect(() => {
         getCriteria()
@@ -86,6 +89,8 @@ const NewCase = ({ agents }) => {
             console.log("No such document!")
         }
     }
+
+    if (!token) return <Navigate to="/" />
 
     return (
         <section className='new-case'>
@@ -223,9 +228,10 @@ const NewCase = ({ agents }) => {
                     className="ochooooo"
                     multiline
                 />
-
-                <Button variant="contained" type="submit">Agregar</Button>
-                <Button variant="contained" type="reset" onClick={handleDelete}>Eliminar</Button>
+                <div className='btn-container'>
+                    <Button variant="contained" type="submit">Agregar</Button>
+                    <Button variant="contained" type="reset" onClick={handleDelete}>Eliminar</Button>
+                </div>
             </form>
         </section>
     )
