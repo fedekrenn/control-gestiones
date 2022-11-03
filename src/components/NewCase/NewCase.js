@@ -6,7 +6,7 @@ import db from '../../utils/firebaseConfig';
 import { TextField, Autocomplete, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 
-const NewCase = ({ agents }) => {
+const NewCase = ({ agents, monitoreador, token }) => {
 
     const [errors, setErrors] = useState([]);
     const [errorsSubAtributte, setErrorsSubAtributte] = useState([]);
@@ -28,8 +28,6 @@ const NewCase = ({ agents }) => {
     const [omsDescription, setOmsDescription] = useState('');
 
     const ways = ['Cmm', 'Calidad Cec', 'Coordinador'];
-
-    const token = sessionStorage.getItem('token');
 
     useEffect(() => {
         getCriteria()
@@ -94,7 +92,8 @@ const NewCase = ({ agents }) => {
             oms: omsValue === 'n/a' ? false : omsValue,
             subAtribOm: omsDescription === '' ? false : omsDescription,
             fecha: new Date().toLocaleString(),
-            comentarioGestion: comentario
+            comentarioGestion: comentario,
+            monitoreador: monitoreador
         }
         alert('Gestión creada')
         console.log(newCase)

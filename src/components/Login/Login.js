@@ -5,11 +5,10 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import Swal from 'sweetalert2';
 import { useNavigate, Navigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({setMonitoreador, token, setToken}) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const token = sessionStorage.getItem('token');
 
     const navigate = useNavigate();
 
@@ -22,9 +21,10 @@ const Login = () => {
             .then((userCredential) => {
                 // Signed in
 
-                // const email = userCredential.user.email;
+                setMonitoreador(userCredential.user.email);
                 const token = userCredential.user.accessToken;
                 sessionStorage.setItem('token', token);
+                setToken(token);
 
                 Swal.fire({
                     icon: 'success',

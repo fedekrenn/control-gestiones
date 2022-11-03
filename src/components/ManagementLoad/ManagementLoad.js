@@ -1,4 +1,9 @@
-const ManagementLoad = ({ agents }) => {
+import { Navigate } from "react-router-dom";
+
+const ManagementLoad = ({ token }) => {
+
+
+    if (!token) return <Navigate to='/' />
 
     return (
         <>

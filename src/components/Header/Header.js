@@ -20,7 +20,7 @@ const pages = [
     { name: 'Nueva gestión', link: '/nuevo-caso' }
 ];
 
-const ResponsiveAppBar = () => {
+const Header = ({setToken}) => {
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -46,6 +46,7 @@ const ResponsiveAppBar = () => {
 
     const handleSignOut = () => {
         sessionStorage.removeItem('token')
+        setToken(null);
         handleCloseUserMenu();
         setTimeout(() => {
             navigate('/');
@@ -142,4 +143,4 @@ const ResponsiveAppBar = () => {
         </AppBar>
     );
 }
-export default ResponsiveAppBar;
+export default Header;

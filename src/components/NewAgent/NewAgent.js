@@ -10,12 +10,10 @@ import db from "../../utils/firebaseConfig";
 
 import { Navigate } from 'react-router-dom';
 
-const NewAgent = ({ cells }) => {
+const NewAgent = ({ cells, token, setRefresh }) => {
 
     const [cell, setCell] = useState('');
     const [proc, setProc] = useState('');
-
-    const token = sessionStorage.getItem('token');
 
     const cellsSelected = cells[proc] || [''];
 
@@ -54,6 +52,8 @@ const NewAgent = ({ cells }) => {
             icon: 'success',
             confirmButtonText: 'Ok'
         })
+
+        setRefresh(true);
 
         e.target.exa.value = '';
         e.target.nombre.value = '';
@@ -102,7 +102,8 @@ const NewAgent = ({ cells }) => {
                         ))}
                     </Select>
                 </FormControl>
-                <FormControl sx={{ minWidth: 120 }} size="small" required>
+                {proc && (
+                    <FormControl sx={{ minWidth: 120 }} size="small" required>
                     <InputLabel id="demo-simple-select-label">Célula</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
@@ -116,6 +117,7 @@ const NewAgent = ({ cells }) => {
                         ))}
                     </Select>
                 </FormControl>
+                    )}
                 <Button variant="contained" type="submit">Agregar</Button>
             </form>
         </section>
