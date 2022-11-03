@@ -15,7 +15,10 @@ import AdbIcon from '@mui/icons-material/Adb';
 
 import { Link, useNavigate } from 'react-router-dom';
 
-const pages = [{ name: 'Nuevo asesor', link: '/nuevo-asesor' }, { name: 'Nueva gestión', link: '/nuevo-caso' }];
+const pages = [
+    { name: 'Nuevo asesor', link: '/nuevo-asesor' },
+    { name: 'Nueva gestión', link: '/nuevo-caso' }
+];
 
 const ResponsiveAppBar = () => {
 
@@ -23,6 +26,8 @@ const ResponsiveAppBar = () => {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const navigate = useNavigate();
+
+    const token = sessionStorage.getItem('token');
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -103,34 +108,35 @@ const ResponsiveAppBar = () => {
                             </Link>
                         ))}
                     </Box>
-
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            <MenuItem onClick={handleCloseUserMenu}>
-                                <Typography textAlign="center" onClick={handleSignOut}>Cerrar Sesión</Typography>
-                            </MenuItem>
-                        </Menu>
-                    </Box>
+                    {token && (
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar alt="Remy Sharp" src="" />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center" onClick={handleSignOut}>Cerrar Sesión</Typography>
+                                </MenuItem>
+                            </Menu>
+                        </Box>
+                    )}
                 </Toolbar>
             </Container>
         </AppBar>

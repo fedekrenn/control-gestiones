@@ -63,7 +63,7 @@ const NewAgent = ({ cells }) => {
 
     const process = Object.keys(cells)
 
-    if (!token) return <Navigate to='/' />
+    if (!token) return <Navigate to='/inicio' />
 
     return (
         <section className='new-agent'>

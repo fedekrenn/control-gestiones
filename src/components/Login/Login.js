@@ -21,6 +21,8 @@ const Login = () => {
 
             .then((userCredential) => {
                 // Signed in
+
+                // const email = userCredential.user.email;
                 const token = userCredential.user.accessToken;
                 sessionStorage.setItem('token', token);
 
@@ -32,7 +34,7 @@ const Login = () => {
                 })
 
                 setTimeout(() => {
-                    navigate('/nuevo-caso');
+                    navigate('/inicio');
                 }, 1500);
             })
             .catch(() => {
@@ -45,7 +47,7 @@ const Login = () => {
             });
     }
 
-    if (token) return <Navigate to='/nuevo-caso' />
+    if (token) return <Navigate to='/inicio' />
 
     return (
         <form className='login-form' onSubmit={handleLogin}>
