@@ -6,14 +6,13 @@ import db from '../../utils/firebaseConfig';
 import { TextField, Autocomplete, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 import moment from 'moment';
-
+import Swal from 'sweetalert2'
 
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
-const NewCase = ({ agents, monitoreador, token }) => {
+const NewCase = ({ agents, token }) => {
 
     const [timeValue, setTimeValue] = useState(null);
 
@@ -60,12 +59,14 @@ const NewCase = ({ agents, monitoreador, token }) => {
     };
 
     const handleDelete = (e) => {
+        document.getElementById('form').reset();
         setErrValue('')
         setErrDescription('')
         setOmsValue('')
         setOmsDescription('')
         setCaseNumber('')
         setWay('')
+        setTimeValue(null)
     }
 
     const handleChangeAutocomplete = (event, value) => {
@@ -90,8 +91,11 @@ const NewCase = ({ agents, monitoreador, token }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (agentKey === '' || timeValue === null) return Swal.fire('Error', 'Debes completar todos los campos', 'error')
+
         const comentario = e.currentTarget.comentarioGestion.value;
         const motivoConsulta = e.currentTarget.motivoConsulta.value;
+        const puntoATrabajar = e.currentTarget.puntoFalla.value;
 
         const newCase = {
             numeroCaso: parseInt(caseNumber),
@@ -102,15 +106,38 @@ const NewCase = ({ agents, monitoreador, token }) => {
             date: moment(timeValue).format('DD/MM/YYYY HH:mm:ss'),
             motivoConsulta: motivoConsulta,
             origen: way,
-            ec: errValue === 'n/a' ? false : { motivo: errValue, submotivo: errDescription},
-            om: omsValue === 'n/a' ? false : { motivo: omsValue, submotivo: omsDescription},
+            ec: errValue === 'n/a' ? false : { motivo: errValue, submotivo: errDescription },
+            om: omsValue === 'n/a' ? false : { motivo: omsValue, submotivo: omsDescription },
             fechaDeCarga: new Date().toLocaleString(),
-            monitoreador: monitoreador,
+            monitoreador: sessionStorage.getItem('monitoreador'),
+            puntoATrabajar: puntoATrabajar,
             comentarioGestion: comentario
         }
-        alert('Gestión creada')
-
-        await addDoc(collection(db, "listadoGestiones"), newCase)
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir los cambios",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, guardar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await addDoc(collection(db, "listadoGestiones"), newCase)
+                Swal.fire(
+                    'Guardado!',
+                    'La gestión ha sido guardada.',
+                    'success'
+                )
+                handleDelete()
+            } else {
+                Swal.fire(
+                    'Cancelado',
+                    'La gestión no ha sido guardada',
+                    'error'
+                )
+            }
+        })
     }
 
     const getCriteria = async () => {
@@ -130,7 +157,7 @@ const NewCase = ({ agents, monitoreador, token }) => {
     return (
         <section className='new-case'>
             <h2>Agregar nueva gestión</h2>
-            <form className='new-case__form' onSubmit={handleSubmit}>
+            <form className='new-case__form' id='form' onSubmit={handleSubmit}>
                 <Autocomplete
                     disablePortal
                     id="combo-box-demo"
@@ -139,6 +166,7 @@ const NewCase = ({ agents, monitoreador, token }) => {
                     sx={{ width: 300 }}
                     renderInput={(params) => <TextField {...params} label="Exa" />}
                     onChange={handleChangeAutocomplete}
+
                 />
                 <TextField
                     id="outlined-basicOne"
@@ -168,6 +196,7 @@ const NewCase = ({ agents, monitoreador, token }) => {
                     label="Número de caso"
                     variant="outlined"
                     onChange={(e) => setCaseNumber(e.target.value)}
+                    required
                 />
 
                 <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -175,6 +204,7 @@ const NewCase = ({ agents, monitoreador, token }) => {
                         renderInput={(props) => <TextField {...props} />}
                         label="Fecha y hora del caso"
                         value={timeValue}
+
                         onChange={(newValue) => {
                             setTimeValue(newValue);
                         }}
@@ -187,6 +217,7 @@ const NewCase = ({ agents, monitoreador, token }) => {
                     label="Motivo de consulta"
                     name='motivoConsulta'
                     variant="outlined"
+                    required
                 />
 
                 <FormControl sx={{ minWidth: 120 }} size="small" required>
@@ -270,12 +301,24 @@ const NewCase = ({ agents, monitoreador, token }) => {
 
                 <TextField
                     id="outlined-textarea"
+                    label="¿Qué faltó para la resolución?"
+                    name="puntoFalla"
+                    placeholder="¿Qué faltó para la resolución?"
+                    rows={2}
+                    className="textarea-width-first"
+                    multiline
+                    required
+                />
+
+                <TextField
+                    id="outlined-textarea"
                     label="Comentario de la gestión"
                     name="comentarioGestion"
                     placeholder="Comentario de la gestión"
                     rows={10}
-                    className="ochooooo"
+                    className="textarea-width-second"
                     multiline
+                    required
                 />
                 <div className='btn-container'>
                     <Button variant="contained" type="submit">Agregar</Button>

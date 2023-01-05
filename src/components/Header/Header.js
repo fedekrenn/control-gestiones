@@ -46,6 +46,7 @@ const Header = ({setToken}) => {
 
     const handleSignOut = () => {
         sessionStorage.removeItem('token')
+        sessionStorage.removeItem('monitoreador')
         setToken(null);
         handleCloseUserMenu();
         setTimeout(() => {

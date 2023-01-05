@@ -14,7 +14,6 @@ function App() {
 
   const [agents, setAgents] = useState({});
   const [cells, setCells] = useState([]);
-  const [monitoreador, setMonitoreador] = useState('');
   const [token, setToken] = useState(sessionStorage.getItem('token'));
   const [refresh, setRefresh] = useState(false);
 
@@ -22,7 +21,7 @@ function App() {
     const docRef = doc(db, "listadoAsesores", "Svnqcl3BtN6xxZT2ggqw");
     const docSnap = await getDoc(docRef);
 
-    docSnap.exists() ? setAgents(docSnap.data()) : console.log("No such document!")
+    docSnap.exists() ? setAgents(docSnap.data()) : console.log("No such document!") // eslint-disable-line no-unused-expressions
   }
 
   const getCells = async () => {
@@ -49,12 +48,14 @@ function App() {
   return (
     <>
       <Header setToken={setToken} />
-      <Routes>
-        <Route path="/" element={<Login setMonitoreador={setMonitoreador} token={token} setToken={setToken} />} />
-        <Route path="/inicio" element={<ManagementLoad token={token} />} />
-        <Route path="/nuevo-asesor" element={<NewAgent cells={cells} token={token} setRefresh={setRefresh} />} />
-        <Route path="/nuevo-caso" element={<NewCase agents={agents} monitoreador={monitoreador} token={token} />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/" element={<Login token={token} setToken={setToken} />} />
+          <Route path="/inicio" element={<ManagementLoad token={token} />} />
+          <Route path="/nuevo-asesor" element={<NewAgent cells={cells} token={token} setRefresh={setRefresh} />} />
+          <Route path="/nuevo-caso" element={<NewCase agents={agents} token={token} />} />
+        </Routes>
+      </main>
     </>
   );
 }
