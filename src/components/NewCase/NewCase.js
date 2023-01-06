@@ -158,168 +158,180 @@ const NewCase = ({ agents, token }) => {
         <section className='new-case'>
             <h2>Agregar nueva gestión</h2>
             <form className='new-case__form' id='form' onSubmit={handleSubmit}>
-                <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    size="small"
-                    options={Object.keys(agents).map(el => el.toUpperCase())}
-                    sx={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} label="Exa" />}
-                    onChange={handleChangeAutocomplete}
+                <div className='input-one form__child'>
+                    <Autocomplete
+                        disablePortal
+                        id="combo-box-demo"
+                        size="small"
+                        options={Object.keys(agents).map(el => el.toUpperCase())}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Exa" />}
+                        onChange={handleChangeAutocomplete}
 
-                />
-                <TextField
-                    id="outlined-basicOne"
-                    size="small"
-                    disabled
-                    value={agentName}
-                    variant="outlined"
-                />
-                <TextField
-                    id="outlined-basicTwo"
-                    size="small"
-                    disabled
-                    value={agentGroup}
-                    variant="outlined"
-                />
-                <TextField
-                    id="outlined-basicThree"
-                    size="small"
-                    disabled
-                    value={agentProcess}
-                    variant="outlined"
-                />
-                <TextField
-                    id="outlined-basicFour"
-                    type="number"
-                    size="small"
-                    label="Número de caso"
-                    variant="outlined"
-                    onChange={(e) => setCaseNumber(e.target.value)}
-                    required
-                />
-
-                <LocalizationProvider dateAdapter={AdapterMoment}>
-                    <DateTimePicker
-                        renderInput={(props) => <TextField {...props} />}
-                        label="Fecha y hora del caso"
-                        value={timeValue}
-
-                        onChange={(newValue) => {
-                            setTimeValue(newValue);
-                        }}
                     />
-                </LocalizationProvider>
+                    <TextField
+                        id="outlined-basicOne"
+                        size="small"
+                        disabled
+                        value={agentName}
+                        variant="outlined"
+                    />
+                    <TextField
+                        id="outlined-basicTwo"
+                        size="small"
+                        disabled
+                        value={agentGroup}
+                        variant="outlined"
+                    />
+                    <TextField
+                        id="outlined-basicThree"
+                        size="small"
+                        disabled
+                        value={agentProcess}
+                        variant="outlined"
+                    />
+                    <TextField
+                        id="outlined-basicFour"
+                        type="number"
+                        size="small"
+                        label="N° caso/solicitud/id"
+                        variant="outlined"
+                        onChange={(e) => setCaseNumber(e.target.value)}
+                        required
+                    />
+                </div>
 
-                <TextField
-                    id="outlined-basicFifth"
-                    size="small"
-                    label="Motivo de consulta"
-                    name='motivoConsulta'
-                    variant="outlined"
-                    required
-                />
+                <div className='input-two form__child'>
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                        <DateTimePicker
+                            renderInput={(props) => <TextField {...props} />}
+                            label="Fecha y hora del caso"
+                            value={timeValue}
 
-                <FormControl sx={{ minWidth: 120 }} size="small" required>
-                    <InputLabel id="demo-simple-select-label-one">Realizó</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label--one"
-                        id="demo-simple-select-one"
-                        value={way}
-                        label="ways"
-                        onChange={(e => setWay(e.target.value))}
-                    >
-                        {ways.map((wy, index) => (
-                            <MenuItem key={index} value={wy}>{wy}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                            onChange={(newValue) => {
+                                setTimeValue(newValue);
+                            }}
+                        />
+                    </LocalizationProvider>
 
-                <FormControl sx={{ minWidth: 120 }} size="small" required>
-                    <InputLabel id="demo-simple-select-label-two">Errores</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label--two"
-                        id="demo-simple-select-two"
-                        value={errValue}
-                        label="Errores"
-                        onChange={handleChangeErr}
-                    >
-                        {Object.keys(errors).map((err, index) => (
-                            <MenuItem key={index} value={err}>{err}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                    <TextField
+                        id="outlined-basicFifth"
+                        size="small"
+                        label="Motivo de consulta"
+                        name='motivoConsulta'
+                        variant="outlined"
+                        required
+                    />
 
-                {isEmpty(errValue) ? null : (
                     <FormControl sx={{ minWidth: 120 }} size="small" required>
-                        <InputLabel id="demo-simple-select-label-three">Detalle EC:</InputLabel>
+                        <InputLabel id="demo-simple-select-label-one">Realizó</InputLabel>
                         <Select
-                            labelId="demo-simple-select-label--three"
-                            id="demo-simple-select-three"
-                            value={errDescription}
-                            label="OMS"
-                            onChange={(e) => setErrDescription(e.target.value)}
+                            labelId="demo-simple-select-label--one"
+                            id="demo-simple-select-one"
+                            value={way}
+                            label="ways"
+                            onChange={(e => setWay(e.target.value))}
                         >
-                            {errorsSubAtributte.map((om, index) => (
-                                <MenuItem key={index} value={om}>{om}</MenuItem>
+                            {ways.map((wy, index) => (
+                                <MenuItem key={index} value={wy}>{wy}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
-                )}
 
-                <FormControl sx={{ minWidth: 120 }} size="small" required>
-                    <InputLabel id="demo-simple-select-label-three">OMS</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label--three"
-                        id="demo-simple-select-three"
-                        value={omsValue}
-                        label="OMS"
-                        onChange={handleChangeOms}
-                    >
-                        {Object.keys(oms).map((om, index) => (
-                            <MenuItem key={index} value={om}>{om}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                    <div className='extended-input'>
+                        <FormControl sx={{ minWidth: 120 }} size="small" required>
+                            <InputLabel id="demo-simple-select-label-two">Errores</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label--two"
+                                id="demo-simple-select-two"
+                                value={errValue}
+                                label="Errores"
+                                onChange={handleChangeErr}
+                            >
+                                {Object.keys(errors).map((err, index) => (
+                                    <MenuItem key={index} value={err}>{err}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
 
-                {isEmpty(omsValue) ? null : (
-                    <FormControl sx={{ minWidth: 120 }} size="small" required>
-                        <InputLabel id="demo-simple-select-label-three">Detalle OMS:</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label--three"
-                            id="demo-simple-select-three"
-                            value={omsDescription}
-                            label="OMS"
-                            onChange={(e => setOmsDescription(e.target.value))}
-                        >
-                            {omsSubAtributte.map((om, index) => (
-                                <MenuItem key={index} value={om}>{om}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                )}
+                        {isEmpty(errValue) ? null : (
+                            <FormControl sx={{ minWidth: 120 }} size="small" required>
+                                <InputLabel id="demo-simple-select-label-three">Detalle EC:</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label--three"
+                                    id="demo-simple-select-three"
+                                    value={errDescription}
+                                    label="OMS"
+                                    onChange={(e) => setErrDescription(e.target.value)}
+                                >
+                                    {errorsSubAtributte.map((om, index) => (
+                                        <MenuItem key={index} value={om}>{om}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        )}
+                    </div>
 
-                <TextField
-                    id="outlined-textarea"
-                    label="¿Qué faltó para la resolución?"
-                    name="puntoFalla"
-                    placeholder="¿Qué faltó para la resolución?"
-                    rows={2}
-                    className="textarea-width-first"
-                    multiline
-                    required
-                />
+                    <div className='extended-input'>
+                        <FormControl sx={{ minWidth: 120 }} size="small" required>
+                            <InputLabel id="demo-simple-select-label-three">OMS</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label--three"
+                                id="demo-simple-select-three"
+                                value={omsValue}
+                                label="OMS"
+                                onChange={handleChangeOms}
+                            >
+                                {Object.keys(oms).map((om, index) => (
+                                    <MenuItem key={index} value={om}>{om}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
 
-                <TextField
-                    id="outlined-textarea"
-                    label="Comentario de la gestión"
-                    name="comentarioGestion"
-                    placeholder="Comentario de la gestión"
-                    rows={10}
-                    className="textarea-width-second"
-                    multiline
-                    required
-                />
+                        {isEmpty(omsValue) ? null : (
+                            <FormControl sx={{ minWidth: 120 }} size="small" required>
+                                <InputLabel id="demo-simple-select-label-three">Detalle OMS:</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label--three"
+                                    id="demo-simple-select-three"
+                                    value={omsDescription}
+                                    label="OMS"
+                                    onChange={(e => setOmsDescription(e.target.value))}
+                                >
+                                    {omsSubAtributte.map((om, index) => (
+                                        <MenuItem key={index} value={om}>{om}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        )}
+                    </div>
+
+                </div>
+
+                <div className='text-area-container form__child'>
+                    <TextField
+                        id="outlined-textarea"
+                        label="¿Qué faltó para la resolución?"
+                        name="puntoFalla"
+                        placeholder="¿Qué faltó para la resolución?"
+                        rows={2}
+                        className="textarea-width-first"
+                        multiline
+                        required
+                    />
+
+                    <TextField
+                        id="outlined-textarea"
+                        label="Comentario de la gestión"
+                        name="comentarioGestion"
+                        placeholder="Comentario de la gestión"
+                        rows={10}
+                        className="textarea-width-second"
+                        multiline
+                        required
+                    />
+                </div>
+
                 <div className='btn-container'>
                     <Button variant="contained" type="submit">Agregar</Button>
                     <Button variant="contained" type="reset" onClick={handleDelete}>Eliminar</Button>

@@ -68,7 +68,7 @@ const NewAgent = ({ cells, token, setRefresh }) => {
     return (
         <section className='new-agent'>
             <h2>Agregar agente</h2>
-            <form onSubmit={handleSubmit}>
+            <form className='new-agent__form' onSubmit={handleSubmit}>
                 <TextField
                     id="outlined-basic-one"
                     label="EXA"

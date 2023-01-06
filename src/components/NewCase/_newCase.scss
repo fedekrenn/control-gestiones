@@ -1,29 +1,71 @@
-.new-case h2{
-    margin: 2em;
-    text-align: center;
+.new-case h2 {
+  margin: 2em;
+  text-align: center;
 }
 
-.new-case__form{
+.new-case__form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 2fr 2.5fr 0.7fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "input-one input-two"
+    "text-area-container text-area-container"
+    "btn-container btn-container";
+  .btn-container {
     display: flex;
-    flex-direction: column;
-    .btn-container{
-        display: flex;
-        justify-content: center;
-        margin: 1em;
-        button{
-            margin: 0 1em;
-        }
+    justify-content: center;
+    align-items: center;
+    margin: 1em;
+    button {
+      margin: 0 1em;
     }
+  }
 }
 
-#outlined-textarea{
-    width: 100%;
+.extended-input{
+    display: flex;
+    gap: 2em;
 }
 
-.textarea-width-first{
+.btn-container {
+  grid-area: btn-container;
+
+}
+
+.text-area-container {
+  grid-area: text-area-container;
+}
+
+.input-one {
+  grid-area: input-one;
+  & > *{
     width: 300px;
+  }
 }
 
-.textarea-width-second{
-    width: 600px;
+.input-two {
+  grid-area: input-two;
+  & > *{
+    width: 300px;
+  }
+}
+
+.form__child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+#outlined-textarea {
+  width: 100%;
+}
+
+.textarea-width-first {
+  width: 300px;
+}
+
+.textarea-width-second {
+  width: 600px;
 }
