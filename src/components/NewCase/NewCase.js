@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 // Firebase
 import { doc, getDoc, addDoc, collection } from "firebase/firestore";
 import db from '../../utils/firebaseConfig';
 // Librerías
 import { TextField, Autocomplete, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { Navigate } from 'react-router-dom';
-import moment from 'moment';
-import Swal from 'sweetalert2'
-
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import moment from 'moment';
+import Swal from 'sweetalert2'
+
 
 const NewCase = ({ agents, token }) => {
 

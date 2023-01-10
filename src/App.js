@@ -9,6 +9,7 @@ import ManagementLoad from "./components/ManagementLoad/ManagementLoad";
 import NewAgent from "./components/NewAgent/NewAgent";
 import NewCase from "./components/NewCase/NewCase";
 import Login from "./components/Login/Login";
+import CaseList from "./components/CaseList/CaseList";
 
 function App() {
 
@@ -54,6 +55,7 @@ function App() {
           <Route path="/inicio" element={<ManagementLoad token={token} />} />
           <Route path="/nuevo-asesor" element={<NewAgent cells={cells} token={token} setRefresh={setRefresh} />} />
           <Route path="/nuevo-caso" element={<NewCase agents={agents} token={token} />} />
+          <Route path="/listado-casos" element={<CaseList token={token} />} />
         </Routes>
       </main>
     </>

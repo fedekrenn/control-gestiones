@@ -17,7 +17,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const pages = [
     { name: 'Nuevo asesor', link: '/nuevo-asesor' },
-    { name: 'Nueva gestión', link: '/nuevo-caso' }
+    { name: 'Nueva gestión', link: '/nuevo-caso' },
+    { name: 'Gestiones', link: '/listado-casos' },
 ];
 
 const Header = ({setToken}) => {
