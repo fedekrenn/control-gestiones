@@ -7,9 +7,12 @@
 @use './scss/base/base';
 
 /* Components */
-@use './components/NewAgent/newAgent';
-@use './components/NewCase/newCase';
-@use './components/Login/loguin';
 @use './components/Header/header';
-@use './components/CaseList/caseList';
 @use './components/Case/case';
+
+/* Pages */
+@use './pages/Login/login';
+@use './pages/NewAgent/newAgent';
+@use './pages/NewCase/newCase';
+@use './pages/CaseList/caseList';
+@use './pages/CaseDetail/caseDetail';

@@ -5,11 +5,12 @@ import { Routes, Route } from "react-router-dom";
 
 // Components
 import Header from "./components/Header/Header";
-import ManagementLoad from "./components/ManagementLoad/ManagementLoad";
-import NewAgent from "./components/NewAgent/NewAgent";
-import NewCase from "./components/NewCase/NewCase";
-import Login from "./components/Login/Login";
-import CaseList from "./components/CaseList/CaseList";
+import ManagementLoad from "./pages/ManagementLoad/ManagementLoad";
+import NewAgent from "./pages/NewAgent/NewAgent";
+import NewCase from "./pages/NewCase/NewCase";
+import Login from "./pages/Login/Login";
+import CaseList from "./pages/CaseList/CaseList";
+import CaseDetail from "./pages/CaseDetail/CaseDetail";
 
 function App() {
 
@@ -33,16 +34,12 @@ function App() {
   }
 
   useEffect(() => {
-
     getManagement();
     getCells();
-
   }, [])
 
   useEffect(() => {
-
     getManagement()
-
   }, [refresh])
 
 
@@ -56,6 +53,8 @@ function App() {
           <Route path="/nuevo-asesor" element={<NewAgent cells={cells} token={token} setRefresh={setRefresh} />} />
           <Route path="/nuevo-caso" element={<NewCase agents={agents} token={token} />} />
           <Route path="/listado-casos" element={<CaseList token={token} />} />
+          <Route path="/monitoreo/:id" element={<CaseDetail token={token} />} />
+          <Route path="*" element={<h1>404</h1>} />
         </Routes>
       </main>
     </>

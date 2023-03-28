@@ -1,36 +1,35 @@
+import { Link } from 'react-router-dom'
+
 const Case = ({ caso }) => {
+  const {
+    id,
+    celula,
+    date,
+    exa,
+    motivoConsulta,
+    nombre,
+    numeroCaso,
+    origen,
+    proceso,
+    puntoATrabajar,
+  } = caso
 
-    const { celula,
-        comentarioGestion,
-        date,
-        ec,
-        exa,
-        fechaDeCarga,
-        monitoreador,
-        motivoConsulta,
-        nombre,
-        numeroCaso,
-        om,
-        origen,
-        proceso,
-        puntoATrabajar } = caso
-
-    return (
-        <li>
-            <h3>{nombre}</h3>
-            <p>{numeroCaso}</p>
-            <p>{origen}</p>
-            <p>{motivoConsulta}</p>
-            <p>{puntoATrabajar}</p>
-            <p>{proceso}</p>
-            <p>{exa}</p>
-            <p>{celula}</p>
-            <p>{monitoreador}</p>
-            <p>{comentarioGestion}</p>
-            <p>{date}</p>
-            <p>{fechaDeCarga}</p>
-        </li>
-    )
+  return (
+    <tr>
+      <td>{nombre}</td>
+      <td>{numeroCaso}</td>
+      <td>{origen}</td>
+      <td>{motivoConsulta}</td>
+      <td>{puntoATrabajar}</td>
+      <td>{proceso}</td>
+      <td>{exa}</td>
+      <td>{celula}</td>
+      <td>{date}</td>
+      <td title='holaaaa'>
+        <Link to={`/monitoreo/${id}`}>🗒️</Link>
+      </td>
+    </tr>
+  )
 }
 
 export default Case
