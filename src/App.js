@@ -45,7 +45,7 @@ function App() {
 
   return (
     <>
-      <Header setToken={setToken} />
+      <Header setToken={setToken} hasToken={token}/>
       <main>
         <Routes>
           <Route path="/" element={<Login token={token} setToken={setToken} />} />

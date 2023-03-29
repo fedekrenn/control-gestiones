@@ -1,13 +1,13 @@
 // React
 import { useState } from 'react'
 // Librerías
-import { Button } from '@mui/material'
 import {
   FormControl,
   InputLabel,
   Select,
   MenuItem,
   TextField,
+  Button,
 } from '@mui/material'
 import Swal from 'sweetalert2'
 // Firebase
@@ -74,7 +74,7 @@ const NewAgent = ({ cells, token, setRefresh }) => {
   if (!token) return <Navigate to='/' />
 
   return (
-    <section className='new-agent'>
+    <main className='new-agent'>
       <h2>Agregar agente</h2>
       <form className='new-agent__form' onSubmit={handleSubmit}>
         <TextField
@@ -134,7 +134,7 @@ const NewAgent = ({ cells, token, setRefresh }) => {
           Agregar
         </Button>
       </form>
-    </section>
+    </main>
   )
 }
 

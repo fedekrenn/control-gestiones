@@ -21,7 +21,7 @@ const pages = [
   { name: 'Gestiones', link: '/listado-casos' },
 ]
 
-const Header = ({ setToken }) => {
+const Header = ({ setToken, hasToken }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
 
@@ -59,11 +59,7 @@ const Header = ({ setToken }) => {
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Link to='/'>
-            <img
-              className='img-logo'
-              src={icon}
-              alt='logo'
-            />
+            <img className='img-logo' src={icon} alt='logo' />
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -94,27 +90,29 @@ const Header = ({ setToken }) => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page, index) => (
-                <MenuItem key={index} onClick={handleCloseNavMenu}>
-                  <Link to={page.link}>
-                    <Typography textAlign='center'>{page.name}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
+              {hasToken &&
+                pages.map((page, index) => (
+                  <MenuItem key={index} onClick={handleCloseNavMenu}>
+                    <Link to={page.link}>
+                      <Typography textAlign='center'>{page.name}</Typography>
+                    </Link>
+                  </MenuItem>
+                ))}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page, index) => (
-              <Link to={page.link} key={index}>
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page.name}
-                </Button>
-              </Link>
-            ))}
+            {hasToken &&
+              pages.map((page, index) => (
+                <Link to={page.link} key={index}>
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    {page.name}
+                  </Button>
+                </Link>
+              ))}
           </Box>
           {token && (
             <Box sx={{ flexGrow: 0 }}>

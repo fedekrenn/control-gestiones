@@ -160,7 +160,7 @@ const NewCase = ({ agents, token }) => {
   if (!token) return <Navigate to='/' />
 
   return (
-    <section className='new-case'>
+    <main className='new-case'>
       <h2>Agregar nueva gestión</h2>
       <form className='new-case__form' id='form' onSubmit={handleSubmit}>
         <div className='input-one form__child'>
@@ -357,7 +357,7 @@ const NewCase = ({ agents, token }) => {
           </Button>
         </div>
       </form>
-    </section>
+    </main>
   )
 }
 

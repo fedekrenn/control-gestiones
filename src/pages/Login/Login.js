@@ -49,28 +49,30 @@ const Login = ({ token, setToken }) => {
   if (token) return <Navigate to='/inicio' />
 
   return (
-    <form className='login-form' onSubmit={handleLogin}>
-      <TextField
-        id='outlined-basic-usr'
-        label='Usuario'
-        variant='outlined'
-        name='email'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        id='outlined-basic-pss'
-        label='Contraseña'
-        type='password'
-        variant='outlined'
-        name='password'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button variant='contained' size='large' type='submit'>
-        Acceder
-      </Button>
-    </form>
+    <main>
+      <form className='login-form' onSubmit={handleLogin}>
+        <TextField
+          id='outlined-basic-usr'
+          label='Usuario'
+          variant='outlined'
+          name='email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          id='outlined-basic-pss'
+          label='Contraseña'
+          type='password'
+          variant='outlined'
+          name='password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button variant='contained' size='large' type='submit'>
+          Acceder
+        </Button>
+      </form>
+    </main>
   )
 }
 
