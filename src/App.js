@@ -11,6 +11,7 @@ import NewCase from "./pages/NewCase/NewCase";
 import Login from "./pages/Login/Login";
 import CaseList from "./pages/CaseList/CaseList";
 import CaseDetail from "./pages/CaseDetail/CaseDetail";
+import Search from "./pages/Search/Search";
 
 function App() {
 
@@ -45,7 +46,7 @@ function App() {
 
   return (
     <>
-      <Header setToken={setToken} hasToken={token}/>
+      <Header setToken={setToken} hasToken={token} />
       <main>
         <Routes>
           <Route path="/" element={<Login token={token} setToken={setToken} />} />
@@ -54,7 +55,8 @@ function App() {
           <Route path="/nuevo-caso" element={<NewCase agents={agents} token={token} />} />
           <Route path="/listado-casos" element={<CaseList token={token} />} />
           <Route path="/monitoreo/:id" element={<CaseDetail token={token} />} />
-          <Route path="*" element={<h1>404</h1>} />
+          <Route path="/busqueda-avanzada" element={<Search token={token} />} />
+          <Route path="*" element={<h1>404, página no encontrada!</h1>} />
         </Routes>
       </main>
     </>

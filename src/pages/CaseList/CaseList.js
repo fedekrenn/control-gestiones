@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { getDocs, collection } from 'firebase/firestore'
 import { TextField, Button } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -65,6 +65,7 @@ const CaseList = ({ token }) => {
           <Button variant='contained' onClick={getCriteria}>
             Mostrar todos
           </Button>
+          <Link to='/busqueda-avanzada'>Búsqueda avanzada</Link>
         </form>
       </section>
       <section>
