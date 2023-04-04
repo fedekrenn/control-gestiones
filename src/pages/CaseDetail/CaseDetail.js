@@ -30,25 +30,40 @@ const CaseDetail = ({ token }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  console.log(caseDetail)
+
   if (!token) return <Navigate to='/' />
 
   return (
-    <main>
+    <main className='case-detail'>
       {loading ? (
         <CircularProgress />
       ) : (
         <>
           <h1>Detalle de la gestión:</h1>
           <section>
-            <p>Nombre: {caseDetail.nombre}</p>
-            <p>Número de caso: {caseDetail.numeroCaso}</p>
-            <p>Origen: {caseDetail.origen}</p>
-            <p>Motivo de consulta: {caseDetail.motivoConsulta}</p>
-            <p>Punto a trabajar: {caseDetail.puntoATrabajar}</p>
-            <p>Proceso: {caseDetail.proceso}</p>
-            <p>Legajo: {caseDetail.exa}</p>
-            <p>Célula: {caseDetail.celula}</p>
-            <p>Fecha de gestión: {caseDetail.date}</p>
+            <h2>Nombre del asesor</h2>
+            <p>{caseDetail.nombre}</p>
+            <h2>Número de caso</h2>
+            <p>{caseDetail.numeroCaso}</p>
+            <h2>Origen</h2>
+            <p>{caseDetail.origen}</p>
+            <h2>Usuario que realizó monitoreo</h2>
+            <p>{caseDetail.monitoreador}</p>
+            <h2>Motivo de consulta</h2>
+            <p>{caseDetail.motivoConsulta}</p>
+            <h2>Punto a trabajar</h2>
+            <p>{caseDetail.puntoATrabajar}</p>
+            <h2>Proceso</h2>
+            <p>{caseDetail.proceso}</p>
+            <h2>Legajo</h2>
+            <p>{caseDetail.exa}</p>
+            <h2>Célula</h2>
+            <p>{caseDetail.celula}</p>
+            <h2>Fecha de gestión</h2>
+            <p>{caseDetail.date}</p>
+            <h2>Comentario de la gestión</h2>
+            <p>{caseDetail.comentarioGestion}</p>
           </section>
         </>
       )}

@@ -79,7 +79,6 @@ const CaseList = ({ token }) => {
                 <th>Número de caso</th>
                 <th>Origen</th>
                 <th>Motivo de consulta</th>
-                <th>Punto a trabajar</th>
                 <th>Proceso</th>
                 <th>Legajo</th>
                 <th>Célula</th>
@@ -87,11 +86,13 @@ const CaseList = ({ token }) => {
                 <th>Ver detalles</th>
               </tr>
             </thead>
-            {cases.map((caso) => (
-              <tbody key={caso.id}>
-                <Case caso={caso} />
-              </tbody>
-            ))}
+            {cases
+              .map((caso) => (
+                <tbody key={caso.id}>
+                  <Case caso={caso} />
+                </tbody>
+              ))
+              .splice(0, 20)}
           </table>
         )}
       </section>

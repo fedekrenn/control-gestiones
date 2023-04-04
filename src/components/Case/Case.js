@@ -11,7 +11,6 @@ const Case = ({ caso }) => {
     numeroCaso,
     origen,
     proceso,
-    puntoATrabajar,
   } = caso
 
   return (
@@ -20,12 +19,11 @@ const Case = ({ caso }) => {
       <td>{numeroCaso}</td>
       <td>{origen}</td>
       <td>{motivoConsulta}</td>
-      <td>{puntoATrabajar}</td>
       <td>{proceso}</td>
       <td>{exa}</td>
       <td>{celula}</td>
       <td>{date}</td>
-      <td title='holaaaa'>
+      <td title='Haz click para conocer los detalles del monitoreo'>
         <Link to={`/monitoreo/${id}`}>🗒️</Link>
       </td>
     </tr>

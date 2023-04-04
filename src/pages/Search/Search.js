@@ -12,6 +12,7 @@ const Search = ({ token }) => {
   const [cases, setCases] = useState([])
   const [resultCases, setResultCases] = useState([])
   const [loading, setLoading] = useState(true)
+  const [reset, setReset] = useState(false)
 
   const [selectProcess, setSelectProcess] = useState('')
   const [selectCell, setSelectCell] = useState('')
@@ -76,7 +77,13 @@ const Search = ({ token }) => {
       )
     }
 
-    setResultCases(filteredCases)
+    // setResultCases(filteredCases)
+
+    if (filteredCases.length === 0) {
+      setResultCases([])
+    } else {
+      setResultCases(filteredCases)
+    }
   }
 
   const getCriteria = async () => {
@@ -106,6 +113,17 @@ const Search = ({ token }) => {
     setResultCases(filteredCases)
   }
 
+  const handleReset = () => {
+    setCases([])
+    setSelectProcess('')
+    setSelectCell('')
+    setSelectOrigin('')
+    setSelectMotive('')
+    setReset(!reset)
+    setResultCases([])
+    getCriteria()
+  }
+
   if (!token) return <Navigate to='/' />
   if (loading) return <CircularProgress />
 
@@ -133,22 +151,31 @@ const Search = ({ token }) => {
             name={'Proceso'}
             dataValue={process}
             changeValue={setSelectProcess}
+            reset={reset}
           />
           <Filter
             name={'Célula'}
             dataValue={cells}
             changeValue={setSelectCell}
+            reset={reset}
           />
           <Filter
             name={'Origen'}
             dataValue={origins}
             changeValue={setSelectOrigin}
+            reset={reset}
           />
           <Filter
             name={'Motivo de consulta'}
             dataValue={motives}
             changeValue={setSelectMotive}
+            reset={reset}
           />
+        </div>
+        <div>
+          <Button variant='contained' onClick={handleReset}>
+            Limpiar filtros
+          </Button>
         </div>
       </section>
       <section className='search__results'>
