@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress'
 import Swal from 'sweetalert2'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Box } from '@mui/material'
 import db from '../../utils/firebaseConfig'
 import { getDocs, collection } from 'firebase/firestore'
 import Case from '../../components/Case/Case'
@@ -77,8 +77,6 @@ const Search = ({ token }) => {
       )
     }
 
-    // setResultCases(filteredCases)
-
     if (filteredCases.length === 0) {
       setResultCases([])
     } else {
@@ -131,18 +129,28 @@ const Search = ({ token }) => {
     <main className='search'>
       <h1>Búsqueda avanzada de gestiones</h1>
       <form action='' onSubmit={handleSearchByExa}>
-        <TextField
-          autoFocus
-          id='exaSearch'
-          label='Buscar por Exa'
-          type='text'
-          variant='outlined'
-          name='exaSearch'
-          size='small'
-        />
-        <Button variant='contained' type='submit'>
-          Buscar
-        </Button>
+        <Box
+          sx={{
+            margin: '20px',
+            display: 'flex',
+            gap: '4px',
+            alignItems: 'stretch',
+            justifyContent: 'center'
+          }}
+        >
+          <TextField
+            autoFocus
+            id='exaSearch'
+            label='Buscar por Exa'
+            type='text'
+            variant='outlined'
+            name='exaSearch'
+            size='small'
+          />
+          <Button variant='contained' type='submit'>
+            Buscar
+          </Button>
+        </Box>
       </form>
       <section className='select'>
         <h2>Filtrar por:</h2>
@@ -187,7 +195,6 @@ const Search = ({ token }) => {
               <th>Número de caso</th>
               <th>Origen</th>
               <th>Motivo de consulta</th>
-              <th>Punto a trabajar</th>
               <th>Proceso</th>
               <th>Legajo</th>
               <th>Célula</th>

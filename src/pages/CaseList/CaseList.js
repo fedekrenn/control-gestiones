@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { getDocs, collection } from 'firebase/firestore'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Box } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 import Swal from 'sweetalert2'
 import db from '../../utils/firebaseConfig'
@@ -49,23 +49,29 @@ const CaseList = ({ token }) => {
     <main className='case-list'>
       <h2>Listado de gestiones</h2>
       <section className='case-list__search'>
-        <form action='' onSubmit={handleSearch}>
-          <TextField
-            autoFocus
-            id='search'
-            label='Buscar por caso'
-            type='number'
-            variant='outlined'
-            name='search'
-            size='small'
-          />
-          <Button variant='contained' type='submit'>
-            Buscar
-          </Button>
-          <Button variant='contained' onClick={getCriteria}>
-            Mostrar todos
-          </Button>
-          <Link to='/busqueda-avanzada'>Búsqueda avanzada</Link>
+        <form action='' onSubmit={handleSearch} className='case-list__form'>
+          <Box sx={{ margin: '20px', display: 'flex', gap: '4px', alignItems: 'stretch' }}>
+            <TextField
+              autoFocus
+              id='search'
+              label='Buscar por caso'
+              type='number'
+              variant='outlined'
+              name='search'
+              size='small'
+            />
+            <Button variant='contained' type='submit'>
+              Buscar
+            </Button>
+          </Box>
+          <Box sx={{ display: 'flex', gap: '4px' }}>
+            <Button variant='outlined' onClick={getCriteria}>
+              Mostrar todos
+            </Button>
+            <Button variant='outlined' component={Link} to='/busqueda-avanzada'>
+              Búsqueda avanzada
+            </Button>
+          </Box>
         </form>
       </section>
       <section>

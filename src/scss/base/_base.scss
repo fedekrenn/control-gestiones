@@ -1,19 +1,36 @@
-html, body{
-    font-family: var(--font-roboto);
+html,
+body {
+  font-family: var(--font-roboto);
 }
 
 main {
-    text-align: center;
-    min-height: 100vh;
+  text-align: center;
+  min-height: 100vh;
 }
 
 h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 2em 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 2em 0;
 }
 
-h2{
-    margin: 2em;
-    text-align: center;
+h2 {
+  margin: 2em;
+  text-align: center;
+}
+
+table {
+  margin: 0 auto;
+  border-collapse: collapse;
+  width: 90%;
+}
+
+th {
+  border-bottom: 1px solid grey;
+}
+
+td,
+th {
+  padding: 0.5em;
+  text-align: left;
 }

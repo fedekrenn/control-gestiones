@@ -20,7 +20,7 @@ const Case = ({ caso }) => {
       <td>{origen}</td>
       <td>{motivoConsulta}</td>
       <td>{proceso}</td>
-      <td>{exa}</td>
+      <td>{exa.toUpperCase()}</td>
       <td>{celula}</td>
       <td>{date}</td>
       <td title='Haz click para conocer los detalles del monitoreo'>

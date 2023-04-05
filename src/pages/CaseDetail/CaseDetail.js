@@ -30,8 +30,6 @@ const CaseDetail = ({ token }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log(caseDetail)
-
   if (!token) return <Navigate to='/' />
 
   return (

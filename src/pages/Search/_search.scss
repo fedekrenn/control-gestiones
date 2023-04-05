@@ -1,4 +1,15 @@
-.select__filters{
-    display: flex;
-    gap: 5px;
+main.search {
+  padding: 1.5em 0;
+}
+
+.select h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.select__filters {
+  display: flex;
+  padding: 2em;
+  gap: 0.8em;
 }

@@ -17,7 +17,7 @@ const Filter = ({ name, dataValue, changeValue, reset }) => {
   }, [reset])
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth sx={{textAlign: 'left'}}>
       <InputLabel id='demo-simple-select-label'>{name}</InputLabel>
       <Select
         labelId='demo-simple-select-label'
