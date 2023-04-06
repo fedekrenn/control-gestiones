@@ -1,9 +1,58 @@
 .case-detail {
-    padding: 2em 0 ;
+  padding: 2em 0;
+  background-color: #e2e5ed;
+  h2 {
+    font-size: 1.5em;
+    font-weight: 600;
+    margin: 0 0 1.4em 0;
+  }
 }
 
-.case-detail h2{
-    font-size: 1em;
+.case-detail__section {
+  display: flex;
+  padding: 1em;
+  gap: 1em;
+}
+
+.detail-card {
+  width: 50%;
+  border-radius: 0.5em;
+  padding: 1em;
+  background-color: #f3f3f5;
+  ul {
+    text-align: left;
+    li {
+        margin: 0.5em 0;
+    }
+  }
+  span {
     font-weight: 600;
-    margin: 1em 0
+    padding-right: .3em;
+  }
+  hr {
+    margin: 1em 0;
+  }
+  h4 {
+    display: inline;
+  }
+  .detail-card__comment{
+    margin: 1em 0;
+    padding: 1em;
+    background-color: #fff;
+    border-radius: 0.5em;
+  }
+  .not-error {
+    color: #00b300;
+    font-weight: bold;
+    text-align: center;
+  }
+  .card-detail{
+    width: 75%;
+    margin: 0 auto;
+    padding: .5em;
+    span {
+        display: inline-block;
+        margin: .3em 0;
+    }
+  }
 }

@@ -10,6 +10,8 @@ const CaseDetail = ({ token }) => {
 
   const { id } = useParams()
 
+  const formmatedDate = (string) => string?.split(' ').join(' - ')
+
   const getData = async () => {
     const docRef = doc(db, 'listadoGestiones', id)
     const docSnap = await getDoc(docRef)
@@ -39,29 +41,85 @@ const CaseDetail = ({ token }) => {
       ) : (
         <>
           <h1>Detalle de la gestión:</h1>
-          <section>
-            <h2>Nombre del asesor</h2>
-            <p>{caseDetail.nombre}</p>
-            <h2>Número de caso</h2>
-            <p>{caseDetail.numeroCaso}</p>
-            <h2>Origen</h2>
-            <p>{caseDetail.origen}</p>
-            <h2>Usuario que realizó monitoreo</h2>
-            <p>{caseDetail.monitoreador}</p>
-            <h2>Motivo de consulta</h2>
-            <p>{caseDetail.motivoConsulta}</p>
-            <h2>Punto a trabajar</h2>
-            <p>{caseDetail.puntoATrabajar}</p>
-            <h2>Proceso</h2>
-            <p>{caseDetail.proceso}</p>
-            <h2>Legajo</h2>
-            <p>{caseDetail.exa}</p>
-            <h2>Célula</h2>
-            <p>{caseDetail.celula}</p>
-            <h2>Fecha de gestión</h2>
-            <p>{caseDetail.date}</p>
-            <h2>Comentario de la gestión</h2>
-            <p>{caseDetail.comentarioGestion}</p>
+          <section className='case-detail__section'>
+            <div className='detail-card'>
+              <h2>Info gestión</h2>
+              <ul>
+                <li>
+                  <span>Nombre del asesor:</span>
+                  {caseDetail.nombre}
+                </li>
+                <li>
+                  <span>Exa:</span>
+                  {caseDetail.exa?.toUpperCase()}
+                </li>
+                <li>
+                  <span>Célula:</span>
+                  {caseDetail.celula}
+                </li>
+                <li>
+                  <span>Proceso:</span>
+                  {caseDetail.proceso}
+                </li>
+                <hr />
+                <li>
+                  <span>Número de caso:</span>
+                  {caseDetail.numeroCaso}
+                </li>
+                <li>
+                  <span>Origen:</span>
+                  {caseDetail.origen}
+                </li>
+                <li>
+                  <span>Fecha de atención:</span>
+                  {formmatedDate(caseDetail.date)}
+                </li>
+              </ul>
+            </div>
+            <div className='detail-card'>
+              <h2>Detalles</h2>
+              <ul>
+                <li>
+                  <span>Motivo de contacto:</span>
+                  {caseDetail.motivoConsulta}
+                </li>
+                <li>
+                  <span>Comentarios de la gestión:</span>
+                  <p className='detail-card__comment'>
+                    {caseDetail.comentarioGestion}
+                  </p>
+                </li>
+                {!caseDetail.ec && !caseDetail.om && (
+                  <li className='not-error'>No hay Om ni Ec marcados</li>
+                )}
+                {caseDetail.ec && (
+                  <li>
+                    <h3>Error crítico:</h3>
+                    <div className='card-detail'>
+                      <p>
+                        <span>Motivo:</span> {caseDetail.ec.motivo}
+                      </p>
+                      <p>
+                        <span>Submotivo:</span> {caseDetail.ec.submotivo}
+                      </p>
+                    </div>
+                  </li>
+                )}
+                {caseDetail.om && (
+                  <li>
+                    <h3>Oportunidad de mejora:</h3>
+                    <div className='card-detail'>
+                      <p>
+                        <span>Motivo:</span> {caseDetail.om.motivo}
+                      </p>
+                      <p>
+                        <span>Submotivo:</span> {caseDetail.om.submotivo}
+                      </p>
+                    </div>
+                  </li>
+                )}
+              </ul>
+            </div>
           </section>
         </>
       )}

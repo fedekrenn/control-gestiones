@@ -23,7 +23,7 @@ const Case = ({ caso }) => {
       <td>{exa.toUpperCase()}</td>
       <td>{celula}</td>
       <td>{date}</td>
-      <td title='Haz click para conocer los detalles del monitoreo'>
+      <td className='table-icon' title='Haz click para conocer los detalles del monitoreo'>
         <Link to={`/monitoreo/${id}`}>🗒️</Link>
       </td>
     </tr>
