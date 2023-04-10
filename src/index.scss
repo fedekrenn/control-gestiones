@@ -11,6 +11,7 @@
 @use './components/Case/case';
 
 /* Pages */
+@use './pages/MainPage/mainPage';
 @use './pages/Login/login';
 @use './pages/NewAgent/newAgent';
 @use './pages/NewCase/newCase';

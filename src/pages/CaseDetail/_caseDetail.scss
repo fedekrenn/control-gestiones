@@ -12,6 +12,16 @@
   display: flex;
   padding: 1em;
   gap: 1em;
+  .center {
+    margin: 0 auto;
+    .detail-card__comment {
+      width: fit-content;
+      margin: 1em auto;
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #503df7;
+    }
+  }
 }
 
 .detail-card {
@@ -22,12 +32,12 @@
   ul {
     text-align: left;
     li {
-        margin: 0.5em 0;
+      margin: 0.5em 0;
     }
   }
   span {
     font-weight: 600;
-    padding-right: .3em;
+    padding-right: 0.3em;
   }
   hr {
     margin: 1em 0;
@@ -35,8 +45,8 @@
   h4 {
     display: inline;
   }
-  .detail-card__comment{
-    margin: 1em 0;
+  .detail-card__comment {
+    margin: 1em 0 2em 0;
     padding: 1em;
     background-color: #fff;
     border-radius: 0.5em;
@@ -46,13 +56,13 @@
     font-weight: bold;
     text-align: center;
   }
-  .card-detail{
+  .card-detail {
     width: 75%;
     margin: 0 auto;
-    padding: .5em;
+    padding: 0.5em;
     span {
-        display: inline-block;
-        margin: .3em 0;
+      display: inline-block;
+      margin: 0.3em 0;
     }
   }
 }

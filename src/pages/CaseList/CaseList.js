@@ -50,7 +50,14 @@ const CaseList = ({ token }) => {
       <h2>Listado de gestiones</h2>
       <section className='case-list__search'>
         <form action='' onSubmit={handleSearch} className='case-list__form'>
-          <Box sx={{ margin: '20px', display: 'flex', gap: '4px', alignItems: 'stretch' }}>
+          <Box
+            sx={{
+              margin: '20px',
+              display: 'flex',
+              gap: '4px',
+              alignItems: 'stretch',
+            }}
+          >
             <TextField
               autoFocus
               id='search'

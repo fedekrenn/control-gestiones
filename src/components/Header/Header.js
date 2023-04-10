@@ -12,7 +12,7 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import AdbIcon from '@mui/icons-material/Adb'
-import icon from '../../assets/logo-startek.jpg'
+import icon from '../../assets/logo-startek.png'
 import { Link, useNavigate } from 'react-router-dom'
 
 const pages = [
@@ -55,7 +55,7 @@ const Header = ({ setToken, hasToken }) => {
   }
 
   return (
-    <AppBar position='static' color='error'>
+    <AppBar position='static' color='primary'>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Link to='/'>

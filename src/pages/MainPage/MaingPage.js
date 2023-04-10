@@ -1,10 +1,10 @@
 import { Navigate } from 'react-router-dom'
 
-const ManagementLoad = ({ token }) => {
+const MainPage = ({ token }) => {
   if (!token) return <Navigate to='/' />
 
   return (
-    <main>
+    <main className='main-page'>
       <h1>Sistema de cargas de gestiones</h1>
       <p>
         Bienvenido al sistema de carga de gestiones para los procesos de
@@ -15,4 +15,4 @@ const ManagementLoad = ({ token }) => {
   )
 }
 
-export default ManagementLoad
+export default MainPage

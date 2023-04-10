@@ -121,6 +121,18 @@ const CaseDetail = ({ token }) => {
               </ul>
             </div>
           </section>
+          {caseDetail.puntoATrabajar !== '-' && (
+            <section className='case-detail__section'>
+              <div className='detail-card center'>
+                <h2>El punto a trabajar con este asesor es:</h2>
+                <p className='detail-card__comment'>
+                  {caseDetail.puntoATrabajar}
+                </p>
+                {/*<h2>Acciones a realizar:</h2>
+               TODO */}
+              </div>
+            </section>
+          )}
         </>
       )}
     </main>

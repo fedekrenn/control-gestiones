@@ -1,11 +1,10 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import db from './utils/firebaseConfig'
 import { Routes, Route } from "react-router-dom";
-
+import db from './utils/firebaseConfig'
 // Components
 import Header from "./components/Header/Header";
-import ManagementLoad from "./pages/ManagementLoad/ManagementLoad";
+import MainPage from "./pages/MainPage/MaingPage";
 import NewAgent from "./pages/NewAgent/NewAgent";
 import NewCase from "./pages/NewCase/NewCase";
 import Login from "./pages/Login/Login";
@@ -50,7 +49,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Login token={token} setToken={setToken} />} />
-          <Route path="/inicio" element={<ManagementLoad token={token} />} />
+          <Route path="/inicio" element={<MainPage token={token} />} />
           <Route path="/nuevo-asesor" element={<NewAgent cells={cells} token={token} setRefresh={setRefresh} />} />
           <Route path="/nuevo-caso" element={<NewCase agents={agents} token={token} />} />
           <Route path="/listado-casos" element={<CaseList token={token} />} />
