@@ -211,6 +211,7 @@ const NewCase = ({ agents, token }) => {
               renderInput={(props) => <TextField {...props} />}
               label='Fecha y hora del caso'
               value={timeValue}
+              inputFormat='DD/MM/YYYY HH:mm'
               onChange={(newValue) => {
                 setTimeValue(newValue)
               }}

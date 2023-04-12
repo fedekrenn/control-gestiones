@@ -8,11 +8,18 @@ import { getDocs, collection } from 'firebase/firestore'
 import Case from '../../components/Case/Case'
 import Filter from '../../components/Filter/Filter'
 
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import moment from 'moment'
+
 const Search = ({ token }) => {
   const [cases, setCases] = useState([])
   const [resultCases, setResultCases] = useState([])
   const [loading, setLoading] = useState(true)
   const [reset, setReset] = useState(false)
+
+  const [meme, setMeme] = useState(null)
 
   const [selectProcess, setSelectProcess] = useState('')
   const [selectCell, setSelectCell] = useState('')
@@ -31,7 +38,7 @@ const Search = ({ token }) => {
   useEffect(() => {
     handleFilter()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectProcess, selectCell, selectOrigin, selectMotive])
+  }, [selectProcess, selectCell, selectOrigin, selectMotive, meme])
 
   useEffect(() => {
     const allProcess = cases.map((caso) => caso.proceso)
@@ -77,6 +84,13 @@ const Search = ({ token }) => {
       )
     }
 
+    if (meme) {
+      filteredCases = filteredCases.filter((caso) => {
+        const formattedDate = caso.date.split(' ')[0]
+        return formattedDate === moment(meme).format('DD/MM/YYYY')
+      })
+    }
+
     if (filteredCases.length === 0) {
       setResultCases([])
     } else {
@@ -112,6 +126,7 @@ const Search = ({ token }) => {
   }
 
   const handleReset = () => {
+    setMeme(null)
     setCases([])
     setSelectProcess('')
     setSelectCell('')
@@ -135,7 +150,7 @@ const Search = ({ token }) => {
             display: 'flex',
             gap: '4px',
             alignItems: 'stretch',
-            justifyContent: 'center'
+            justifyContent: 'center',
           }}
         >
           <TextField
@@ -180,6 +195,17 @@ const Search = ({ token }) => {
             reset={reset}
           />
         </div>
+        <Box sx={{ margin: '30px 0' }}>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <DatePicker
+              onChange={(newValue) => setMeme(moment(newValue))}
+              renderInput={(params) => <TextField {...params} />}
+              value={meme}
+              label='Fecha de la gestión'
+              inputFormat='DD/MM/YYYY'
+            />
+          </LocalizationProvider>
+        </Box>
         <div>
           <Button variant='contained' onClick={handleReset}>
             Limpiar filtros
