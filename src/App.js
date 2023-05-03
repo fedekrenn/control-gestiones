@@ -23,6 +23,7 @@ function App() {
     const docRef = doc(db, "listadoAsesores", "Svnqcl3BtN6xxZT2ggqw");
     const docSnap = await getDoc(docRef);
 
+    setRefresh(false);
     docSnap.exists() ? setAgents(docSnap.data()) : console.log("No such document!") // eslint-disable-line no-unused-expressions
   }
 

@@ -19,7 +19,7 @@ const Search = ({ token }) => {
   const [loading, setLoading] = useState(true)
   const [reset, setReset] = useState(false)
 
-  const [meme, setMeme] = useState(null)
+  const [selectTime, setSelectTime] = useState(null)
 
   const [selectProcess, setSelectProcess] = useState('')
   const [selectCell, setSelectCell] = useState('')
@@ -38,7 +38,7 @@ const Search = ({ token }) => {
   useEffect(() => {
     handleFilter()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectProcess, selectCell, selectOrigin, selectMotive, meme])
+  }, [selectProcess, selectCell, selectOrigin, selectMotive, selectTime])
 
   useEffect(() => {
     const allProcess = cases.map((caso) => caso.proceso)
@@ -84,10 +84,10 @@ const Search = ({ token }) => {
       )
     }
 
-    if (meme) {
+    if (selectTime) {
       filteredCases = filteredCases.filter((caso) => {
         const formattedDate = caso.date.split(' ')[0]
-        return formattedDate === moment(meme).format('DD/MM/YYYY')
+        return formattedDate === moment(selectTime).format('DD/MM/YYYY')
       })
     }
 
@@ -126,7 +126,7 @@ const Search = ({ token }) => {
   }
 
   const handleReset = () => {
-    setMeme(null)
+    setSelectTime(null)
     setCases([])
     setSelectProcess('')
     setSelectCell('')
@@ -198,9 +198,9 @@ const Search = ({ token }) => {
         <Box sx={{ margin: '30px 0' }}>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DatePicker
-              onChange={(newValue) => setMeme(moment(newValue))}
+              onChange={(newValue) => setSelectTime(moment(newValue))}
               renderInput={(params) => <TextField {...params} />}
-              value={meme}
+              value={selectTime}
               label='Fecha de la gestión'
               inputFormat='DD/MM/YYYY'
             />
