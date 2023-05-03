@@ -135,7 +135,7 @@ const NewAgent = ({ cells, token, setRefresh }) => {
           Agregar
         </Button>
       </form>
-      <UploadFile />
+      <UploadFile setRefresh={setRefresh}/>
     </main>
   )
 }

@@ -80,12 +80,16 @@ const NewCase = ({ agents, token }) => {
     setAgentGroup('Célula')
     setAgentProcess('Proceso')
 
-    // Generar un objeto con los datos del agente
+    /* Empleamos el siguiente código para transformar el objeto de agentes en un array plano 
+    que sea más óptimo de recorrer antes que un array de objetos */
     const convertArray = Object.entries(agents)
-    const findAgent =
-      value && convertArray.find((agent) => agent[0] === value.toLowerCase())
 
-    // Asignar los datos del agente a los estados
+    const findAgent =
+      value &&
+      convertArray.find(
+        (agent) => agent[0].toLowerCase() === value.toLowerCase()
+      )
+
     if (findAgent) {
       setAgentName(findAgent[1].nombre)
       setAgentGroup(findAgent[1].celula)
