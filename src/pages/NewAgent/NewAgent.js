@@ -76,7 +76,7 @@ const NewAgent = ({ cells, token, setRefresh }) => {
 
   return (
     <main className='new-agent'>
-      <h2>Agregar agente</h2>
+      <h2>Agregar agente manualmente</h2>
       <form className='new-agent__form' onSubmit={handleSubmit}>
         <TextField
           id='outlined-basic-one'

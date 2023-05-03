@@ -4,11 +4,10 @@ import { useState } from 'react'
 const UploadFile = () => {
   const [xmlsData, setXmlsData] = useState([])
 
-  function handleArchivoCambiado(event) {
-
+  function handleUploadFile(event) {
     const file = event.target.files[0]
     const reader = new FileReader()
-    
+
     reader.onload = (event) => {
       const data = event.target.result
       const workbook = read(data, { type: 'binary' })
@@ -21,8 +20,9 @@ const UploadFile = () => {
   }
 
   return (
-    <div>
-      <input type='file' onChange={handleArchivoCambiado} />
+    <div className='file-upload'>
+      <h2>O puedes cargarlo desde un archivo:</h2>
+      <input type='file' accept='.xlsx' onChange={handleUploadFile} />
       {xmlsData.length !== 0 && (
         <table>
           <thead>
