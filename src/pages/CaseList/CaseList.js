@@ -11,6 +11,8 @@ const CaseList = ({ token }) => {
   const [cases, setCases] = useState([])
   const [loading, setLoading] = useState(true)
 
+  console.log(cases)
+
   useEffect(() => {
     getCriteria()
   }, [])
@@ -100,6 +102,8 @@ const CaseList = ({ token }) => {
               </tr>
             </thead>
             {cases
+              .sort((a, b) => b.fechaDeCarga.localeCompare(a.fechaDeCarga))
+              .slice(0, 10)
               .map((caso) => (
                 <tbody key={caso.id}>
                   <Case caso={caso} />
