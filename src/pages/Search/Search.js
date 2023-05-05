@@ -110,8 +110,8 @@ const Search = ({ token }) => {
   const handleSearchByExa = (e) => {
     e.preventDefault()
 
-    const search = e.target.exaSearch.value
-    const filteredCases = cases.filter((caso) => caso.exa === search)
+    const search = e.target.exaSearch.value.toLowerCase()
+    const filteredCases = cases.filter((caso) => caso.exa.toLowerCase() === search)
 
     e.target.exaSearch.value = ''
 
