@@ -20,6 +20,7 @@ import UploadFile from '../../components/uploadFIle/UploadFile'
 const NewAgent = ({ cells, token, setRefresh }) => {
   const [cell, setCell] = useState('')
   const [proc, setProc] = useState('')
+  const [selecType, setSelecType] = useState(true)
 
   const cellsSelected = cells[proc] || ['']
 
@@ -76,66 +77,72 @@ const NewAgent = ({ cells, token, setRefresh }) => {
 
   return (
     <main className='new-agent'>
-      <h2>Agregar agente manualmente</h2>
-      <form className='new-agent__form' onSubmit={handleSubmit}>
-        <TextField
-          id='outlined-basic-one'
-          label='EXA'
-          type='text'
-          variant='outlined'
-          name='exa'
-          onKeyDown={handleKeyDown}
-          size='small'
-          required
-        />
-        <TextField
-          id='outlined-basic-two'
-          label='Nombre completo'
-          type='text'
-          variant='outlined'
-          name='nombre'
-          size='small'
-          required
-        />
-        <FormControl sx={{ minWidth: 120 }} size='small' required>
-          <InputLabel id='demo-simple-select-label'>Proceso</InputLabel>
-          <Select
-            labelId='demo-simple-select-label'
-            id='demo-simple-select'
-            value={proc}
-            label='Célula'
-            onChange={handleChangeProc}
-          >
-            {process.map((proc, index) => (
-              <MenuItem key={index} value={proc}>
-                {proc}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        {proc && (
-          <FormControl sx={{ minWidth: 120 }} size='small' required>
-            <InputLabel id='demo-simple-select-label'>Célula</InputLabel>
-            <Select
-              labelId='demo-simple-select-label'
-              id='demo-simple-select'
-              value={cell}
-              label='Célula'
-              onChange={handleChangeCell}
-            >
-              {cellsSelected.map((cell, index) => (
-                <MenuItem key={index} value={cell}>
-                  {cell}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+      <h2>Sección para agregar asesores:</h2>
+      <section>
+        <input type='radio' name='select-type' id='type-file' defaultChecked onClick={() => setSelecType(true)} />
+        <h3>Agregar manualmente:</h3>
+        {selecType && (
+          <form className='new-agent__form' onSubmit={handleSubmit}>
+            <TextField
+              id='outlined-basic-one'
+              label='EXA'
+              type='text'
+              variant='outlined'
+              name='exa'
+              onKeyDown={handleKeyDown}
+              size='small'
+              required
+            />
+            <TextField
+              id='outlined-basic-two'
+              label='Nombre completo'
+              type='text'
+              variant='outlined'
+              name='nombre'
+              size='small'
+              required
+            />
+            <FormControl sx={{ minWidth: 120 }} size='small' required>
+              <InputLabel id='demo-simple-select-label'>Proceso</InputLabel>
+              <Select
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
+                value={proc}
+                label='Célula'
+                onChange={handleChangeProc}
+              >
+                {process.map((proc, index) => (
+                  <MenuItem key={index} value={proc}>
+                    {proc}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            {proc && (
+              <FormControl sx={{ minWidth: 120 }} size='small' required>
+                <InputLabel id='demo-simple-select-label'>Célula</InputLabel>
+                <Select
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  value={cell}
+                  label='Célula'
+                  onChange={handleChangeCell}
+                >
+                  {cellsSelected.map((cell, index) => (
+                    <MenuItem key={index} value={cell}>
+                      {cell}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
+            <Button variant='contained' type='submit'>
+              Agregar
+            </Button>
+          </form>
         )}
-        <Button variant='contained' type='submit'>
-          Agregar
-        </Button>
-      </form>
-      <UploadFile setRefresh={setRefresh}/>
+      </section>
+      <UploadFile setRefresh={setRefresh} selecType={selecType} setSelecType={setSelecType} />
     </main>
   )
 }
