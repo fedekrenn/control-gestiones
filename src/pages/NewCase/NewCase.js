@@ -160,6 +160,14 @@ const NewCase = ({ agents, token }) => {
       console.log('No such document!')
     }
   }
+ 
+  const handlePaste = (event) => {
+    event.preventDefault();
+    const clipboardData = event.clipboardData || window.clipboardData;
+    const pastedText = clipboardData.getData('text/plain');
+    const trimmedText = pastedText.trim();
+    document.execCommand('insertText', false, trimmedText);
+  };
 
   if (!token) return <Navigate to='/' />
 
@@ -176,6 +184,7 @@ const NewCase = ({ agents, token }) => {
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label='Exa' />}
             onChange={handleChangeAutocomplete}
+            onPaste={handlePaste}
           />
           <TextField
             id='outlined-basicOne'

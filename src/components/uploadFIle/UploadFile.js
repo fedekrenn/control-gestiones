@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import { doc, setDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 
-const UploadFile = ({ setRefresh }) => {
+const UploadFile = ({ setRefresh, selecType, setSelecType }) => {
   const [xmlsData, setXmlsData] = useState([])
 
   function handleUploadFile(event) {
@@ -56,33 +56,56 @@ const UploadFile = ({ setRefresh }) => {
   }
 
   return (
-    <div className='file-upload'>
-      <h2>O puedes cargarlo desde un archivo:</h2>
-      <input type='file' accept='.xlsx' onChange={handleUploadFile} />
-      <Button variant='contained' component='label' onClick={handleUploadAll}>
-        Cargar todos
-      </Button>
-      {xmlsData.length !== 0 && (
-        <table>
-          <thead>
-            <tr>
-              {xmlsData[0].map((headerValue, i) => (
-                <th key={i}>{headerValue}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {xmlsData.slice(1).map((agent, rowIndex) => (
-              <tr key={rowIndex}>
-                {agent.map((tableValue, tableIndex) => (
-                  <td key={tableIndex}>{tableValue}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <section className='file-upload'>
+      <input type='radio' name='select-type' id='type-file' onClick={() => setSelecType(false)} />
+      <h3>O puedes cargarlo desde un archivo:</h3>
+      {!selecType && (
+        <>
+          <div>
+            <p>
+              IMPORTANTE: Cuando completes los datos es necesario que uses el modelo
+              que podrás descargarte a continuación a fin de evitar posibles
+              problemas durante la carga. Debido a que las células y los nombres de procesos tienen que coincidir con los que se encuentran en la base de datos encontrarás que el modelo ya tiene algunos datos precargados. y podrás seleccionarlos desde las listas desplegables.
+            </p>
+            <a href='./assets/modelo-nomina.xlsx' download='modelo-nomina.xlsx' className='model'>
+              Descargar modelo
+            </a>
+          </div>
+          <input type='file' accept='.xlsx' onChange={handleUploadFile} />
+
+          {xmlsData.length !== 0 && (
+            <>
+              <Button
+                variant='contained'
+                component='label'
+                color='error'
+                onClick={handleUploadAll}
+              >
+                Cargar todos
+              </Button>
+              <table>
+                <thead>
+                  <tr>
+                    {xmlsData[0].map((headerValue, i) => (
+                      <th key={i}>{headerValue}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {xmlsData.slice(1).map((agent, rowIndex) => (
+                    <tr key={rowIndex}>
+                      {agent.map((tableValue, tableIndex) => (
+                        <td key={tableIndex}>{tableValue}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
+        </>
       )}
-    </div>
+    </section>
   )
 }
 
