@@ -161,6 +161,10 @@ const NewCase = ({ agents, token }) => {
     }
   }
 
+  const blockSpace = (e) => {
+    e.keyCode === 32 && e.preventDefault()
+  }
+
   if (!token) return <Navigate to='/' />
 
   return (
@@ -176,6 +180,7 @@ const NewCase = ({ agents, token }) => {
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label='Exa' />}
             onChange={handleChangeAutocomplete}
+            onKeyDown={blockSpace}
           />
           <TextField
             id='outlined-basicOne'
