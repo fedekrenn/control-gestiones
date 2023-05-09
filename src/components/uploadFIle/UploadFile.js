@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import { doc, setDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 
-const UploadFile = ({ setRefresh, selecType, setSelecType }) => {
+const UploadFile = ({ setRefresh, selecManual, setSelecManual }) => {
   const [xmlsData, setXmlsData] = useState([])
 
   function handleUploadFile(event) {
@@ -57,17 +57,30 @@ const UploadFile = ({ setRefresh, selecType, setSelecType }) => {
 
   return (
     <section className='file-upload'>
-      <input type='radio' name='select-type' id='type-file' onClick={() => setSelecType(false)} />
-      <h3>O puedes cargarlo desde un archivo:</h3>
-      {!selecType && (
+      <input
+        type='radio'
+        name='select-type'
+        id='type-file'
+        onClick={() => setSelecManual(false)}
+      />
+      <h3>Cargar desde un archivo:</h3>
+      {!selecManual && (
         <>
           <div>
             <p>
-              IMPORTANTE: Cuando completes los datos es necesario que uses el modelo
-              que podrás descargarte a continuación a fin de evitar posibles
-              problemas durante la carga. Debido a que las células y los nombres de procesos tienen que coincidir con los que se encuentran en la base de datos encontrarás que el modelo ya tiene algunos datos precargados. y podrás seleccionarlos desde las listas desplegables.
+              IMPORTANTE: Cuando completes los datos es necesario que uses el
+              modelo que podrás descargarte a continuación a fin de evitar
+              posibles problemas durante la carga. Debido a que las células y
+              los nombres de procesos tienen que coincidir con los que se
+              encuentran en la base de datos encontrarás que el modelo ya tiene
+              algunos datos precargados. y podrás seleccionarlos desde las
+              listas desplegables.
             </p>
-            <a href='./assets/modelo-nomina.xlsx' download='modelo-nomina.xlsx' className='model'>
+            <a
+              href='./assets/modelo-nomina.xlsx'
+              download='modelo-nomina.xlsx'
+              className='model'
+            >
               Descargar modelo
             </a>
           </div>

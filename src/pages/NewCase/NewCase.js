@@ -13,6 +13,8 @@ import {
   Select,
   MenuItem,
 } from '@mui/material'
+// Utils
+import handlePaste from '../../utils/handlePaste'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
@@ -160,14 +162,6 @@ const NewCase = ({ agents, token }) => {
       console.log('No such document!')
     }
   }
- 
-  const handlePaste = (event) => {
-    event.preventDefault();
-    const clipboardData = event.clipboardData || window.clipboardData;
-    const pastedText = clipboardData.getData('text/plain');
-    const trimmedText = pastedText.trim();
-    document.execCommand('insertText', false, trimmedText);
-  };
 
   if (!token) return <Navigate to='/' />
 
