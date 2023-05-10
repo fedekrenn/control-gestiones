@@ -1,7 +1,7 @@
-// React
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
 // Librerías
+import Swal from 'sweetalert2'
 import {
   FormControl,
   InputLabel,
@@ -10,17 +10,18 @@ import {
   TextField,
   Button,
 } from '@mui/material'
-import Swal from 'sweetalert2'
+// Componentes
+import UploadFile from '../../components/uploadFIle/UploadFile'
+// Utils
+import handlePaste from '../../utils/handlePaste'
 // Firebase
 import { doc, setDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 
-import UploadFile from '../../components/uploadFIle/UploadFile'
-
 const NewAgent = ({ cells, token, setRefresh }) => {
   const [cell, setCell] = useState('')
   const [proc, setProc] = useState('')
-  const [selecType, setSelecType] = useState(true)
+  const [selecManual, setSelecManual] = useState(true)
 
   const cellsSelected = cells[proc] || ['']
 
@@ -79,9 +80,15 @@ const NewAgent = ({ cells, token, setRefresh }) => {
     <main className='new-agent'>
       <h2>Sección para agregar asesores:</h2>
       <section>
-        <input type='radio' name='select-type' id='type-file' defaultChecked onClick={() => setSelecType(true)} />
+        <input
+          type='radio'
+          name='select-type'
+          id='type-file'
+          defaultChecked
+          onClick={() => setSelecManual(true)}
+        />
         <h3>Agregar manualmente:</h3>
-        {selecType && (
+        {selecManual && (
           <form className='new-agent__form' onSubmit={handleSubmit}>
             <TextField
               id='outlined-basic-one'
@@ -89,7 +96,9 @@ const NewAgent = ({ cells, token, setRefresh }) => {
               type='text'
               variant='outlined'
               name='exa'
+              placeholder='Ej: EXA00112'
               onKeyDown={handleKeyDown}
+              onPaste={handlePaste}
               size='small'
               required
             />
@@ -99,6 +108,7 @@ const NewAgent = ({ cells, token, setRefresh }) => {
               type='text'
               variant='outlined'
               name='nombre'
+              placeholder='Ej: Juan Perez'
               size='small'
               required
             />
@@ -142,7 +152,11 @@ const NewAgent = ({ cells, token, setRefresh }) => {
           </form>
         )}
       </section>
-      <UploadFile setRefresh={setRefresh} selecType={selecType} setSelecType={setSelecType} />
+      <UploadFile
+        setRefresh={setRefresh}
+        selecManual={selecManual}
+        setSelecManual={setSelecManual}
+      />
     </main>
   )
 }

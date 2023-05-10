@@ -6,12 +6,25 @@
     font-weight: 600;
     margin: 0 0 1.4em 0;
   }
+  .ec {
+    color: #ff0000;
+    font-size: 1.5em;
+  }
+  .om {
+    color: #ffa500;
+    font-size: 1.5em;
+  }
+  span {
+    text-decoration: underline;
+  }
 }
 
 .case-detail__section {
   display: flex;
-  padding: 1em;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   gap: 1em;
+  padding: 1em;
   .center {
     margin: 0 auto;
     .detail-card__comment {
@@ -25,7 +38,11 @@
 }
 
 .detail-card {
-  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 48%;
+  min-width: 450px;
   border-radius: 0.5em;
   padding: 1em;
   background-color: #f3f3f5;
@@ -44,6 +61,13 @@
   }
   h4 {
     display: inline;
+  }
+  i {
+    font-size: 1.2em;
+    font-style: normal;
+    &:hover {
+      cursor: pointer;
+    }
   }
   .detail-card__comment {
     margin: 1em 0 2em 0;

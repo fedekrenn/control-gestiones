@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
-import { getDocs, collection } from 'firebase/firestore'
+// Librerías
 import { TextField, Button, Box } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 import Swal from 'sweetalert2'
-import db from '../../utils/firebaseConfig'
+// Components
 import Case from '../../components/Case/Case'
+// Firebase
+import { getDocs, collection } from 'firebase/firestore'
+import db from '../../utils/firebaseConfig'
 
 const CaseList = ({ token }) => {
   const [cases, setCases] = useState([])
   const [loading, setLoading] = useState(true)
-
-  console.log(cases)
 
   useEffect(() => {
     getCriteria()
@@ -67,6 +68,8 @@ const CaseList = ({ token }) => {
               type='number'
               variant='outlined'
               name='search'
+              placeholder='Ej: 24436781'
+              inputProps={{ min: 0 }}
               size='small'
             />
             <Button variant='contained' type='submit'>

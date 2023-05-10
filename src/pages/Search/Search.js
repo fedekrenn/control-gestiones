@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
-import CircularProgress from '@mui/material/CircularProgress'
-import Swal from 'sweetalert2'
-import { TextField, Button, Box } from '@mui/material'
-import db from '../../utils/firebaseConfig'
-import { getDocs, collection } from 'firebase/firestore'
-import Case from '../../components/Case/Case'
-import Filter from '../../components/Filter/Filter'
-
+// Librerías
+import { TextField, Button, Box, CircularProgress } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import moment from 'moment'
+import Swal from 'sweetalert2'
+// Components
+import Case from '../../components/Case/Case'
+import Filter from '../../components/Filter/Filter'
+// Firebase
+import db from '../../utils/firebaseConfig'
+import { getDocs, collection } from 'firebase/firestore'
+
 
 const Search = ({ token }) => {
   const [cases, setCases] = useState([])
@@ -160,6 +162,7 @@ const Search = ({ token }) => {
             type='text'
             variant='outlined'
             name='exaSearch'
+            placeholder='Ej: EXA03419'
             size='small'
           />
           <Button variant='contained' type='submit'>
