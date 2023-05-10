@@ -96,6 +96,7 @@ const NewAgent = ({ cells, token, setRefresh }) => {
               type='text'
               variant='outlined'
               name='exa'
+              placeholder='Ej: EXA00112'
               onKeyDown={handleKeyDown}
               onPaste={handlePaste}
               size='small'
@@ -107,6 +108,7 @@ const NewAgent = ({ cells, token, setRefresh }) => {
               type='text'
               variant='outlined'
               name='nombre'
+              placeholder='Ej: Juan Perez'
               size='small'
               required
             />

@@ -162,6 +162,7 @@ const Search = ({ token }) => {
             type='text'
             variant='outlined'
             name='exaSearch'
+            placeholder='Ej: EXA03419'
             size='small'
           />
           <Button variant='contained' type='submit'>

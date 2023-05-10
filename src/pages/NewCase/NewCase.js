@@ -207,6 +207,7 @@ const NewCase = ({ agents, token }) => {
             size='small'
             label='N° caso/solicitud/id'
             variant='outlined'
+            placeholder='Ej: 2331244'
             onChange={(e) => setCaseNumber(e.target.value)}
             required
           />
@@ -230,6 +231,7 @@ const NewCase = ({ agents, token }) => {
             size='small'
             label='Motivo de consulta'
             name='motivoConsulta'
+            placeholder='Ej: Consulta de saldo'
             variant='outlined'
             required
           />
@@ -337,7 +339,7 @@ const NewCase = ({ agents, token }) => {
             id='outlined-textarea'
             label='¿Qué faltó para la resolución?'
             name='puntoFalla'
-            placeholder='¿Qué faltó para la resolución?'
+            placeholder='Ej: Indagar necesidades'
             rows={2}
             className='textarea-width-first'
             multiline
@@ -348,7 +350,7 @@ const NewCase = ({ agents, token }) => {
             id='outlined-textarea'
             label='Comentario de la gestión'
             name='comentarioGestion'
-            placeholder='Comentario de la gestión'
+            placeholder='Ej: Cliente se contacta consultando por ...'
             rows={10}
             className='textarea-width-second'
             multiline

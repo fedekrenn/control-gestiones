@@ -25,6 +25,8 @@ const CaseDetail = ({ token }) => {
     setLoading(false)
   }
 
+  console.log(caseDetail)
+
   useEffect(() => {
     getData()
 
@@ -77,6 +79,11 @@ const CaseDetail = ({ token }) => {
                   {formmatedDate(caseDetail.date)}
                 </li>
               </ul>
+              <i
+                title={`Monitoreado por ${caseDetail.monitoreador} el ${caseDetail.fechaDeCarga}`}
+              >
+                🔍
+              </i>
             </div>
             <div className='detail-card'>
               <h2>Detalles</h2>
@@ -96,7 +103,7 @@ const CaseDetail = ({ token }) => {
                 )}
                 {caseDetail.ec && (
                   <li>
-                    <h3>Error crítico:</h3>
+                    <h3 className='ec'>Error crítico:</h3>
                     <div className='card-detail'>
                       <p>
                         <span>Motivo:</span> {caseDetail.ec.motivo}
@@ -109,7 +116,7 @@ const CaseDetail = ({ token }) => {
                 )}
                 {caseDetail.om && (
                   <li>
-                    <h3>Oportunidad de mejora:</h3>
+                    <h3 className='om'>Oportunidad de mejora:</h3>
                     <div className='card-detail'>
                       <p>
                         <span>Motivo:</span> {caseDetail.om.motivo}

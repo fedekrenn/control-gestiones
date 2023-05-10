@@ -68,6 +68,8 @@ const CaseList = ({ token }) => {
               type='number'
               variant='outlined'
               name='search'
+              placeholder='Ej: 24436781'
+              inputProps={{ min: 0 }}
               size='small'
             />
             <Button variant='contained' type='submit'>
