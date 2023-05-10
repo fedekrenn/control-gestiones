@@ -1,7 +1,7 @@
-// React
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
 // Librerías
+import Swal from 'sweetalert2'
 import {
   FormControl,
   InputLabel,
@@ -10,14 +10,13 @@ import {
   TextField,
   Button,
 } from '@mui/material'
-import Swal from 'sweetalert2'
+// Componentes
+import UploadFile from '../../components/uploadFIle/UploadFile'
 // Utils
 import handlePaste from '../../utils/handlePaste'
 // Firebase
 import { doc, setDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
-
-import UploadFile from '../../components/uploadFIle/UploadFile'
 
 const NewAgent = ({ cells, token, setRefresh }) => {
   const [cell, setCell] = useState('')

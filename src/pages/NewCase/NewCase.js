@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
-// Firebase
-import { doc, getDoc, addDoc, collection } from 'firebase/firestore'
-import db from '../../utils/firebaseConfig'
 // Librerías
 import {
   TextField,
@@ -13,13 +10,16 @@ import {
   Select,
   MenuItem,
 } from '@mui/material'
-// Utils
-import handlePaste from '../../utils/handlePaste'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import moment from 'moment'
 import Swal from 'sweetalert2'
+// Utils
+import handlePaste from '../../utils/handlePaste'
+// Firebase
+import { doc, getDoc, addDoc, collection } from 'firebase/firestore'
+import db from '../../utils/firebaseConfig'
 
 const NewCase = ({ agents, token }) => {
   const [timeValue, setTimeValue] = useState(null)

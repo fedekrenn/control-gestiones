@@ -1,7 +1,9 @@
-import { read, utils } from 'xlsx'
 import { useState } from 'react'
+// Librerías
+import { read, utils } from 'xlsx'
 import { Button } from '@mui/material'
 import Swal from 'sweetalert2'
+// Firebase
 import { doc, setDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 
@@ -32,7 +34,7 @@ const UploadFile = ({ setRefresh, selecManual, setSelecManual }) => {
         await setDoc(
           doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
           {
-            [agent[0]]: {
+            [agent[0].toLowerCase()]: {
               nombre: agent[1].trim(),
               celula: agent[2].trim(),
               proceso: agent[3].trim(),

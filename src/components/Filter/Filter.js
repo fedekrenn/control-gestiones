@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
+// Librerías
+import { InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 
 const Filter = ({ name, dataValue, changeValue, reset }) => {
   const [value, setValue] = useState('')

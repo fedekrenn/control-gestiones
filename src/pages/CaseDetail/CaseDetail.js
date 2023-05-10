@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParams, Navigate } from 'react-router-dom'
+// Librerías
 import CircularProgress from '@mui/material/CircularProgress'
+// Firebase
 import { doc, getDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 

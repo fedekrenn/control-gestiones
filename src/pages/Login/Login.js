@@ -1,9 +1,11 @@
-import { TextField, Button } from '@mui/material'
 import { useState } from 'react'
+import { useNavigate, Navigate } from 'react-router-dom'
+// Librerías
+import { TextField, Button } from '@mui/material'
+import Swal from 'sweetalert2'
+// Firebase
 import { auth } from '../../utils/firebaseConfig'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import Swal from 'sweetalert2'
-import { useNavigate, Navigate } from 'react-router-dom'
 
 const Login = ({ token, setToken }) => {
   const [email, setEmail] = useState('')
