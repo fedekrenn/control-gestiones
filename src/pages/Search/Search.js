@@ -43,16 +43,16 @@ const Search = ({ token }) => {
   }, [selectProcess, selectCell, selectOrigin, selectMotive, selectTime])
 
   useEffect(() => {
-    const allProcess = cases.map((caso) => caso.proceso)
+    const allProcess = cases.map((_case) => _case.proceso)
     const uniqueProcess = [...new Set(allProcess)]
 
-    const AllCells = cases.map((caso) => caso.celula)
+    const AllCells = cases.map((_case) => _case.celula)
     const uniqueCells = [...new Set(AllCells)]
 
-    const AllOrigins = cases.map((caso) => caso.origen)
+    const AllOrigins = cases.map((_case) => _case.origen)
     const uniqueOrigins = [...new Set(AllOrigins)]
 
-    const AllMotives = cases.map((caso) => caso.motivoConsulta)
+    const AllMotives = cases.map((_case) => _case.motivoConsulta)
     const uniqueMotives = [...new Set(AllMotives)]
 
     setCells(uniqueCells)
@@ -66,29 +66,29 @@ const Search = ({ token }) => {
 
     if (selectProcess) {
       filteredCases = filteredCases.filter(
-        (caso) => caso.proceso === selectProcess
+        (_case) => _case.proceso === selectProcess
       )
     }
 
     if (selectCell) {
-      filteredCases = filteredCases.filter((caso) => caso.celula === selectCell)
+      filteredCases = filteredCases.filter((_case) => _case.celula === selectCell)
     }
 
     if (selectOrigin) {
       filteredCases = filteredCases.filter(
-        (caso) => caso.origen === selectOrigin
+        (_case) => _case.origen === selectOrigin
       )
     }
 
     if (selectMotive) {
       filteredCases = filteredCases.filter(
-        (caso) => caso.motivoConsulta === selectMotive
+        (_case) => _case.motivoConsulta === selectMotive
       )
     }
 
     if (selectTime) {
-      filteredCases = filteredCases.filter((caso) => {
-        const formattedDate = caso.date.split(' ')[0]
+      filteredCases = filteredCases.filter((_case) => {
+        const formattedDate = _case.date.split(' ')[0]
         return formattedDate === moment(selectTime).format('DD/MM/YYYY')
       })
     }
@@ -113,7 +113,7 @@ const Search = ({ token }) => {
     e.preventDefault()
 
     const search = e.target.exaSearch.value.toLowerCase()
-    const filteredCases = cases.filter((caso) => caso.exa.toLowerCase() === search)
+    const filteredCases = cases.filter((_case) => _case.exa.toLowerCase() === search)
 
     e.target.exaSearch.value = ''
 
@@ -231,9 +231,9 @@ const Search = ({ token }) => {
               <th>Ver detalles</th>
             </tr>
           </thead>
-          {resultCases.map((caso) => (
-            <tbody key={caso.id}>
-              <Case caso={caso} />
+          {resultCases.map((_case) => (
+            <tbody key={_case.id}>
+              <Case _case={_case} />
             </tbody>
           ))}
         </table>

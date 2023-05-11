@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import FeedIcon from '@mui/icons-material/Feed'
 
-const Case = ({ caso }) => {
+const Case = ({ _case }) => {
   const {
     id,
     celula,
@@ -12,7 +12,7 @@ const Case = ({ caso }) => {
     numeroCaso,
     origen,
     proceso,
-  } = caso
+  } = _case
 
   return (
     <tr>

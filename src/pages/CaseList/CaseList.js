@@ -13,6 +13,7 @@ import db from '../../utils/firebaseConfig'
 const CaseList = ({ token }) => {
   const [cases, setCases] = useState([])
   const [loading, setLoading] = useState(true)
+  const [isFiltered, setIsFiltered] = useState(false)
 
   useEffect(() => {
     getCriteria()
@@ -31,7 +32,7 @@ const CaseList = ({ token }) => {
     e.preventDefault()
 
     const search = Number(e.target.search.value)
-    const filteredCases = cases.filter((caso) => caso.numeroCaso === search)
+    const filteredCases = cases.filter((_case) => _case.numeroCaso === search)
 
     e.target.search.value = ''
 
@@ -44,6 +45,7 @@ const CaseList = ({ token }) => {
     }
 
     setCases(filteredCases)
+    setIsFiltered(true)
   }
 
   if (!token) return <Navigate to='/' />
@@ -77,9 +79,15 @@ const CaseList = ({ token }) => {
             </Button>
           </Box>
           <Box sx={{ display: 'flex', gap: '4px' }}>
-            <Button variant='outlined' onClick={getCriteria}>
-              Mostrar todos
-            </Button>
+            {isFiltered && (
+              <Button variant='outlined' onClick={() => {
+                setIsFiltered(false)
+                setLoading(true)
+                getCriteria()
+              }}>
+                Volver a mostrar todos
+              </Button>
+            )}
             <Button variant='outlined' component={Link} to='/busqueda-avanzada'>
               Búsqueda avanzada
             </Button>
@@ -107,9 +115,9 @@ const CaseList = ({ token }) => {
             {cases
               .sort((a, b) => b.fechaDeCarga.localeCompare(a.fechaDeCarga))
               .slice(0, 10)
-              .map((caso) => (
-                <tbody key={caso.id}>
-                  <Case caso={caso} />
+              .map((_case) => (
+                <tbody key={_case.id}>
+                  <Case _case={_case} />
                 </tbody>
               ))
               .splice(0, 20)}
