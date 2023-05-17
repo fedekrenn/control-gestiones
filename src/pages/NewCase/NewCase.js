@@ -18,7 +18,7 @@ import Swal from 'sweetalert2'
 // Utils
 import handlePaste from '../../utils/handlePaste'
 // Firebase
-import { doc, getDoc, addDoc, collection } from 'firebase/firestore'
+import { doc, getDoc, getDocs, addDoc, collection } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 
 const NewCase = ({ agents, token }) => {
@@ -36,7 +36,10 @@ const NewCase = ({ agents, token }) => {
   const [agentKey, setAgentKey] = useState('')
   const [caseNumber, setCaseNumber] = useState(0)
 
+  const [resetKey, setResetKey] = useState(0)
+
   const [way, setWay] = useState('')
+  const [motives, setMotives] = useState([])
 
   const [errValue, setErrValue] = useState('')
   const [errDescription, setErrDescription] = useState('')
@@ -48,6 +51,7 @@ const NewCase = ({ agents, token }) => {
 
   useEffect(() => {
     getCriteria()
+    getMotives()
   }, [])
 
   const isEmpty = (myState) => {
@@ -98,6 +102,10 @@ const NewCase = ({ agents, token }) => {
       setAgentProcess(findAgent[1].proceso)
       setAgentKey(findAgent[0])
     }
+  }
+
+  const handleFormReset = () => {
+    setResetKey((prevKey) => prevKey + 1)
   }
 
   const handleSubmit = async (e) => {
@@ -163,17 +171,34 @@ const NewCase = ({ agents, token }) => {
     }
   }
 
+  const getMotives = async () => {
+    const querySnapshot = await getDocs(collection(db, 'listadoGestiones'))
+    const docs = querySnapshot.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id }
+    })
+
+    const motives = docs.map((doc) => doc.motivoConsulta)
+    const uniqueMotives = [...new Set(motives)]
+    setMotives(uniqueMotives)
+  }
+
   if (!token) return <Navigate to='/' />
 
   return (
     <main className='new-case'>
       <h2>Agregar nueva gestión</h2>
-      <form className='new-case__form' id='form' onSubmit={handleSubmit}>
+      <form
+        className='new-case__form'
+        id='form'
+        onSubmit={handleSubmit}
+        onReset={handleFormReset}
+      >
         <div className='input-one form__child'>
           <Autocomplete
             disablePortal
             id='combo-box-demo'
             size='small'
+            key={resetKey}
             options={Object.keys(agents).map((el) => el.toUpperCase())}
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label='Exa' />}
@@ -225,24 +250,32 @@ const NewCase = ({ agents, token }) => {
               }}
             />
           </LocalizationProvider>
-
-          <TextField
+          <Autocomplete
+            disablePortal
+            freeSolo
+            required
             id='outlined-basicFifth'
             size='small'
-            label='Motivo de consulta'
-            name='motivoConsulta'
-            placeholder='Ej: Consulta de saldo'
             variant='outlined'
-            required
+            key={resetKey}
+            options={motives}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label='Motivo de consulta'
+                placeholder='Ej: Consulta de saldo'
+                name='motivoConsulta'
+              />
+            )}
           />
-
           <FormControl sx={{ minWidth: 120 }} size='small' required>
             <InputLabel id='demo-simple-select-label-one'>Realizó</InputLabel>
             <Select
               labelId='demo-simple-select-label--one'
               id='demo-simple-select-one'
-              value={way}
               label='ways'
+              sx={{ textAlign: 'left' }}
+              value={way}
               onChange={(e) => setWay(e.target.value)}
             >
               {ways.map((wy, index) => (
@@ -362,7 +395,7 @@ const NewCase = ({ agents, token }) => {
           <Button variant='contained' type='submit'>
             Agregar
           </Button>
-          <Button variant='contained' type='reset' onClick={handleDelete}>
+          <Button variant='outlined' type='reset' onClick={handleDelete}>
             Eliminar
           </Button>
         </div>

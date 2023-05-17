@@ -25,8 +25,6 @@ const CaseDetail = ({ token }) => {
     setLoading(false)
   }
 
-  console.log(caseDetail)
-
   useEffect(() => {
     getData()
 
