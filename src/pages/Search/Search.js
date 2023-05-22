@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 // Librerías
-import { TextField, Button, Box, CircularProgress } from '@mui/material'
+import {
+  TextField,
+  Button,
+  Box,
+  CircularProgress,
+  Autocomplete,
+} from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -13,7 +19,6 @@ import Filter from '../../components/Filter/Filter'
 // Firebase
 import db from '../../utils/firebaseConfig'
 import { getDocs, collection } from 'firebase/firestore'
-
 
 const Search = ({ token }) => {
   const [cases, setCases] = useState([])
@@ -27,6 +32,8 @@ const Search = ({ token }) => {
   const [selectCell, setSelectCell] = useState('')
   const [selectOrigin, setSelectOrigin] = useState('')
   const [selectMotive, setSelectMotive] = useState('')
+
+  const [resetKey, setResetKey] = useState(0)
 
   const [process, setProcess] = useState([])
   const [cells, setCells] = useState([])
@@ -71,7 +78,9 @@ const Search = ({ token }) => {
     }
 
     if (selectCell) {
-      filteredCases = filteredCases.filter((_case) => _case.celula === selectCell)
+      filteredCases = filteredCases.filter(
+        (_case) => _case.celula === selectCell
+      )
     }
 
     if (selectOrigin) {
@@ -113,7 +122,9 @@ const Search = ({ token }) => {
     e.preventDefault()
 
     const search = e.target.exaSearch.value.toLowerCase()
-    const filteredCases = cases.filter((_case) => _case.exa.toLowerCase() === search)
+    const filteredCases = cases.filter(
+      (_case) => _case.exa.toLowerCase() === search
+    )
 
     e.target.exaSearch.value = ''
 
@@ -127,6 +138,10 @@ const Search = ({ token }) => {
     setResultCases(filteredCases)
   }
 
+  const handleFormReset = () => {
+    setResetKey((prevKey) => prevKey + 1)
+  }
+
   const handleReset = () => {
     setSelectTime(null)
     setCases([])
@@ -137,6 +152,7 @@ const Search = ({ token }) => {
     setReset(!reset)
     setResultCases([])
     getCriteria()
+    handleFormReset()
   }
 
   if (!token) return <Navigate to='/' />
@@ -191,11 +207,28 @@ const Search = ({ token }) => {
             changeValue={setSelectOrigin}
             reset={reset}
           />
-          <Filter
-            name={'Motivo de consulta'}
-            dataValue={motives}
-            changeValue={setSelectMotive}
-            reset={reset}
+          <Autocomplete
+            fullWidth
+            freeSolo
+            required
+            disablePortal
+            clearOnEscape
+            clearIcon={null}
+            options={motives}
+            variant='outlined'
+            key={resetKey}
+            sx={{ textAlign: 'left' }}
+            onChange={(_, newValue) => {
+              setSelectMotive(newValue)
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label='Motivo de consulta'
+                placeholder='Ej: Consulta de saldo'
+                name='motivoConsulta'
+              />
+            )}
           />
         </div>
         <Box sx={{ margin: '30px 0' }}>
