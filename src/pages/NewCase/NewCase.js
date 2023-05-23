@@ -78,6 +78,9 @@ const NewCase = ({ agents, token }) => {
     setOmsDescription('')
     setCaseNumber('')
     setWay('')
+    setAgentName('Nombre')
+    setAgentGroup('Célula')
+    setAgentProcess('Proceso')
     setTimeValue(null)
   }
 
