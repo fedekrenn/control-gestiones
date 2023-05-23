@@ -1,7 +1,7 @@
 import { useState } from 'react'
 // Librerías
 import { read, utils } from 'xlsx'
-import { Button } from '@mui/material'
+import { Button, Box } from '@mui/material'
 import Swal from 'sweetalert2'
 // Firebase
 import { doc, setDoc } from 'firebase/firestore'
@@ -68,7 +68,7 @@ const UploadFile = ({ setRefresh, selecManual, setSelecManual }) => {
       <h3>Cargar desde un archivo:</h3>
       {!selecManual && (
         <>
-          <div>
+          <Box>
             <p>
               IMPORTANTE: Cuando completes los datos es necesario que uses el
               modelo que podrás descargarte a continuación a fin de evitar
@@ -85,7 +85,7 @@ const UploadFile = ({ setRefresh, selecManual, setSelecManual }) => {
             >
               Descargar modelo
             </a>
-          </div>
+          </Box>
           <input type='file' accept='.xlsx' onChange={handleUploadFile} />
 
           {xmlsData.length !== 0 && (

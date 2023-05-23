@@ -188,7 +188,7 @@ const Search = ({ token }) => {
       </form>
       <section className='select'>
         <h2>Filtrar por:</h2>
-        <div className='select__filters'>
+        <Box className='select__filters'>
           <Filter
             name={'Proceso'}
             dataValue={process}
@@ -230,7 +230,7 @@ const Search = ({ token }) => {
               />
             )}
           />
-        </div>
+        </Box>
         <Box sx={{ margin: '30px 0' }}>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DatePicker
@@ -242,11 +242,11 @@ const Search = ({ token }) => {
             />
           </LocalizationProvider>
         </Box>
-        <div>
+        <Box>
           <Button variant='contained' onClick={handleReset}>
             Limpiar filtros
           </Button>
-        </div>
+        </Box>
       </section>
       <section className='search__results'>
         <h2>Resultados</h2>
