@@ -5,6 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 // Firebase
 import { doc, getDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
+import { Box } from '@mui/material'
 
 const CaseDetail = ({ token }) => {
   const [caseDetail, setCaseDetail] = useState({})
@@ -44,7 +45,7 @@ const CaseDetail = ({ token }) => {
         <>
           <h1>Detalle de la gestión:</h1>
           <section className='case-detail__section'>
-            <div className='detail-card'>
+            <Box className='detail-card'>
               <h2>Info gestión</h2>
               <ul>
                 <li>
@@ -82,8 +83,8 @@ const CaseDetail = ({ token }) => {
               >
                 🔍
               </i>
-            </div>
-            <div className='detail-card'>
+            </Box>
+            <Box className='detail-card'>
               <h2>Detalles</h2>
               <ul>
                 <li>
@@ -102,42 +103,40 @@ const CaseDetail = ({ token }) => {
                 {caseDetail.ec && (
                   <li>
                     <h3 className='ec'>Error crítico:</h3>
-                    <div className='card-detail'>
+                    <Box className='card-detail'>
                       <p>
                         <span>Motivo:</span> {caseDetail.ec.motivo}
                       </p>
                       <p>
                         <span>Submotivo:</span> {caseDetail.ec.submotivo}
                       </p>
-                    </div>
+                    </Box>
                   </li>
                 )}
                 {caseDetail.om && (
                   <li>
                     <h3 className='om'>Oportunidad de mejora:</h3>
-                    <div className='card-detail'>
+                    <Box className='card-detail'>
                       <p>
                         <span>Motivo:</span> {caseDetail.om.motivo}
                       </p>
                       <p>
                         <span>Submotivo:</span> {caseDetail.om.submotivo}
                       </p>
-                    </div>
+                    </Box>
                   </li>
                 )}
               </ul>
-            </div>
+            </Box>
           </section>
           {caseDetail.puntoATrabajar !== '-' && (
             <section className='case-detail__section'>
-              <div className='detail-card center'>
+              <Box className='detail-card center'>
                 <h2>El punto a trabajar con este asesor es:</h2>
                 <p className='detail-card__comment'>
                   {caseDetail.puntoATrabajar}
                 </p>
-                {/*<h2>Acciones a realizar:</h2>
-               TODO */}
-              </div>
+              </Box>
             </section>
           )}
         </>

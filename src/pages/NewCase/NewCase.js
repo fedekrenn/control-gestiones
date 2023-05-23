@@ -9,6 +9,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Box
 } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -78,6 +79,9 @@ const NewCase = ({ agents, token }) => {
     setOmsDescription('')
     setCaseNumber('')
     setWay('')
+    setAgentName('Nombre')
+    setAgentGroup('Célula')
+    setAgentProcess('Proceso')
     setTimeValue(null)
   }
 
@@ -193,7 +197,7 @@ const NewCase = ({ agents, token }) => {
         onSubmit={handleSubmit}
         onReset={handleFormReset}
       >
-        <div className='input-one form__child'>
+        <Box className='input-one form__child'>
           <Autocomplete
             disablePortal
             id='combo-box-demo'
@@ -236,9 +240,9 @@ const NewCase = ({ agents, token }) => {
             onChange={(e) => setCaseNumber(e.target.value)}
             required
           />
-        </div>
+        </Box>
 
-        <div className='input-two form__child'>
+        <Box className='input-two form__child'>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DateTimePicker
               renderInput={(props) => <TextField {...props} />}
@@ -286,7 +290,7 @@ const NewCase = ({ agents, token }) => {
             </Select>
           </FormControl>
 
-          <div className='extended-input'>
+          <Box className='extended-input'>
             <FormControl sx={{ minWidth: 120 }} size='small' required>
               <InputLabel id='demo-simple-select-label-two'>Errores</InputLabel>
               <Select
@@ -324,9 +328,9 @@ const NewCase = ({ agents, token }) => {
                 </Select>
               </FormControl>
             )}
-          </div>
+          </Box>
 
-          <div className='extended-input'>
+          <Box className='extended-input'>
             <FormControl sx={{ minWidth: 120 }} size='small' required>
               <InputLabel id='demo-simple-select-label-three'>OMS</InputLabel>
               <Select
@@ -364,10 +368,10 @@ const NewCase = ({ agents, token }) => {
                 </Select>
               </FormControl>
             )}
-          </div>
-        </div>
+          </Box>
+        </Box>
 
-        <div className='text-area-container form__child'>
+        <Box className='text-area-container form__child'>
           <TextField
             id='outlined-textarea'
             label='¿Qué faltó para la resolución?'
@@ -389,16 +393,16 @@ const NewCase = ({ agents, token }) => {
             multiline
             required
           />
-        </div>
+        </Box>
 
-        <div className='btn-container'>
+        <Box className='btn-container'>
           <Button variant='contained' type='submit'>
             Agregar
           </Button>
           <Button variant='outlined' type='reset' onClick={handleDelete}>
             Eliminar
           </Button>
-        </div>
+        </Box>
       </form>
     </main>
   )
