@@ -55,7 +55,7 @@ function App() {
           <Route path="/nuevo-caso" element={<NewCase agents={agents} token={token} />} />
           <Route path="/listado-casos" element={<CaseList token={token} />} />
           <Route path="/monitoreo/:id" element={<CaseDetail token={token} />} />
-          <Route path="/busqueda-avanzada" element={<Search token={token} />} />
+          <Route path="/busqueda-avanzada" element={<Search token={token} cells={cells} />} />
           <Route path="*" element={<h1>404, página no encontrada!</h1>} />
         </Routes>
       </main>

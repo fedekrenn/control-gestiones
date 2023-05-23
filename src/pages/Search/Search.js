@@ -20,7 +20,7 @@ import Filter from '../../components/Filter/Filter'
 import db from '../../utils/firebaseConfig'
 import { getDocs, collection } from 'firebase/firestore'
 
-const Search = ({ token }) => {
+const Search = ({ token, cells }) => {
   const [cases, setCases] = useState([])
   const [resultCases, setResultCases] = useState([])
   const [loading, setLoading] = useState(true)
@@ -35,10 +35,10 @@ const Search = ({ token }) => {
 
   const [resetKey, setResetKey] = useState(0)
 
-  const [process, setProcess] = useState([])
-  const [cells, setCells] = useState([])
   const [origins, setOrigins] = useState([])
   const [motives, setMotives] = useState([])
+
+  const cellsSelected = cells[selectProcess] || ['']
 
   useEffect(() => {
     getCriteria()
@@ -50,20 +50,12 @@ const Search = ({ token }) => {
   }, [selectProcess, selectCell, selectOrigin, selectMotive, selectTime])
 
   useEffect(() => {
-    const allProcess = cases.map((_case) => _case.proceso)
-    const uniqueProcess = [...new Set(allProcess)]
-
-    const AllCells = cases.map((_case) => _case.celula)
-    const uniqueCells = [...new Set(AllCells)]
-
     const AllOrigins = cases.map((_case) => _case.origen)
     const uniqueOrigins = [...new Set(AllOrigins)]
 
     const AllMotives = cases.map((_case) => _case.motivoConsulta)
     const uniqueMotives = [...new Set(AllMotives)]
 
-    setCells(uniqueCells)
-    setProcess(uniqueProcess)
     setOrigins(uniqueOrigins)
     setMotives(uniqueMotives)
   }, [cases])
@@ -191,13 +183,13 @@ const Search = ({ token }) => {
         <Box className='select__filters'>
           <Filter
             name={'Proceso'}
-            dataValue={process}
+            dataValue={Object.keys(cells) || []}
             changeValue={setSelectProcess}
             reset={reset}
           />
           <Filter
             name={'Célula'}
-            dataValue={cells}
+            dataValue={cellsSelected}
             changeValue={setSelectCell}
             reset={reset}
           />
