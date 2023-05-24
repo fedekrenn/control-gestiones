@@ -256,7 +256,7 @@ const Search = ({ token, cells }) => {
               <th>Ver detalles</th>
             </tr>
           </thead>
-          {resultCases.map((_case) => (
+          {resultCases.slice(0, 20).map((_case) => (
             <tbody key={_case.id}>
               <Case _case={_case} />
             </tbody>
