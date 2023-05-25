@@ -9,7 +9,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Box
+  Box,
 } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -205,7 +205,9 @@ const NewCase = ({ agents, token }) => {
             key={resetKey}
             options={Object.keys(agents).map((el) => el.toUpperCase())}
             sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label='Exa' />}
+            renderInput={(params) => (
+              <TextField {...params} required label='Exa' />
+            )}
             onChange={handleChangeAutocomplete}
             onPaste={handlePaste}
           />
@@ -245,7 +247,7 @@ const NewCase = ({ agents, token }) => {
         <Box className='input-two form__child'>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DateTimePicker
-              renderInput={(props) => <TextField {...props} />}
+              renderInput={(props) => <TextField {...props} required />}
               label='Fecha y hora del caso'
               value={timeValue}
               inputFormat='DD/MM/YYYY HH:mm'
@@ -257,7 +259,6 @@ const NewCase = ({ agents, token }) => {
           <Autocomplete
             disablePortal
             freeSolo
-            required
             id='outlined-basicFifth'
             size='small'
             variant='outlined'
@@ -266,6 +267,7 @@ const NewCase = ({ agents, token }) => {
             renderInput={(params) => (
               <TextField
                 {...params}
+                required
                 label='Motivo de consulta'
                 placeholder='Ej: Consulta de saldo'
                 name='motivoConsulta'

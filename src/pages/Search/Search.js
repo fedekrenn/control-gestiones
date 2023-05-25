@@ -16,6 +16,8 @@ import Swal from 'sweetalert2'
 // Components
 import Case from '../../components/Case/Case'
 import Filter from '../../components/Filter/Filter'
+// Utils
+import handlePaste from '../../utils/handlePaste'
 // Firebase
 import db from '../../utils/firebaseConfig'
 import { getDocs, collection } from 'firebase/firestore'
@@ -172,6 +174,7 @@ const Search = ({ token, cells }) => {
             name='exaSearch'
             placeholder='Ej: EXA03419'
             size='small'
+            onPaste={handlePaste}
           />
           <Button variant='contained' type='submit'>
             Buscar
@@ -256,7 +259,7 @@ const Search = ({ token, cells }) => {
               <th>Ver detalles</th>
             </tr>
           </thead>
-          {resultCases.map((_case) => (
+          {resultCases.slice(0, 20).map((_case) => (
             <tbody key={_case.id}>
               <Case _case={_case} />
             </tbody>
