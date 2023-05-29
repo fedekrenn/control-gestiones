@@ -34,13 +34,12 @@ const Search = ({ token, cells }) => {
   const [selectCell, setSelectCell] = useState('')
   const [selectOrigin, setSelectOrigin] = useState('')
   const [selectMotive, setSelectMotive] = useState('')
+  const [cellsSelected, setCellsSelected] = useState([''])
 
   const [resetKey, setResetKey] = useState(0)
 
   const [origins, setOrigins] = useState([])
   const [motives, setMotives] = useState([])
-
-  const cellsSelected = cells[selectProcess] || ['']
 
   useEffect(() => {
     getCriteria()
@@ -50,6 +49,13 @@ const Search = ({ token, cells }) => {
     handleFilter()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectProcess, selectCell, selectOrigin, selectMotive, selectTime])
+
+  useEffect(() => {
+    selectProcess
+      ? setCellsSelected(cells[selectProcess])
+      : setCellsSelected([''])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectProcess])
 
   useEffect(() => {
     const AllOrigins = cases.map((_case) => _case.origen)
