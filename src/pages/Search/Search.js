@@ -150,7 +150,20 @@ const Search = ({ token, cells }) => {
   }
 
   if (!token) return <Navigate to='/' />
-  if (loading) return <CircularProgress />
+  if (loading)
+    return (
+      <Box
+        sx={{
+          minHeight: '60vh',
+          display: 'flex',
+          flexDirection: 'colum',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    )
 
   return (
     <main className='search'>
