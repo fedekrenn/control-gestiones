@@ -24,6 +24,7 @@ const NewAgent = ({ cells, token, setRefresh }) => {
   const [selecManual, setSelecManual] = useState(true)
 
   const cellsSelected = cells[proc] || ['']
+  const process = Object.keys(cells)
 
   const handleChangeCell = (event) => {
     setCell(event.target.value)
@@ -71,8 +72,6 @@ const NewAgent = ({ cells, token, setRefresh }) => {
     setCell('')
     setProc('')
   }
-
-  const process = Object.keys(cells)
 
   if (!token) return <Navigate to='/' />
 

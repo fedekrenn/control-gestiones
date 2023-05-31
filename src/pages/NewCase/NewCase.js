@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 // Librerías
 import {
   TextField,
@@ -49,6 +49,8 @@ const NewCase = ({ agents, token }) => {
   const [omsDescription, setOmsDescription] = useState('')
 
   const ways = ['Cmm', 'Calidad Cec', 'Coordinador']
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     getCriteria()
@@ -139,7 +141,7 @@ const NewCase = ({ agents, token }) => {
         omsValue === 'n/a'
           ? false
           : { motivo: omsValue, submotivo: omsDescription },
-      fechaDeCarga: new Date().toLocaleString(),
+      fechaDeCarga: new Date(),
       monitoreador: sessionStorage.getItem('monitoreador'),
       puntoATrabajar: puntoATrabajar,
       comentarioGestion: comentario,
@@ -154,8 +156,21 @@ const NewCase = ({ agents, token }) => {
       confirmButtonText: 'Sí, guardar',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await addDoc(collection(db, 'listadoGestiones'), newCase)
-        Swal.fire('Guardado!', 'La gestión ha sido guardada.', 'success')
+        const data = await addDoc(collection(db, 'listadoGestiones'), newCase)
+
+        Swal.fire({
+          title: 'Gestion guardada',
+          text: 'Los datos de la gestión han sido guardados correctamente',
+          icon: 'success',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#545454',
+          confirmButtonText: 'Ir al caso',
+          cancelButtonText: 'Cargar otra gestión',
+        }).then((result) => {
+          if (result.isConfirmed) navigate(`/monitoreo/${data.id}`)
+        })
+
         handleDelete()
       } else {
         Swal.fire('Cancelado', 'La gestión no ha sido guardada', 'error')

@@ -29,7 +29,7 @@ const Case = ({ _case }) => {
         title='Haz click para conocer los detalles del monitoreo'
       >
         <Link to={`/monitoreo/${id}`}>
-          <FeedIcon color="primary" fontSize="large"/>
+          <FeedIcon color='primary' fontSize='large' />
         </Link>
       </td>
     </tr>
