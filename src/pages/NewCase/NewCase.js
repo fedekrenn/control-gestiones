@@ -141,7 +141,7 @@ const NewCase = ({ agents, token }) => {
         omsValue === 'n/a'
           ? false
           : { motivo: omsValue, submotivo: omsDescription },
-      fechaDeCarga: new Date().toLocaleString(),
+      fechaDeCarga: new Date(),
       monitoreador: sessionStorage.getItem('monitoreador'),
       puntoATrabajar: puntoATrabajar,
       comentarioGestion: comentario,

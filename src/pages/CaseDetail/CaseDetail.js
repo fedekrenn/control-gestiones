@@ -79,7 +79,11 @@ const CaseDetail = ({ token }) => {
                 </li>
               </ul>
               <i
-                title={`Monitoreado por ${caseDetail.monitoreador} el ${caseDetail.fechaDeCarga}`}
+                title={`Monitoreado por ${
+                  caseDetail.monitoreador
+                } el día ${new Date(
+                  caseDetail.fechaDeCarga
+                ).toLocaleString()} hs`}
               >
                 🔍
               </i>

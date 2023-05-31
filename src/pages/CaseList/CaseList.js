@@ -80,11 +80,14 @@ const CaseList = ({ token }) => {
           </Box>
           <Box sx={{ display: 'flex', gap: '4px' }}>
             {isFiltered && (
-              <Button variant='outlined' onClick={() => {
-                setIsFiltered(false)
-                setLoading(true)
-                getCriteria()
-              }}>
+              <Button
+                variant='outlined'
+                onClick={() => {
+                  setIsFiltered(false)
+                  setLoading(true)
+                  getCriteria()
+                }}
+              >
                 Volver a mostrar todos
               </Button>
             )}
@@ -108,19 +111,18 @@ const CaseList = ({ token }) => {
                 <th>Proceso</th>
                 <th>Legajo</th>
                 <th>Célula</th>
-                <th>Fecha de gestión</th>
+                <th>Fecha de atención</th>
                 <th>Ver detalles</th>
               </tr>
             </thead>
             {cases
-              .sort((a, b) => b.fechaDeCarga.localeCompare(a.fechaDeCarga))
+              .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
               .slice(0, 10)
               .map((_case) => (
                 <tbody key={_case.id}>
                   <Case _case={_case} />
                 </tbody>
-              ))
-              .splice(0, 20)}
+              ))}
           </table>
         )}
       </section>
