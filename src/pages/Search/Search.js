@@ -42,11 +42,11 @@ const Search = ({ token, cells }) => {
   const [motives, setMotives] = useState([])
 
   useEffect(() => {
-    getCriteria()
+    getCriteria(db)
   }, [])
 
   useEffect(() => {
-    handleFilter()
+    handleFilter(cases)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectProcess, selectCell, selectOrigin, selectMotive, selectTime])
 
@@ -68,8 +68,8 @@ const Search = ({ token, cells }) => {
     setMotives(uniqueMotives)
   }, [cases])
 
-  const handleFilter = () => {
-    let filteredCases = cases
+  const handleFilter = (cases) => {
+    let filteredCases = [...cases]
 
     if (selectProcess) {
       filteredCases = filteredCases.filter(
@@ -109,7 +109,7 @@ const Search = ({ token, cells }) => {
     }
   }
 
-  const getCriteria = async () => {
+  const getCriteria = async (db) => {
     const querySnapshot = await getDocs(collection(db, 'listadoGestiones'))
     const docs = querySnapshot.docs.map((doc) => {
       return { ...doc.data(), id: doc.id }
@@ -151,7 +151,7 @@ const Search = ({ token, cells }) => {
     setSelectMotive('')
     setReset(!reset)
     setResultCases([])
-    getCriteria()
+    getCriteria(db)
     handleFormReset()
   }
 

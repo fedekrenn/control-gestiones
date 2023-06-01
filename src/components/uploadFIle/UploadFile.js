@@ -26,7 +26,7 @@ const UploadFile = ({ setRefresh, selecManual, setSelecManual }) => {
     reader.readAsBinaryString(file)
   }
 
-  const handleUploadAll = async () => {
+  const handleUploadAll = async (xmlsData) => {
     if (xmlsData.length === 0) return alert('No hay datos para cargar')
 
     try {
@@ -94,7 +94,7 @@ const UploadFile = ({ setRefresh, selecManual, setSelecManual }) => {
                 variant='contained'
                 component='label'
                 color='error'
-                onClick={handleUploadAll}
+                onClick={() => handleUploadAll(xmlsData)}
               >
                 Cargar todos
               </Button>

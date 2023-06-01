@@ -53,8 +53,8 @@ const NewCase = ({ agents, token }) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    getCriteria()
-    getMotives()
+    getCriteria(db)
+    getMotives(db)
   }, [])
 
   const isEmpty = (myState) => {
@@ -141,7 +141,7 @@ const NewCase = ({ agents, token }) => {
         omsValue === 'n/a'
           ? false
           : { motivo: omsValue, submotivo: omsDescription },
-      fechaDeCarga: new Date(),
+      fechaDeCarga: Date.now(),
       monitoreador: sessionStorage.getItem('monitoreador'),
       puntoATrabajar: puntoATrabajar,
       comentarioGestion: comentario,
@@ -178,7 +178,7 @@ const NewCase = ({ agents, token }) => {
     })
   }
 
-  const getCriteria = async () => {
+  const getCriteria = async (db) => {
     const docRef = doc(db, 'criterios', '2X9z0AYQScDDE04uIcMO')
     const docSnap = await getDoc(docRef)
 
@@ -186,11 +186,11 @@ const NewCase = ({ agents, token }) => {
       setErrors(docSnap.data().errores)
       setOms(docSnap.data().oms)
     } else {
-      console.log('No such document!')
+      console.error('No such document!')
     }
   }
 
-  const getMotives = async () => {
+  const getMotives = async (db) => {
     const querySnapshot = await getDocs(collection(db, 'listadoGestiones'))
     const docs = querySnapshot.docs.map((doc) => {
       return { ...doc.data(), id: doc.id }

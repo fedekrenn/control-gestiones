@@ -16,10 +16,10 @@ const CaseList = ({ token }) => {
   const [isFiltered, setIsFiltered] = useState(false)
 
   useEffect(() => {
-    getCriteria()
+    getCriteria(db)
   }, [])
 
-  const getCriteria = async () => {
+  const getCriteria = async (db) => {
     const querySnapshot = await getDocs(collection(db, 'listadoGestiones'))
     const docs = querySnapshot.docs.map((doc) => {
       return { ...doc.data(), id: doc.id }
@@ -85,7 +85,7 @@ const CaseList = ({ token }) => {
                 onClick={() => {
                   setIsFiltered(false)
                   setLoading(true)
-                  getCriteria()
+                  getCriteria(db)
                 }}
               >
                 Volver a mostrar todos
