@@ -15,19 +15,19 @@ const CaseDetail = ({ token }) => {
 
   const formmatedDate = (string) => string?.split(' ').join(' - ')
 
-  const getData = async () => {
+  const getData = async (db, id) => {
     const docRef = doc(db, 'listadoGestiones', id)
     const docSnap = await getDoc(docRef)
 
     docSnap.exists()
       ? setCaseDetail(docSnap.data())
-      : console.log('No such document!')
+      : console.error('No such document!')
 
     setLoading(false)
   }
 
   useEffect(() => {
-    getData()
+    getData(db, id)
 
     return () => {
       setCaseDetail({})
