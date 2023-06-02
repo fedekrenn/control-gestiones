@@ -20,12 +20,11 @@ import Filter from '../../components/Filter/Filter'
 import handlePaste from '../../utils/handlePaste'
 // Firebase
 import db from '../../utils/firebaseConfig'
-import { getDocs, collection } from 'firebase/firestore'
+// Custom hook
+import useGetCases from '../../customHooks/useGetCases'
 
 const Search = ({ token, cells }) => {
-  const [cases, setCases] = useState([])
   const [resultCases, setResultCases] = useState([])
-  const [loading, setLoading] = useState(true)
   const [reset, setReset] = useState(false)
 
   const [selectTime, setSelectTime] = useState(null)
@@ -41,9 +40,7 @@ const Search = ({ token, cells }) => {
   const [origins, setOrigins] = useState([])
   const [motives, setMotives] = useState([])
 
-  useEffect(() => {
-    getCriteria(db)
-  }, [])
+  const { cases, loading } = useGetCases(db)
 
   useEffect(() => {
     handleFilter(cases)
@@ -102,20 +99,11 @@ const Search = ({ token, cells }) => {
       })
     }
 
-    if (filteredCases.length === 0) {
+    if (filteredCases.length === 0 || filteredCases.length === cases.length) {
       setResultCases([])
     } else {
       setResultCases(filteredCases)
     }
-  }
-
-  const getCriteria = async (db) => {
-    const querySnapshot = await getDocs(collection(db, 'listadoGestiones'))
-    const docs = querySnapshot.docs.map((doc) => {
-      return { ...doc.data(), id: doc.id }
-    })
-    setCases(docs)
-    setLoading(false)
   }
 
   const handleSearchByExa = (e) => {
@@ -144,14 +132,12 @@ const Search = ({ token, cells }) => {
 
   const handleReset = () => {
     setSelectTime(null)
-    setCases([])
     setSelectProcess('')
     setSelectCell('')
     setSelectOrigin('')
     setSelectMotive('')
     setReset(!reset)
     setResultCases([])
-    getCriteria(db)
     handleFormReset()
   }
 
