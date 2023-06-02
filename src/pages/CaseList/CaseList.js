@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 // Librerías
 import { TextField, Button, Box } from '@mui/material'
@@ -7,36 +7,29 @@ import Swal from 'sweetalert2'
 // Components
 import Case from '../../components/Case/Case'
 // Firebase
-import { getDocs, collection } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
+// Custom hook
+import useGetCases from '../../customHooks/useGetCases'
 
 const CaseList = ({ token }) => {
-  const [cases, setCases] = useState([])
-  const [loading, setLoading] = useState(true)
+  const { cases, loading } = useGetCases(db)
+
   const [isFiltered, setIsFiltered] = useState(false)
+  const [filteredCases, setFilteredCases] = useState([])
 
   useEffect(() => {
-    getCriteria(db)
-  }, [])
-
-  const getCriteria = async (db) => {
-    const querySnapshot = await getDocs(collection(db, 'listadoGestiones'))
-    const docs = querySnapshot.docs.map((doc) => {
-      return { ...doc.data(), id: doc.id }
-    })
-    setCases(docs)
-    setLoading(false)
-  }
+    setFilteredCases(cases)
+  }, [cases])
 
   const handleSearch = (e) => {
     e.preventDefault()
 
     const search = Number(e.target.search.value)
-    const filteredCases = cases.filter((_case) => _case.numeroCaso === search)
+    const foundedCases = cases.filter((_case) => _case.numeroCaso === search)
 
     e.target.search.value = ''
 
-    if (filteredCases.length === 0) {
+    if (foundedCases.length === 0) {
       return Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -44,7 +37,7 @@ const CaseList = ({ token }) => {
       })
     }
 
-    setCases(filteredCases)
+    setFilteredCases(foundedCases)
     setIsFiltered(true)
   }
 
@@ -84,8 +77,7 @@ const CaseList = ({ token }) => {
                 variant='outlined'
                 onClick={() => {
                   setIsFiltered(false)
-                  setLoading(true)
-                  getCriteria(db)
+                  setFilteredCases(cases)
                 }}
               >
                 Volver a mostrar todos
@@ -115,7 +107,7 @@ const CaseList = ({ token }) => {
                 <th>Ver detalles</th>
               </tr>
             </thead>
-            {cases
+            {filteredCases
               .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
               .slice(0, 10)
               .map((_case) => (
