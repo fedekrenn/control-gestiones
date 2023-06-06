@@ -16,7 +16,6 @@ import {
 } from '@mui/material'
 // Icons
 import MenuIcon from '@mui/icons-material/Menu'
-import AdbIcon from '@mui/icons-material/Adb'
 // Assets
 import icon from '../../assets/logo-startek.png'
 
@@ -37,6 +36,7 @@ const Header = ({ setToken, hasToken }) => {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
   }
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget)
   }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Navigate } from 'react-router-dom'
 // Librerías
 import Swal from 'sweetalert2'
@@ -23,8 +23,8 @@ const NewAgent = ({ cells, token, setRefresh }) => {
   const [proc, setProc] = useState('')
   const [selecManual, setSelecManual] = useState(true)
 
-  const cellsSelected = cells[proc] || ['']
-  const process = Object.keys(cells)
+  const cellsSelected = useMemo(() => cells[proc] || [''], [cells, proc])
+  const process = useMemo(() => Object.keys(cells), [cells])
 
   const handleChangeCell = (event) => {
     setCell(event.target.value)
