@@ -6,10 +6,16 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { doc, getDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 import { Box } from '@mui/material'
+// Componentes
+import CaseModal from '../../components/CaseModal/CaseModal'
 
 const CaseDetail = ({ token }) => {
   const [caseDetail, setCaseDetail] = useState({})
   const [loading, setLoading] = useState(true)
+
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   const { id } = useParams()
 
@@ -78,15 +84,25 @@ const CaseDetail = ({ token }) => {
                   {formmatedDate(caseDetail.date)}
                 </li>
               </ul>
-              <i
-                title={`Monitoreado por ${
-                  caseDetail.monitoreador
-                } el día ${new Date(
-                  caseDetail.fechaDeCarga
-                ).toLocaleString()} hs`}
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  paddingTop: '10px',
+                }}
               >
-                🔍
-              </i>
+                <i
+                  title={`Monitoreado por ${
+                    caseDetail.monitoreador
+                  } el día ${new Date(
+                    caseDetail.fechaDeCarga
+                  ).toLocaleString()} hs`}
+                >
+                  🔍
+                </i>
+                <i onClick={handleOpen}>🗒️</i>
+              </Box>
+              <CaseModal open={open} handleClose={handleClose} />
             </Box>
             <Box className='detail-card'>
               <h2>Detalles</h2>
