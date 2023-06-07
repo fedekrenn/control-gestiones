@@ -31,6 +31,8 @@ const UploadFile = ({ setRefresh, selecManual, setSelecManual }) => {
 
     try {
       xmlsData.slice(1).forEach(async (agent) => {
+        if (agent.length === 0) return
+
         await setDoc(
           doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
           {
