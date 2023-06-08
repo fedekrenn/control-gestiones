@@ -16,7 +16,6 @@ import {
 } from '@mui/material'
 // Icons
 import MenuIcon from '@mui/icons-material/Menu'
-import AdbIcon from '@mui/icons-material/Adb'
 // Assets
 import icon from '../../assets/logo-startek.png'
 
@@ -37,6 +36,7 @@ const Header = ({ setToken, hasToken }) => {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
   }
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget)
   }
@@ -105,7 +105,6 @@ const Header = ({ setToken, hasToken }) => {
                 ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {hasToken &&
               pages.map((page, index) => (

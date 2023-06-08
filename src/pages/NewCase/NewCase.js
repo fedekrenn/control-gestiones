@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 // Librerías
 import {
@@ -56,6 +56,10 @@ const NewCase = ({ agents, token }) => {
     getCriteria(db)
     getMotives(db)
   }, [])
+
+  const agentsArray = useMemo(() => {
+    return Object.keys(agents).map((el) => el.toUpperCase())
+  }, [agents])
 
   const isEmpty = (myState) => {
     return myState === '' || myState === 'n/a'
@@ -218,7 +222,7 @@ const NewCase = ({ agents, token }) => {
             id='combo-box-demo'
             size='small'
             key={resetKey}
-            options={Object.keys(agents).map((el) => el.toUpperCase())}
+            options={agentsArray}
             sx={{ width: 300 }}
             renderInput={(params) => (
               <TextField {...params} required label='Exa' />
