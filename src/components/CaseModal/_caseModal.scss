@@ -1,0 +1,26 @@
+table#send-case {
+  border: 1px solid #000;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 800px;
+  th,
+  td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+  }
+  th,
+  .marked {
+    background-color: #c0504d;
+    color: white;
+  }
+  .detail {
+    padding: 50px;
+  }
+  .data-row td{
+    height: 30px;
+    font-weight: bold;
+    font-size: 1.2em;
+    color:#ff0800
+  }
+}
