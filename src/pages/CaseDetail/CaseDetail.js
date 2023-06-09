@@ -102,7 +102,7 @@ const CaseDetail = ({ token }) => {
                 </i>
                 <i onClick={handleOpen}>🗒️</i>
               </Box>
-              <CaseModal open={open} handleClose={handleClose} />
+              <CaseModal open={open} handleClose={handleClose} caseDetail={caseDetail} />
             </Box>
             <Box className='detail-card'>
               <h2>Detalles</h2>

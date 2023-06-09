@@ -1,7 +1,21 @@
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 
-const CaseModal = ({ open, handleClose }) => {
+const CaseModal = ({ open, handleClose, caseDetail }) => {
+  const { nombre, numeroCaso, proceso, celula, comentarioGestion } = caseDetail
+
+  const hasInfoError = (caseDetail) => caseDetail.ec.motivo === 'información' ? 'X' : ''
+  const hasTransError = (caseDetail) => caseDetail.ec.motivo === 'transacciones' ? 'X' : ''
+  const hasDerivError = (caseDetail) => caseDetail.ec.motivo === 'derivaciones' ? 'X' : ''
+  const hasTratoError = (caseDetail) => caseDetail.ec.motivo === 'trato' ? 'X' : ''
+
+  const hasAfectOmision = (caseDetail) => caseDetail.om.motivo === 'afectacion' ? 'X' : ''
+  const hasLenguajeOmision = (caseDetail) => caseDetail.om.motivo === 'lenguaje' ? 'X' : ''
+  const hasPersOmision = (caseDetail) => caseDetail.om.motivo === 'personalizacion' ? 'X' : ''
+  const hasPosicionOmision = (caseDetail) => caseDetail.om.motivo === 'posicionamiento' ? 'X' : ''
+  const hasSimplicidadOmision = (caseDetail) => caseDetail.om.motivo === 'simplicidad' ? 'X' : ''
+
+
   return (
     <Modal
       open={open}
@@ -35,13 +49,13 @@ const CaseModal = ({ open, handleClose }) => {
           </thead>
           <tbody>
             <tr>
-              <td colSpan={2}>Miranda Silvana</td>
-              <td>543357535</td>
-              <td>CD Ar</td>
-              <td colSpan={2}>Célula 611</td>
+              <td colSpan={2}>{nombre}</td>
+              <td>{numeroCaso}</td>
+              <td>{proceso}</td>
+              <td colSpan={2}>{celula}</td>
             </tr>
             <tr>
-              <td className='marked' rowspan='2'>
+              <td className='marked' rowSpan='2'>
                 EC
               </td>
               <td>Información</td>
@@ -49,14 +63,14 @@ const CaseModal = ({ open, handleClose }) => {
               <td>Trato inadecuado</td>
               <td colSpan={2}>Transacciones</td>
             </tr>
-            <tr>
-              <td>TODO</td>
-              <td>TODO</td>
-              <td>TODO</td>
-              <td colSpan={2}>TODO</td>
+            <tr className='data-row'>
+              <td>{hasInfoError(caseDetail)}</td>
+              <td>{hasDerivError(caseDetail)}</td>
+              <td>{hasTratoError(caseDetail)}</td>
+              <td colSpan={2}>{hasTransError(caseDetail)}</td>
             </tr>
             <tr>
-              <td className='marked' rowspan='2'>
+              <td className='marked' rowSpan='2'>
                 Effortless
               </td>
               <td>Personalización</td>
@@ -65,15 +79,17 @@ const CaseModal = ({ open, handleClose }) => {
               <td>Posicionamiento</td>
               <td style={{ width: '150px' }}>Afec al negocio</td>
             </tr>
-            <tr>
-              <td>TODO</td>
-              <td>TODO</td>
-              <td>TODO</td>
-              <td>TODO</td>
-              <td>TODO</td>
+            <tr className='data-row'>
+              <td>{hasPersOmision(caseDetail)}</td>
+              <td>{hasSimplicidadOmision(caseDetail)}</td>
+              <td>{hasLenguajeOmision(caseDetail)}</td>
+              <td>{hasPosicionOmision(caseDetail)}</td>
+              <td>{hasAfectOmision(caseDetail)}</td>
             </tr>
             <tr>
-              <td colSpan={6}>TODO</td>
+              <td className='detail' colSpan={6}>
+                {comentarioGestion}
+              </td>
             </tr>
           </tbody>
         </table>
