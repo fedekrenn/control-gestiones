@@ -22,6 +22,8 @@ import handlePaste from '../../utils/handlePaste'
 import db from '../../utils/firebaseConfig'
 // Custom hook
 import useGetCases from '../../customHooks/useGetCases'
+// XLSX
+import * as XLSX from 'xlsx'
 
 const Search = ({ token, cells }) => {
   const [resultCases, setResultCases] = useState([])
@@ -64,6 +66,28 @@ const Search = ({ token, cells }) => {
     setOrigins(uniqueOrigins)
     setMotives(uniqueMotives)
   }, [cases])
+
+  const handleDownloadExcel = () => {
+    const workbook = XLSX.utils.book_new()
+    const worksheet = XLSX.utils.json_to_sheet(resultCases)
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'ResultCases')
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    })
+
+    const data = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    })
+    const url = URL.createObjectURL(data)
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', 'resultCases.xlsx')
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
 
   const handleFilter = (cases) => {
     let filteredCases = [...cases]
@@ -250,6 +274,15 @@ const Search = ({ token, cells }) => {
       </section>
       <section className='search__results'>
         <h2>Resultados</h2>
+        {resultCases.length > 0 && (
+          <Button
+            sx={{ marginBottom: '25px' }}
+            variant='outlined'
+            onClick={handleDownloadExcel}
+          >
+            Descargar Excel
+          </Button>
+        )}
         <table>
           <thead>
             <tr>
