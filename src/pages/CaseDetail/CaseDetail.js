@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import { useParams, Navigate } from 'react-router-dom'
 // Librerías
 import CircularProgress from '@mui/material/CircularProgress'
+// Iconos
+import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch'
+import TableChartIcon from '@mui/icons-material/TableChart'
 // Firebase
 import { doc, getDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
@@ -98,11 +101,17 @@ const CaseDetail = ({ token }) => {
                     caseDetail.fechaDeCarga
                   ).toLocaleString()} hs`}
                 >
-                  🔍
+                  <ContentPasteSearchIcon />
                 </i>
-                <i onClick={handleOpen}>🗒️</i>
+                <i className='case-detail__icon' onClick={handleOpen}>
+                  <TableChartIcon />
+                </i>
               </Box>
-              <CaseModal open={open} handleClose={handleClose} caseDetail={caseDetail} />
+              <CaseModal
+                open={open}
+                handleClose={handleClose}
+                caseDetail={caseDetail}
+              />
             </Box>
             <Box className='detail-card'>
               <h2>Detalles</h2>
