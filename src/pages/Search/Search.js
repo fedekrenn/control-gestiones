@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 // Librerías
 import {
   TextField,
@@ -28,6 +28,8 @@ import * as XLSX from 'xlsx'
 const Search = ({ token, cells }) => {
   const [resultCases, setResultCases] = useState([])
   const [reset, setReset] = useState(false)
+
+  const [selectedExa, setSelectedExa] = useState(null)
 
   const [selectTime, setSelectTime] = useState(null)
 
@@ -144,10 +146,11 @@ const Search = ({ token, cells }) => {
       return Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'No se encontró ningún caso con ese número',
+        text: 'Con ese legajo no se encontraron resultados',
       })
     }
     setResultCases(filteredCases)
+    setSelectedExa(search)
   }
 
   const handleFormReset = () => {
@@ -163,6 +166,7 @@ const Search = ({ token, cells }) => {
     setReset(!reset)
     setResultCases([])
     handleFormReset()
+    setSelectedExa(null)
   }
 
   if (!token) return <Navigate to='/' />
@@ -274,15 +278,21 @@ const Search = ({ token, cells }) => {
       </section>
       <section className='search__results'>
         <h2>Resultados</h2>
-        {resultCases.length > 0 && (
-          <Button
-            sx={{ marginBottom: '25px' }}
-            variant='outlined'
-            onClick={handleDownloadExcel}
-          >
-            Descargar Excel
-          </Button>
-        )}
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', marginBottom: '20px' }}>
+          {resultCases.length > 0 && (
+            <Button
+              variant='outlined'
+              onClick={handleDownloadExcel}
+            >
+              Descargar Excel
+            </Button>
+          )}
+          {selectedExa && (
+            <Link to={`/asesor/${selectedExa}`}>
+              <Button variant='outlined'>Ver gestiones de {selectedExa}</Button>
+            </Link>
+          )}
+        </Box>
         <table>
           <thead>
             <tr>

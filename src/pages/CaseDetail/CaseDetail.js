@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useParams, Navigate } from 'react-router-dom'
+import { useParams, Navigate, Link } from 'react-router-dom'
 // Librerías
 import CircularProgress from '@mui/material/CircularProgress'
 // Iconos
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch'
 import TableChartIcon from '@mui/icons-material/TableChart'
+import AccessibilityIcon from '@mui/icons-material/Accessibility'
 // Firebase
 import { doc, getDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
@@ -94,6 +95,14 @@ const CaseDetail = ({ token }) => {
                   paddingTop: '10px',
                 }}
               >
+                <Link to={`/asesor/${caseDetail.exa}`}>
+                  <i
+                    title='Más gestiones del asesor'
+                    className='case-detail__icon-exa'
+                  >
+                    <AccessibilityIcon />
+                  </i>
+                </Link>
                 <i
                   title={`Monitoreado por ${
                     caseDetail.monitoreador

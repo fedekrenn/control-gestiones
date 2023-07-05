@@ -48,7 +48,7 @@ const NewCase = ({ agents, token }) => {
   const [omsValue, setOmsValue] = useState('')
   const [omsDescription, setOmsDescription] = useState('')
 
-  const ways = ['Cmm', 'Calidad Cec', 'Coordinador']
+  const ways = ['Calidad Cec', 'Coordinador']
 
   const navigate = useNavigate()
 
