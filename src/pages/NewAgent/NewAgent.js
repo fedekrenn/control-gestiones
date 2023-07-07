@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useContext } from 'react'
 import { Navigate } from 'react-router-dom'
 // Librerías
 import Swal from 'sweetalert2'
@@ -17,11 +17,15 @@ import handlePaste from '../../utils/handlePaste'
 // Firebase
 import { doc, setDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
+// Context
+import { AuthContext } from '../../context/authContext'
 
-const NewAgent = ({ cells, token, setRefresh }) => {
+const NewAgent = ({ cells, setRefresh }) => {
   const [cell, setCell] = useState('')
   const [proc, setProc] = useState('')
   const [selecManual, setSelecManual] = useState(true)
+
+  const { user } = useContext(AuthContext)
 
   const cellsSelected = useMemo(() => cells[proc] || [''], [cells, proc])
   const process = useMemo(() => Object.keys(cells), [cells])
@@ -73,7 +77,7 @@ const NewAgent = ({ cells, token, setRefresh }) => {
     setProc('')
   }
 
-  if (!token) return <Navigate to='/' />
+  if (!user) return <Navigate to='/' />
 
   return (
     <main className='new-agent'>

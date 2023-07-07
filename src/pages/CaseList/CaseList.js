@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 // Librerías
 import { TextField, Button, Box } from '@mui/material'
@@ -10,12 +10,16 @@ import Case from '../../components/Case/Case'
 import db from '../../utils/firebaseConfig'
 // Custom hook
 import useGetCases from '../../customHooks/useGetCases'
+// Context
+import { AuthContext } from '../../context/authContext'
 
-const CaseList = ({ token }) => {
+const CaseList = () => {
   const { cases, loading } = useGetCases(db)
 
   const [isFiltered, setIsFiltered] = useState(false)
   const [filteredCases, setFilteredCases] = useState([])
+
+  const { user } = useContext(AuthContext)
 
   useEffect(() => {
     setFilteredCases(cases)
@@ -41,7 +45,7 @@ const CaseList = ({ token }) => {
     setIsFiltered(true)
   }
 
-  if (!token) return <Navigate to='/' />
+  if (!user) return <Navigate to='/' />
 
   return (
     <main className='case-list'>

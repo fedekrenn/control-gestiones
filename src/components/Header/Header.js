@@ -1,5 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { Link } from 'react-router-dom'
 // Librerías
 import {
   AppBar,
@@ -14,6 +14,11 @@ import {
   Tooltip,
   MenuItem,
 } from '@mui/material'
+// Firebase
+import { auth } from '../../utils/firebaseConfig'
+import { signOut } from 'firebase/auth'
+// Context
+import { AuthContext } from '../../context/authContext'
 // Icons
 import MenuIcon from '@mui/icons-material/Menu'
 // Assets
@@ -25,13 +30,11 @@ const pages = [
   { name: 'Gestiones', link: '/listado-casos' },
 ]
 
-const Header = ({ setToken, hasToken }) => {
+const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
 
-  const navigate = useNavigate()
-
-  const token = sessionStorage.getItem('token')
+  const { user } = useContext(AuthContext)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
@@ -50,12 +53,10 @@ const Header = ({ setToken, hasToken }) => {
   }
 
   const handleSignOut = () => {
-    sessionStorage.removeItem('token')
-    sessionStorage.removeItem('monitoreador')
-    setToken(null)
     handleCloseUserMenu()
+
     setTimeout(() => {
-      navigate('/')
+      signOut(auth)
     }, 500)
   }
 
@@ -95,7 +96,7 @@ const Header = ({ setToken, hasToken }) => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {hasToken &&
+              {user &&
                 pages.map((page, index) => (
                   <MenuItem key={index} onClick={handleCloseNavMenu}>
                     <Link to={page.link}>
@@ -106,7 +107,7 @@ const Header = ({ setToken, hasToken }) => {
             </Menu>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {hasToken &&
+            {user &&
               pages.map((page, index) => (
                 <Link to={page.link} key={index}>
                   <Button
@@ -118,7 +119,7 @@ const Header = ({ setToken, hasToken }) => {
                 </Link>
               ))}
           </Box>
-          {token && (
+          {user && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

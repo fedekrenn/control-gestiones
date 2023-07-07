@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Navigate } from 'react-router-dom'
+import { useState, useEffect, useContext } from 'react'
+import { Navigate, Link } from 'react-router-dom'
 // Librerías
 import {
   TextField,
@@ -22,12 +22,16 @@ import handlePaste from '../../utils/handlePaste'
 import db from '../../utils/firebaseConfig'
 // Custom hook
 import useGetCases from '../../customHooks/useGetCases'
+// Context
+import { AuthContext } from '../../context/authContext'
 // XLSX
 import * as XLSX from 'xlsx'
 
-const Search = ({ token, cells }) => {
+const Search = ({ cells }) => {
   const [resultCases, setResultCases] = useState([])
   const [reset, setReset] = useState(false)
+
+  const [selectedExa, setSelectedExa] = useState(null)
 
   const [selectTime, setSelectTime] = useState(null)
 
@@ -41,6 +45,8 @@ const Search = ({ token, cells }) => {
 
   const [origins, setOrigins] = useState([])
   const [motives, setMotives] = useState([])
+
+  const { user } = useContext(AuthContext)
 
   const { cases, loading } = useGetCases(db)
 
@@ -144,10 +150,11 @@ const Search = ({ token, cells }) => {
       return Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'No se encontró ningún caso con ese número',
+        text: 'Con ese legajo no se encontraron resultados',
       })
     }
     setResultCases(filteredCases)
+    setSelectedExa(search)
   }
 
   const handleFormReset = () => {
@@ -163,9 +170,11 @@ const Search = ({ token, cells }) => {
     setReset(!reset)
     setResultCases([])
     handleFormReset()
+    setSelectedExa(null)
   }
 
-  if (!token) return <Navigate to='/' />
+  if (!user) return <Navigate to='/' />
+
   if (loading)
     return (
       <Box
@@ -274,15 +283,30 @@ const Search = ({ token, cells }) => {
       </section>
       <section className='search__results'>
         <h2>Resultados</h2>
-        {resultCases.length > 0 && (
-          <Button
-            sx={{ marginBottom: '25px' }}
-            variant='outlined'
-            onClick={handleDownloadExcel}
-          >
-            Descargar Excel
-          </Button>
-        )}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '20px',
+            marginBottom: '20px',
+          }}
+        >
+          {resultCases.length > 0 && (
+            <Button variant='outlined' onClick={handleDownloadExcel}>
+              Descargar Excel
+            </Button>
+          )}
+          {selectedExa && (
+            <Button
+              variant='outlined'
+              component={Link}
+              to={`/asesor/${selectedExa}`}
+            >
+              Ver gestiones de {selectedExa}
+            </Button>
+          )}
+        </Box>
         <table>
           <thead>
             <tr>

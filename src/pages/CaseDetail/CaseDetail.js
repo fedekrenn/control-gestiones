@@ -1,18 +1,21 @@
-import { useEffect, useState } from 'react'
-import { useParams, Navigate } from 'react-router-dom'
+import { useEffect, useState, useContext } from 'react'
+import { useParams, Navigate, Link } from 'react-router-dom'
 // Librerías
 import CircularProgress from '@mui/material/CircularProgress'
 // Iconos
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch'
 import TableChartIcon from '@mui/icons-material/TableChart'
+import AccessibilityIcon from '@mui/icons-material/Accessibility'
 // Firebase
 import { doc, getDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 import { Box } from '@mui/material'
 // Componentes
 import CaseModal from '../../components/CaseModal/CaseModal'
+// Context
+import { AuthContext } from '../../context/authContext'
 
-const CaseDetail = ({ token }) => {
+const CaseDetail = () => {
   const [caseDetail, setCaseDetail] = useState({})
   const [loading, setLoading] = useState(true)
 
@@ -21,6 +24,8 @@ const CaseDetail = ({ token }) => {
   const handleClose = () => setOpen(false)
 
   const { id } = useParams()
+
+  const { user } = useContext(AuthContext)
 
   const formmatedDate = (string) => string?.split(' ').join(' - ')
 
@@ -44,7 +49,7 @@ const CaseDetail = ({ token }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (!token) return <Navigate to='/' />
+  if (!user) return <Navigate to='/' />
 
   return (
     <main className='case-detail'>
@@ -94,6 +99,14 @@ const CaseDetail = ({ token }) => {
                   paddingTop: '10px',
                 }}
               >
+                <Link to={`/asesor/${caseDetail.exa}`}>
+                  <i
+                    title='Más gestiones del asesor'
+                    className='case-detail__icon-exa'
+                  >
+                    <AccessibilityIcon />
+                  </i>
+                </Link>
                 <i
                   title={`Monitoreado por ${
                     caseDetail.monitoreador

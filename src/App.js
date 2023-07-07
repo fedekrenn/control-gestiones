@@ -11,11 +11,11 @@ import Login from './pages/Login/Login'
 import CaseList from './pages/CaseList/CaseList'
 import CaseDetail from './pages/CaseDetail/CaseDetail'
 import Search from './pages/Search/Search'
+import ExaDetail from './pages/ExaDetail/ExaDetail'
 
 function App() {
   const [agents, setAgents] = useState({})
   const [cells, setCells] = useState([])
-  const [token, setToken] = useState(sessionStorage.getItem('token'))
   const [refresh, setRefresh] = useState(false)
 
   const getManagement = async (db) => {
@@ -48,30 +48,17 @@ function App() {
 
   return (
     <>
-      <Header setToken={setToken} hasToken={token} />
+      <Header />
       <main>
         <Routes>
-          <Route
-            path='/'
-            element={<Login token={token} setToken={setToken} />}
-          />
-          <Route path='/inicio' element={<MainPage token={token} />} />
-          <Route
-            path='/nuevo-asesor'
-            element={
-              <NewAgent cells={cells} token={token} setRefresh={setRefresh} />
-            }
-          />
-          <Route
-            path='/nuevo-caso'
-            element={<NewCase agents={agents} token={token} />}
-          />
-          <Route path='/listado-casos' element={<CaseList token={token} />} />
-          <Route path='/monitoreo/:id' element={<CaseDetail token={token} />} />
-          <Route
-            path='/busqueda-avanzada'
-            element={<Search token={token} cells={cells} />}
-          />
+          <Route path='/' element={<Login />}/>
+          <Route path='/inicio' element={<MainPage />} />
+          <Route path='/nuevo-asesor' element={<NewAgent cells={cells} setRefresh={setRefresh}/>}/>
+          <Route path='/nuevo-caso' element={<NewCase agents={agents} />}/>
+          <Route path='/listado-casos' element={<CaseList />} />
+          <Route path='/monitoreo/:id' element={<CaseDetail />} />
+          <Route path='/busqueda-avanzada' element={<Search cells={cells} />}/>
+          <Route path='/asesor/:exa' element={<ExaDetail />}/>
           <Route path='*' element={<h1>404, página no encontrada!</h1>} />
         </Routes>
       </main>

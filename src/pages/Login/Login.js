@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
 // Librerías
 import { TextField, Button } from '@mui/material'
@@ -6,27 +6,21 @@ import Swal from 'sweetalert2'
 // Firebase
 import { auth } from '../../utils/firebaseConfig'
 import { signInWithEmailAndPassword } from 'firebase/auth'
+// Context
+import { AuthContext } from '../../context/authContext'
 
-const Login = ({ token, setToken }) => {
+const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const { user } = useContext(AuthContext)
   const navigate = useNavigate()
 
   const handleLogin = (e) => {
     e.preventDefault()
 
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const token = userCredential.user.accessToken
-        const monitoreador = userCredential.user.email
-
-        sessionStorage.setItem('token', token)
-        sessionStorage.setItem('monitoreador', monitoreador)
-
-        setToken(token)
-
+      .then(() => {
         Swal.fire({
           icon: 'success',
           title: 'Bienvenido',
@@ -48,7 +42,7 @@ const Login = ({ token, setToken }) => {
       })
   }
 
-  if (token) return <Navigate to='/inicio' />
+  if (user) return <Navigate to='/inicio' />
 
   return (
     <main>

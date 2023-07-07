@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useContext } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 // Librerías
 import {
@@ -21,8 +21,10 @@ import handlePaste from '../../utils/handlePaste'
 // Firebase
 import { doc, getDoc, getDocs, addDoc, collection } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
+// Context
+import { AuthContext } from '../../context/authContext'
 
-const NewCase = ({ agents, token }) => {
+const NewCase = ({ agents }) => {
   const [timeValue, setTimeValue] = useState(null)
 
   const [errors, setErrors] = useState([])
@@ -48,7 +50,9 @@ const NewCase = ({ agents, token }) => {
   const [omsValue, setOmsValue] = useState('')
   const [omsDescription, setOmsDescription] = useState('')
 
-  const ways = ['Cmm', 'Calidad Cec', 'Coordinador']
+  const { user } = useContext(AuthContext)
+
+  const ways = ['Calidad Cec', 'Coordinador']
 
   const navigate = useNavigate()
 
@@ -146,7 +150,7 @@ const NewCase = ({ agents, token }) => {
           ? false
           : { motivo: omsValue, submotivo: omsDescription },
       fechaDeCarga: Date.now(),
-      monitoreador: sessionStorage.getItem('monitoreador'),
+      monitoreador: user.email,
       puntoATrabajar: puntoATrabajar,
       comentarioGestion: comentario,
     }
@@ -205,7 +209,7 @@ const NewCase = ({ agents, token }) => {
     setMotives(uniqueMotives)
   }
 
-  if (!token) return <Navigate to='/' />
+  if (!user) return <Navigate to='/' />
 
   return (
     <main className='new-case'>
