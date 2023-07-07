@@ -298,9 +298,13 @@ const Search = ({ cells }) => {
             </Button>
           )}
           {selectedExa && (
-            <Link to={`/asesor/${selectedExa}`}>
-              <Button variant='outlined'>Ver gestiones de {selectedExa}</Button>
-            </Link>
+            <Button
+              variant='outlined'
+              component={Link}
+              to={`/asesor/${selectedExa}`}
+            >
+              Ver gestiones de {selectedExa}
+            </Button>
           )}
         </Box>
         <table>
