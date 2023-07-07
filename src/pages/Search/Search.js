@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 // Librerías
 import {
@@ -22,10 +22,12 @@ import handlePaste from '../../utils/handlePaste'
 import db from '../../utils/firebaseConfig'
 // Custom hook
 import useGetCases from '../../customHooks/useGetCases'
+// Context
+import { AuthContext } from '../../context/authContext'
 // XLSX
 import * as XLSX from 'xlsx'
 
-const Search = ({ token, cells }) => {
+const Search = ({ cells }) => {
   const [resultCases, setResultCases] = useState([])
   const [reset, setReset] = useState(false)
 
@@ -43,6 +45,8 @@ const Search = ({ token, cells }) => {
 
   const [origins, setOrigins] = useState([])
   const [motives, setMotives] = useState([])
+
+  const { user } = useContext(AuthContext)
 
   const { cases, loading } = useGetCases(db)
 
@@ -169,7 +173,8 @@ const Search = ({ token, cells }) => {
     setSelectedExa(null)
   }
 
-  if (!token) return <Navigate to='/' />
+  if (!user) return <Navigate to='/' />
+
   if (loading)
     return (
       <Box
@@ -278,12 +283,17 @@ const Search = ({ token, cells }) => {
       </section>
       <section className='search__results'>
         <h2>Resultados</h2>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', marginBottom: '20px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '20px',
+            marginBottom: '20px',
+          }}
+        >
           {resultCases.length > 0 && (
-            <Button
-              variant='outlined'
-              onClick={handleDownloadExcel}
-            >
+            <Button variant='outlined' onClick={handleDownloadExcel}>
               Descargar Excel
             </Button>
           )}

@@ -1,12 +1,15 @@
+import { useContext } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
+// Context
+import { AuthContext } from '../../context/authContext'
 
-const ExaDetail = ({ token }) => {
-  
+const ExaDetail = () => {
   const { exa } = useParams()
-  
+  const { user } = useContext(AuthContext)
+
   // TODO
 
-  if (!token) return <Navigate to='/' />
+  if (!user) return <Navigate to='/' />
 
   return (
     <div>

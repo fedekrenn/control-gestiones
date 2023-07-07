@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { useParams, Navigate, Link } from 'react-router-dom'
 // Librerías
 import CircularProgress from '@mui/material/CircularProgress'
@@ -12,8 +12,10 @@ import db from '../../utils/firebaseConfig'
 import { Box } from '@mui/material'
 // Componentes
 import CaseModal from '../../components/CaseModal/CaseModal'
+// Context
+import { AuthContext } from '../../context/authContext'
 
-const CaseDetail = ({ token }) => {
+const CaseDetail = () => {
   const [caseDetail, setCaseDetail] = useState({})
   const [loading, setLoading] = useState(true)
 
@@ -22,6 +24,8 @@ const CaseDetail = ({ token }) => {
   const handleClose = () => setOpen(false)
 
   const { id } = useParams()
+
+  const { user } = useContext(AuthContext)
 
   const formmatedDate = (string) => string?.split(' ').join(' - ')
 
@@ -45,7 +49,7 @@ const CaseDetail = ({ token }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (!token) return <Navigate to='/' />
+  if (!user) return <Navigate to='/' />
 
   return (
     <main className='case-detail'>
