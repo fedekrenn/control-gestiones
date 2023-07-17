@@ -1,0 +1,17 @@
+.exa-detail {
+  ul {
+    display: flex;
+    flex-direction: column;
+    li {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 40px;
+      .commentary{
+        font-style: italic;
+        font-size: 14px;
+      }
+    }
+  }
+}
