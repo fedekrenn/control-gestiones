@@ -24,7 +24,7 @@ import db from '../../utils/firebaseConfig'
 // Context
 import { AuthContext } from '../../context/authContext'
 
-const NewCase = ({ agents }) => {
+const NewCase = () => {
   const [timeValue, setTimeValue] = useState(null)
 
   const [errors, setErrors] = useState([])
@@ -33,6 +33,7 @@ const NewCase = ({ agents }) => {
   const [oms, setOms] = useState([])
   const [omsSubAtributte, setOmsSubAtributte] = useState([])
 
+  const [agents, setAgents] = useState({})
   const [agentName, setAgentName] = useState('Nombre')
   const [agentGroup, setAgentGroup] = useState('Célula')
   const [agentProcess, setAgentProcess] = useState('Proceso')
@@ -59,15 +60,14 @@ const NewCase = ({ agents }) => {
   useEffect(() => {
     getCriteria(db)
     getMotives(db)
+    getManagement(db)
   }, [])
 
   const agentsArray = useMemo(() => {
     return Object.keys(agents).map((el) => el.toUpperCase())
   }, [agents])
 
-  const isEmpty = (myState) => {
-    return myState === '' || myState === 'n/a'
-  }
+  const isEmpty = (myState) => myState === '' || myState === 'n/a'
 
   const handleChangeErr = (event) => {
     setErrDescription('')
@@ -207,6 +207,15 @@ const NewCase = ({ agents }) => {
     const motives = docs.map((doc) => doc.motivoConsulta)
     const uniqueMotives = [...new Set(motives)]
     setMotives(uniqueMotives)
+  }
+
+  const getManagement = async (db) => {
+    const docRef = doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
+    const docSnap = await getDoc(docRef)
+
+    docSnap.exists()
+      ? setAgents(docSnap.data())
+      : console.error('No such document!') // eslint-disable-line no-unused-expressions
   }
 
   if (!user) return <Navigate to='/' />
