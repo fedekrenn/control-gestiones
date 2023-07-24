@@ -10,51 +10,54 @@ const useGetData = () => {
   const [cells, setCells] = useState([])
 
   useEffect(() => {
-    getCriteria(db)
-    getManagement(db)
-    getMotives(db)
-    getCells(db)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchDataFromFirebase(db)
   }, [])
 
-  const getMotives = async (dbase) => {
-    const querySnapshot = await getDocs(collection(dbase, 'listadoGestiones'))
-    const docs = querySnapshot.docs.map((doc) => {
-      return { ...doc.data(), id: doc.id }
-    })
+  const fetchDataFromFirebase = async (dbase) => {
+    console.log('fetchDataFromFirebase')
 
-    const motives = docs.map((doc) => doc.motivoConsulta)
-    const uniqueMotives = [...new Set(motives)]
-    setMotives(uniqueMotives)
-  }
+    try {
+      const criteriaRef = doc(dbase, 'criterios', '2X9z0AYQScDDE04uIcMO')
+      const agentsRef = doc(dbase, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
+      const cellsRef = doc(dbase, 'listadoAsesores', '4KpZYmZikVbntR1C1aiC')
+      const motivesQuerySnapshot = await getDocs(collection(dbase, 'listadoGestiones'))
 
-  const getCells = async (dbase) => {
-    const docRef = doc(dbase, 'listadoAsesores', '4KpZYmZikVbntR1C1aiC')
-    const docSnap = await getDoc(docRef)
+      const [criteriaSnap, agentsSnap, cellsSnap] = await Promise.all([
+        getDoc(criteriaRef),
+        getDoc(agentsRef),
+        getDoc(cellsRef)
+      ])
 
-    docSnap.exists()
-      ? setCells(docSnap.data())
-      : console.error('No such document!')
-  }
+      if (criteriaSnap.exists()) {
+        const criteriaData = criteriaSnap.data()
+        setErrors(criteriaData.errores)
+        setOms(criteriaData.oms)
+      } else {
+        console.error('No such document for criteria!')
+      }
 
-  const getManagement = async (dbase) => {
-    const docRef = doc(dbase, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
-    const docSnap = await getDoc(docRef)
+      if (agentsSnap.exists()) {
+        setAgents(agentsSnap.data())
+      } else {
+        console.error('No such document for agents!')
+      }
 
-    docSnap.exists()
-      ? setAgents(docSnap.data())
-      : console.error('No such document!') // eslint-disable-line no-unused-expressions
-  }
+      if (cellsSnap.exists()) {
+        setCells(cellsSnap.data())
+      } else {
+        console.error('No such document for cells!')
+      }
 
-  const getCriteria = async (dbase) => {
-    const docRef = doc(dbase, 'criterios', '2X9z0AYQScDDE04uIcMO')
-    const docSnap = await getDoc(docRef)
+      const docs = motivesQuerySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id
+      }))
 
-    if (docSnap.exists()) {
-      setErrors(docSnap.data().errores)
-      setOms(docSnap.data().oms)
-    } else {
-      console.error('No such document!')
+      const motives = docs.map((doc) => doc.motivoConsulta)
+      const uniqueMotives = [...new Set(motives)]
+      setMotives(uniqueMotives)
+    } catch (error) {
+      console.error('Error fetching data:', error)
     }
   }
 
