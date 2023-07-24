@@ -4,7 +4,6 @@ import { Navigate } from 'react-router-dom'
 import { AuthContext } from '../../context/authContext'
 
 const MainPage = () => {
-
   const { user } = useContext(AuthContext)
 
   if (!user) return <Navigate to='/' />

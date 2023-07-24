@@ -12,7 +12,7 @@ import {
   Avatar,
   Button,
   Tooltip,
-  MenuItem,
+  MenuItem
 } from '@mui/material'
 // Firebase
 import { auth } from '../../utils/firebaseConfig'
@@ -27,7 +27,7 @@ import icon from '../../assets/logo-startek.png'
 const pages = [
   { name: 'Nuevo asesor', link: '/nuevo-asesor' },
   { name: 'Nueva gestión', link: '/nuevo-caso' },
-  { name: 'Gestiones', link: '/listado-casos' },
+  { name: 'Gestiones', link: '/listado-casos' }
 ]
 
 const Header = () => {
@@ -83,17 +83,17 @@ const Header = () => {
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
-                horizontal: 'left',
+                horizontal: 'left'
               }}
               keepMounted
               transformOrigin={{
                 vertical: 'top',
-                horizontal: 'left',
+                horizontal: 'left'
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: 'block', md: 'none' }
               }}
             >
               {user &&
@@ -132,12 +132,12 @@ const Header = () => {
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'right'
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'right'
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}

@@ -37,7 +37,7 @@ const CaseList = () => {
       return Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'No se encontró ningún caso con ese número',
+        text: 'No se encontró ningún caso con ese número'
       })
     }
 
@@ -57,7 +57,7 @@ const CaseList = () => {
               margin: '20px',
               display: 'flex',
               gap: '4px',
-              alignItems: 'stretch',
+              alignItems: 'stretch'
             }}
           >
             <TextField
@@ -94,33 +94,35 @@ const CaseList = () => {
         </form>
       </section>
       <section>
-        {loading ? (
-          <CircularProgress />
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Número de caso</th>
-                <th>Origen</th>
-                <th>Motivo de consulta</th>
-                <th>Proceso</th>
-                <th>Legajo</th>
-                <th>Célula</th>
-                <th>Fecha de atención</th>
-                <th>Ver detalles</th>
-              </tr>
-            </thead>
-            {filteredCases
-              .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
-              .slice(0, 10)
-              .map((_case) => (
-                <tbody key={_case.id}>
-                  <Case _case={_case} />
-                </tbody>
-              ))}
-          </table>
-        )}
+        {loading
+          ? (
+            <CircularProgress />
+            )
+          : (
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Número de caso</th>
+                  <th>Origen</th>
+                  <th>Motivo de consulta</th>
+                  <th>Proceso</th>
+                  <th>Legajo</th>
+                  <th>Célula</th>
+                  <th>Fecha de atención</th>
+                  <th>Ver detalles</th>
+                </tr>
+              </thead>
+              {filteredCases
+                .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
+                .slice(0, 10)
+                .map((_case) => (
+                  <tbody key={_case.id}>
+                    <Case _case={_case} />
+                  </tbody>
+                ))}
+            </table>
+            )}
       </section>
     </main>
   )

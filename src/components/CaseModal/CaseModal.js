@@ -15,7 +15,6 @@ const CaseModal = ({ open, handleClose, caseDetail }) => {
   const hasPosicionOmision = (caseDetail) => caseDetail.om.motivo === 'posicionamiento' ? 'X' : ''
   const hasSimplicidadOmision = (caseDetail) => caseDetail.om.motivo === 'simplicidad' ? 'X' : ''
 
-
   return (
     <Modal
       open={open}
@@ -32,7 +31,7 @@ const CaseModal = ({ open, handleClose, caseDetail }) => {
           bgcolor: 'background.paper',
           border: '2px solid #000',
           boxShadow: 24,
-          p: 4,
+          p: 4
         }}
       >
         <table id='send-case'>
