@@ -8,7 +8,7 @@ import {
   Select,
   MenuItem,
   TextField,
-  Button,
+  Button
 } from '@mui/material'
 // Componentes
 import UploadFile from '../../components/uploadFIle/UploadFile'
@@ -19,13 +19,17 @@ import { doc, setDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 // Context
 import { AuthContext } from '../../context/authContext'
+// Hooks
+import useGetData from '../../customHooks/useGetData'
 
-const NewAgent = ({ cells, setRefresh }) => {
+const NewAgent = () => {
   const [cell, setCell] = useState('')
   const [proc, setProc] = useState('')
   const [selecManual, setSelecManual] = useState(true)
 
   const { user } = useContext(AuthContext)
+
+  const { cells } = useGetData()
 
   const cellsSelected = useMemo(() => cells[proc] || [''], [cells, proc])
   const process = useMemo(() => Object.keys(cells), [cells])
@@ -56,8 +60,8 @@ const NewAgent = ({ cells, setRefresh }) => {
         [key]: {
           nombre: nameValue.trim(),
           celula: cellValue.trim(),
-          proceso: proc.trim(),
-        },
+          proceso: proc.trim()
+        }
       },
       { merge: true }
     )
@@ -66,10 +70,8 @@ const NewAgent = ({ cells, setRefresh }) => {
       title: 'Realizado!',
       text: 'El nuevo agente ha sido agregado',
       icon: 'success',
-      confirmButtonText: 'Ok',
+      confirmButtonText: 'Ok'
     })
-
-    setRefresh(true)
 
     e.target.exa.value = ''
     e.target.nombre.value = ''
@@ -156,7 +158,6 @@ const NewAgent = ({ cells, setRefresh }) => {
         )}
       </section>
       <UploadFile
-        setRefresh={setRefresh}
         selecManual={selecManual}
         setSelecManual={setSelecManual}
       />

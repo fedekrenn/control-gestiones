@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useContext } from 'react'
+import { useState, useMemo, useContext } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 // Librerías
 import {
@@ -9,7 +9,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Box,
+  Box
 } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -19,18 +19,18 @@ import Swal from 'sweetalert2'
 // Utils
 import handlePaste from '../../utils/handlePaste'
 // Firebase
-import { doc, getDoc, getDocs, addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
+// Hooks
+import useGetData from '../../customHooks/useGetData'
 // Context
 import { AuthContext } from '../../context/authContext'
 
-const NewCase = ({ agents }) => {
+const NewCase = () => {
   const [timeValue, setTimeValue] = useState(null)
 
-  const [errors, setErrors] = useState([])
   const [errorsSubAtributte, setErrorsSubAtributte] = useState([])
 
-  const [oms, setOms] = useState([])
   const [omsSubAtributte, setOmsSubAtributte] = useState([])
 
   const [agentName, setAgentName] = useState('Nombre')
@@ -42,7 +42,6 @@ const NewCase = ({ agents }) => {
   const [resetKey, setResetKey] = useState(0)
 
   const [way, setWay] = useState('')
-  const [motives, setMotives] = useState([])
 
   const [errValue, setErrValue] = useState('')
   const [errDescription, setErrDescription] = useState('')
@@ -56,18 +55,13 @@ const NewCase = ({ agents }) => {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    getCriteria(db)
-    getMotives(db)
-  }, [])
+  const { errors, oms, agents, motives } = useGetData(db)
 
   const agentsArray = useMemo(() => {
     return Object.keys(agents).map((el) => el.toUpperCase())
   }, [agents])
 
-  const isEmpty = (myState) => {
-    return myState === '' || myState === 'n/a'
-  }
+  const isEmpty = (myState) => myState === '' || myState === 'n/a'
 
   const handleChangeErr = (event) => {
     setErrDescription('')
@@ -100,7 +94,7 @@ const NewCase = ({ agents }) => {
     setAgentGroup('Célula')
     setAgentProcess('Proceso')
 
-    /* Empleamos el siguiente código para transformar el objeto de agentes en un array plano 
+    /* Empleamos el siguiente código para transformar el objeto de agentes en un array plano
     que sea más óptimo de recorrer antes que un array de objetos */
     const convertArray = Object.entries(agents)
 
@@ -125,8 +119,7 @@ const NewCase = ({ agents }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (agentKey === '' || timeValue === null)
-      return Swal.fire('Error', 'Debes completar todos los campos', 'error')
+    if (agentKey === '' || timeValue === null) { return Swal.fire('Error', 'Debes completar todos los campos', 'error') }
 
     const comentario = e.currentTarget.comentarioGestion.value
     const motivoConsulta = e.currentTarget.motivoConsulta.value
@@ -139,7 +132,7 @@ const NewCase = ({ agents }) => {
       celula: agentGroup,
       proceso: agentProcess,
       date: moment(timeValue).format('DD/MM/YYYY HH:mm:ss'),
-      motivoConsulta: motivoConsulta,
+      motivoConsulta,
       origen: way,
       ec:
         errValue === 'n/a'
@@ -151,8 +144,8 @@ const NewCase = ({ agents }) => {
           : { motivo: omsValue, submotivo: omsDescription },
       fechaDeCarga: Date.now(),
       monitoreador: user.email,
-      puntoATrabajar: puntoATrabajar,
-      comentarioGestion: comentario,
+      puntoATrabajar,
+      comentarioGestion: comentario
     }
     Swal.fire({
       title: '¿Estás seguro?',
@@ -161,7 +154,7 @@ const NewCase = ({ agents }) => {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, guardar',
+      confirmButtonText: 'Sí, guardar'
     }).then(async (result) => {
       if (result.isConfirmed) {
         const data = await addDoc(collection(db, 'listadoGestiones'), newCase)
@@ -174,7 +167,7 @@ const NewCase = ({ agents }) => {
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#545454',
           confirmButtonText: 'Ir al caso',
-          cancelButtonText: 'Cargar otra gestión',
+          cancelButtonText: 'Cargar otra gestión'
         }).then((result) => {
           if (result.isConfirmed) navigate(`/monitoreo/${data.id}`)
         })
@@ -184,29 +177,6 @@ const NewCase = ({ agents }) => {
         Swal.fire('Cancelado', 'La gestión no ha sido guardada', 'error')
       }
     })
-  }
-
-  const getCriteria = async (db) => {
-    const docRef = doc(db, 'criterios', '2X9z0AYQScDDE04uIcMO')
-    const docSnap = await getDoc(docRef)
-
-    if (docSnap.exists()) {
-      setErrors(docSnap.data().errores)
-      setOms(docSnap.data().oms)
-    } else {
-      console.error('No such document!')
-    }
-  }
-
-  const getMotives = async (db) => {
-    const querySnapshot = await getDocs(collection(db, 'listadoGestiones'))
-    const docs = querySnapshot.docs.map((doc) => {
-      return { ...doc.data(), id: doc.id }
-    })
-
-    const motives = docs.map((doc) => doc.motivoConsulta)
-    const uniqueMotives = [...new Set(motives)]
-    setMotives(uniqueMotives)
   }
 
   if (!user) return <Navigate to='/' />
@@ -333,26 +303,28 @@ const NewCase = ({ agents }) => {
               </Select>
             </FormControl>
 
-            {isEmpty(errValue) ? null : (
-              <FormControl sx={{ minWidth: 120 }} size='small' required>
-                <InputLabel id='demo-simple-select-label-three'>
-                  Detalle EC:
-                </InputLabel>
-                <Select
-                  labelId='demo-simple-select-label--three'
-                  id='demo-simple-select-three'
-                  value={errDescription}
-                  label='OMS'
-                  onChange={(e) => setErrDescription(e.target.value)}
-                >
-                  {errorsSubAtributte.map((om, index) => (
-                    <MenuItem key={index} value={om}>
-                      {om}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
+            {isEmpty(errValue)
+              ? null
+              : (
+                <FormControl sx={{ minWidth: 120 }} size='small' required>
+                  <InputLabel id='demo-simple-select-label-three'>
+                    Detalle EC:
+                  </InputLabel>
+                  <Select
+                    labelId='demo-simple-select-label--three'
+                    id='demo-simple-select-three'
+                    value={errDescription}
+                    label='OMS'
+                    onChange={(e) => setErrDescription(e.target.value)}
+                  >
+                    {errorsSubAtributte.map((om, index) => (
+                      <MenuItem key={index} value={om}>
+                        {om}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                )}
           </Box>
 
           <Box className='extended-input'>
@@ -373,26 +345,28 @@ const NewCase = ({ agents }) => {
               </Select>
             </FormControl>
 
-            {isEmpty(omsValue) ? null : (
-              <FormControl sx={{ minWidth: 120 }} size='small' required>
-                <InputLabel id='demo-simple-select-label-three'>
-                  Detalle OMS:
-                </InputLabel>
-                <Select
-                  labelId='demo-simple-select-label--three'
-                  id='demo-simple-select-three'
-                  value={omsDescription}
-                  label='OMS'
-                  onChange={(e) => setOmsDescription(e.target.value)}
-                >
-                  {omsSubAtributte.map((om, index) => (
-                    <MenuItem key={index} value={om}>
-                      {om}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
+            {isEmpty(omsValue)
+              ? null
+              : (
+                <FormControl sx={{ minWidth: 120 }} size='small' required>
+                  <InputLabel id='demo-simple-select-label-three'>
+                    Detalle OMS:
+                  </InputLabel>
+                  <Select
+                    labelId='demo-simple-select-label--three'
+                    id='demo-simple-select-three'
+                    value={omsDescription}
+                    label='OMS'
+                    onChange={(e) => setOmsDescription(e.target.value)}
+                  >
+                    {omsSubAtributte.map((om, index) => (
+                      <MenuItem key={index} value={om}>
+                        {om}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                )}
           </Box>
         </Box>
 

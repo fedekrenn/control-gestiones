@@ -7,10 +7,10 @@ import Swal from 'sweetalert2'
 import { doc, setDoc } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 
-const UploadFile = ({ setRefresh, selecManual, setSelecManual }) => {
+const UploadFile = ({ selecManual, setSelecManual }) => {
   const [xmlsData, setXmlsData] = useState([])
 
-  function handleUploadFile(event) {
+  function handleUploadFile (event) {
     const file = event.target.files[0]
     const reader = new FileReader()
 
@@ -39,8 +39,8 @@ const UploadFile = ({ setRefresh, selecManual, setSelecManual }) => {
             [agent[0].toLowerCase()]: {
               nombre: agent[1].trim(),
               celula: agent[2].trim(),
-              proceso: agent[3].trim(),
-            },
+              proceso: agent[3].trim()
+            }
           },
           { merge: true }
         )
@@ -50,10 +50,8 @@ const UploadFile = ({ setRefresh, selecManual, setSelecManual }) => {
         title: 'Realizado!',
         text: 'Todos los agentes han sido agregados',
         icon: 'success',
-        confirmButtonText: 'Ok',
+        confirmButtonText: 'Ok'
       })
-
-      setRefresh(true)
     } catch (error) {
       console.error(error)
     }

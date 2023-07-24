@@ -11,7 +11,7 @@ const Case = ({ _case }) => {
     nombre,
     numeroCaso,
     origen,
-    proceso,
+    proceso
   } = _case
 
   return (

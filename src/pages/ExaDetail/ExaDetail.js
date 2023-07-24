@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
-import { Navigate, useParams } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+import { Navigate, useParams, Link } from 'react-router-dom'
+
 // Librerías
 import CircularProgress from '@mui/material/CircularProgress'
 // Custom Hooks
@@ -35,38 +35,40 @@ const ExaDetail = () => {
       <h2>
         {exa.toUpperCase()} - {userCases[0]?.nombre}
       </h2>
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <section className='exa-detail'>
-          <ul>
-            {userCases.map((c) => {
-              const {
-                numeroCaso,
-                date,
-                motivoConsulta,
-                puntoATrabajar,
-                comentarioGestion,
-                id,
-              } = c
-              return (
-                <li className='' key={c.id}>
-                  <p>{numeroCaso}</p>
-                  <p>{date}</p>
-                  <p>{motivoConsulta}</p>
-                  {puntoATrabajar !== '-' && <p>{puntoATrabajar}</p>}
-                  <p className='commentary'>
-                    {comentarioGestion.substring(0, 50)}...
-                  </p>
-                  <Link to={`/monitoreo/${id}`}>
-                    <FeedIcon color='primary' fontSize='large' />
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </section>
-      )}
+      {loading
+        ? (
+          <CircularProgress />
+          )
+        : (
+          <section className='exa-detail'>
+            <ul>
+              {userCases.map((c) => {
+                const {
+                  numeroCaso,
+                  date,
+                  motivoConsulta,
+                  puntoATrabajar,
+                  comentarioGestion,
+                  id
+                } = c
+                return (
+                  <li className='' key={c.id}>
+                    <p>{numeroCaso}</p>
+                    <p>{date}</p>
+                    <p>{motivoConsulta}</p>
+                    {puntoATrabajar !== '-' && <p>{puntoATrabajar}</p>}
+                    <p className='commentary'>
+                      {comentarioGestion.substring(0, 50)}...
+                    </p>
+                    <Link to={`/monitoreo/${id}`}>
+                      <FeedIcon color='primary' fontSize='large' />
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </section>
+          )}
     </>
   )
 }
