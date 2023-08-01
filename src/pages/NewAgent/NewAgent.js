@@ -29,7 +29,7 @@ const NewAgent = () => {
 
   const { user } = useContext(AuthContext)
 
-  const { cells } = useGetCells(db)
+  const { cells } = useGetCells()
 
   const cellsSelected = useMemo(() => cells[proc] || [''], [cells, proc])
   const process = useMemo(() => Object.keys(cells), [cells])

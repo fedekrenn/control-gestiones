@@ -55,9 +55,9 @@ const NewCase = () => {
 
   const navigate = useNavigate()
 
-  const { errors, oms } = useGetCriteria(db)
-  const { agents } = useGetAgents(db)
-  const { motives } = useGetMotives(db)
+  const { errors, oms } = useGetCriteria()
+  const { agents } = useGetAgents()
+  const { motives } = useGetMotives()
 
   const agentsArray = useMemo(() => {
     return Object.keys(agents).map((el) => el.toUpperCase())

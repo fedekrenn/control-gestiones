@@ -18,11 +18,8 @@ import Case from '../../components/Case/Case'
 import Filter from '../../components/Filter/Filter'
 // Utils
 import handlePaste from '../../utils/handlePaste'
-// Firebase
-import db from '../../utils/firebaseConfig'
 // Custom hook
-import useGetCases from '../../customHooks/useGetCases'
-import { useGetCells } from '../../customHooks/useGetData'
+import { useGetCells, useGetCases } from '../../customHooks/useGetData'
 // Context
 import { AuthContext } from '../../context/authContext'
 // XLSX
@@ -49,9 +46,8 @@ const Search = () => {
 
   const { user } = useContext(AuthContext)
 
-  const { cells } = useGetCells(db)
-
-  const { cases, loading } = useGetCases(db)
+  const { cells } = useGetCells()
+  const { cases, loading } = useGetCases()
 
   useEffect(() => {
     handleFilter(cases)

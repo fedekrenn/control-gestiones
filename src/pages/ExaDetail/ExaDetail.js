@@ -4,7 +4,7 @@ import { Navigate, useParams, Link } from 'react-router-dom'
 // Librerías
 import CircularProgress from '@mui/material/CircularProgress'
 // Custom Hooks
-import useGetCases from '../../customHooks/useGetCases'
+import { useGetCases } from '../../customHooks/useGetData'
 // Context
 import { AuthContext } from '../../context/authContext'
 // Firebase

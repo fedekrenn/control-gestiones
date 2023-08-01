@@ -9,7 +9,7 @@ import Case from '../../components/Case/Case'
 // Firebase
 import db from '../../utils/firebaseConfig'
 // Custom hook
-import useGetCases from '../../customHooks/useGetCases'
+import { useGetCases } from '../../customHooks/useGetData'
 // Context
 import { AuthContext } from '../../context/authContext'
 
