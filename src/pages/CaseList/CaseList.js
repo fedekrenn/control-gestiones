@@ -53,12 +53,7 @@ const CaseList = () => {
       <section className='case-list__search'>
         <form action='' onSubmit={handleSearch} className='case-list__form'>
           <Box
-            sx={{
-              margin: '20px',
-              display: 'flex',
-              gap: '4px',
-              alignItems: 'stretch'
-            }}
+            sx={{ margin: '20px', display: 'flex', gap: '4px', alignItems: 'stretch' }}
           >
             <TextField
               autoFocus
@@ -95,9 +90,7 @@ const CaseList = () => {
       </section>
       <section>
         {loading
-          ? (
-            <CircularProgress />
-            )
+          ? (<CircularProgress />)
           : (
             <table>
               <thead>

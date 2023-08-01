@@ -21,7 +21,7 @@ const ExaDetail = () => {
   const [userCases, setUserCases] = useState([])
 
   useEffect(() => {
-    const data = cases.filter((c) => c.exa === exa)
+    const data = cases.filter(c => c.exa === exa)
     setUserCases(data)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,13 +36,11 @@ const ExaDetail = () => {
         {exa.toUpperCase()} - {userCases[0]?.nombre}
       </h2>
       {loading
-        ? (
-          <CircularProgress />
-          )
+        ? (<CircularProgress />)
         : (
           <section className='exa-detail'>
             <ul>
-              {userCases.map((c) => {
+              {userCases.map(c => {
                 const {
                   numeroCaso,
                   date,

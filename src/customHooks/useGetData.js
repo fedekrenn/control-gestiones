@@ -7,20 +7,59 @@ const useGetMotives = () => {
 
   useEffect(() => {
     (async () => {
-      console.log('getMotives')
+      try {
+        console.log('getMotives')
 
-      const querySnapshot = await getDocs(collection(dbase, 'listadoGestiones'))
-      const docs = querySnapshot.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id }
-      })
+        const querySnapshot = await getDocs(collection(dbase, 'listadoGestiones'))
 
-      const motives = docs.map((doc) => doc.motivoConsulta)
-      const uniqueMotives = [...new Set(motives)]
-      setMotives(uniqueMotives)
+        const docs = querySnapshot.docs.map(doc => {
+          return {
+            ...doc.data(),
+            id: doc.id
+          }
+        })
+
+        const motives = docs.map(doc => doc.motivoConsulta)
+        const uniqueMotives = [...new Set(motives)]
+
+        setMotives(uniqueMotives)
+      } catch (error) {
+        console.error(error)
+      }
     })()
   }, [])
 
   return { motives }
+}
+
+const useGetCases = () => {
+  const [cases, setCases] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    (async () => {
+      try {
+        console.log('getCases')
+
+        const querySnapshot = await getDocs(collection(dbase, 'listadoGestiones'))
+
+        const docs = querySnapshot.docs.map(doc => {
+          return {
+            ...doc.data(),
+            id: doc.id
+          }
+        })
+
+        setCases(docs)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [])
+
+  return { cases, loading }
 }
 
 const useGetCells = () => {
@@ -28,14 +67,20 @@ const useGetCells = () => {
 
   useEffect(() => {
     (async () => {
-      console.log('getCells')
+      try {
+        console.log('getCells')
 
-      const docRef = doc(dbase, 'listadoAsesores', '4KpZYmZikVbntR1C1aiC')
-      const docSnap = await getDoc(docRef)
+        const docRef = doc(dbase, 'listadoAsesores', '4KpZYmZikVbntR1C1aiC')
+        const docSnap = await getDoc(docRef)
 
-      docSnap.exists()
-        ? setCells(docSnap.data())
-        : console.error('No such document!')
+        if (docSnap.exists()) {
+          setCells(docSnap.data())
+        } else {
+          console.warn('No such document!')
+        }
+      } catch (error) {
+        console.error(error)
+      }
     })()
   }, [])
 
@@ -47,14 +92,20 @@ const useGetAgents = () => {
 
   useEffect(() => {
     (async () => {
-      console.log('getManagement')
+      try {
+        console.log('getManagement')
 
-      const docRef = doc(dbase, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
-      const docSnap = await getDoc(docRef)
+        const docRef = doc(dbase, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
+        const docSnap = await getDoc(docRef)
 
-      docSnap.exists()
-        ? setAgents(docSnap.data())
-        : console.error('No such document!')
+        if (docSnap.exists()) {
+          setAgents(docSnap.data())
+        } else {
+          console.warn('No such document!')
+        }
+      } catch (error) {
+        console.error(error)
+      }
     })()
   }, [])
 
@@ -67,42 +118,26 @@ const useGetCriteria = () => {
 
   useEffect(() => {
     (async () => {
-      console.log('getCriteria')
+      try {
+        console.log('getCriteria')
 
-      const docRef = doc(dbase, 'criterios', '2X9z0AYQScDDE04uIcMO')
-      const docSnap = await getDoc(docRef)
+        const docRef = doc(dbase, 'criterios', '2X9z0AYQScDDE04uIcMO')
+        const docSnap = await getDoc(docRef)
 
-      if (docSnap.exists()) {
-        setErrors(docSnap.data().errores)
-        setOms(docSnap.data().oms)
-      } else {
-        console.error('No such document!')
+        if (docSnap.exists()) {
+          const data = docSnap.data()
+          setErrors(data.errores)
+          setOms(data.oms)
+        } else {
+          console.warn('No such document!')
+        }
+      } catch (error) {
+        console.error(error)
       }
     })()
   }, [])
 
   return { errors, oms }
-}
-
-const useGetCases = () => {
-  const [cases, setCases] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    (async () => {
-      console.log('getCases')
-
-      const querySnapshot = await getDocs(collection(dbase, 'listadoGestiones'))
-      const docs = querySnapshot.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id }
-      })
-
-      setCases(docs)
-      setLoading(false)
-    })()
-  }, [])
-
-  return { cases, loading }
 }
 
 export { useGetMotives, useGetCells, useGetAgents, useGetCriteria, useGetCases }

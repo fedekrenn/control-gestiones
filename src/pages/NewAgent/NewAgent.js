@@ -157,10 +157,7 @@ const NewAgent = () => {
           </form>
         )}
       </section>
-      <UploadFile
-        selecManual={selecManual}
-        setSelecManual={setSelecManual}
-      />
+      <UploadFile selecManual={selecManual} setSelecManual={setSelecManual} />
     </main>
   )
 }

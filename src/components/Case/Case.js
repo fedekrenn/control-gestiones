@@ -24,10 +24,7 @@ const Case = ({ _case }) => {
       <td>{exa.toUpperCase()}</td>
       <td>{celula}</td>
       <td>{date}</td>
-      <td
-        className='table-icon'
-        title='Haz click para conocer los detalles del monitoreo'
-      >
+      <td className='table-icon' title='Haz click para conocer los detalles del monitoreo'>
         <Link to={`/monitoreo/${id}`}>
           <FeedIcon color='primary' fontSize='large' />
         </Link>

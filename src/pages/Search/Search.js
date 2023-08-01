@@ -176,14 +176,13 @@ const Search = () => {
 
   if (loading) {
     return (
-      <Box
-        sx={{
-          minHeight: '60vh',
-          display: 'flex',
-          flexDirection: 'colum',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
+      <Box sx={{
+        minHeight: '60vh',
+        display: 'flex',
+        flexDirection: 'colum',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
       >
         <CircularProgress />
       </Box>
@@ -194,14 +193,13 @@ const Search = () => {
     <main className="search">
       <h1>Búsqueda avanzada de gestiones</h1>
       <form action="" onSubmit={handleSearchByExa}>
-        <Box
-          sx={{
-            margin: '20px',
-            display: 'flex',
-            gap: '4px',
-            alignItems: 'stretch',
-            justifyContent: 'center'
-          }}
+        <Box sx={{
+          margin: '20px',
+          display: 'flex',
+          gap: '4px',
+          alignItems: 'stretch',
+          justifyContent: 'center'
+        }}
         >
           <TextField
             autoFocus
@@ -285,14 +283,13 @@ const Search = () => {
       </section>
       <section className="search__results">
         <h2>Resultados</h2>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '20px',
-            marginBottom: '20px'
-          }}
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '20px',
+          marginBottom: '20px'
+        }}
         >
           {resultCases.length > 0 && (
             <Button variant="outlined" onClick={handleDownloadExcel}>
@@ -300,11 +297,7 @@ const Search = () => {
             </Button>
           )}
           {selectedExa && (
-            <Button
-              variant="outlined"
-              component={Link}
-              to={`/asesor/${selectedExa}`}
-            >
+            <Button variant="outlined" component={Link} to={`/asesor/${selectedExa}`} >
               Ver gestiones de {selectedExa}
             </Button>
           )}

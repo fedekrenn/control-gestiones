@@ -60,7 +60,7 @@ const NewCase = () => {
   const { motives } = useGetMotives()
 
   const agentsArray = useMemo(() => {
-    return Object.keys(agents).map((el) => el.toUpperCase())
+    return Object.keys(agents).map(el => el.toUpperCase())
   }, [agents])
 
   const isEmpty = (myState) => myState === '' || myState === 'n/a'
@@ -200,7 +200,7 @@ const NewCase = () => {
             key={resetKey}
             options={agentsArray}
             sx={{ width: 300 }}
-            renderInput={(params) => (
+            renderInput={params => (
               <TextField {...params} required label='Exa' />
             )}
             onChange={handleChangeAutocomplete}
@@ -242,11 +242,11 @@ const NewCase = () => {
         <Box className='input-two form__child'>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DateTimePicker
-              renderInput={(props) => <TextField {...props} required />}
+              renderInput={props => <TextField {...props} required />}
               label='Fecha y hora del caso'
               value={timeValue}
               inputFormat='DD/MM/YYYY HH:mm'
-              onChange={(newValue) => {
+              onChange={newValue => {
                 setTimeValue(newValue)
               }}
             />
@@ -259,7 +259,7 @@ const NewCase = () => {
             variant='outlined'
             key={resetKey}
             options={motives}
-            renderInput={(params) => (
+            renderInput={params => (
               <TextField
                 {...params}
                 required
@@ -277,7 +277,7 @@ const NewCase = () => {
               label='ways'
               sx={{ textAlign: 'left' }}
               value={way}
-              onChange={(e) => setWay(e.target.value)}
+              onChange={e => setWay(e.target.value)}
             >
               {ways.map((wy, index) => (
                 <MenuItem key={index} value={wy}>
@@ -359,7 +359,7 @@ const NewCase = () => {
                     id='demo-simple-select-three'
                     value={omsDescription}
                     label='OMS'
-                    onChange={(e) => setOmsDescription(e.target.value)}
+                    onChange={e => setOmsDescription(e.target.value)}
                   >
                     {omsSubAtributte.map((om, index) => (
                       <MenuItem key={index} value={om}>

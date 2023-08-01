@@ -36,21 +36,10 @@ const Header = () => {
 
   const { user } = useContext(AuthContext)
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget)
-  }
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget)
-  }
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
-  }
+  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget)
+  const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget)
+  const handleCloseNavMenu = () => setAnchorElNav(null)
+  const handleCloseUserMenu = () => setAnchorElUser(null)
 
   const handleSignOut = () => {
     handleCloseUserMenu()

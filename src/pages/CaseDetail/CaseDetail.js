@@ -33,9 +33,7 @@ const CaseDetail = () => {
     const docRef = doc(db, 'listadoGestiones', id)
     const docSnap = await getDoc(docRef)
 
-    docSnap.exists()
-      ? setCaseDetail(docSnap.data())
-      : console.error('No such document!')
+    docSnap.exists() ? setCaseDetail(docSnap.data()) : console.error('No such document!')
 
     setLoading(false)
   }
@@ -54,9 +52,7 @@ const CaseDetail = () => {
   return (
     <main className='case-detail'>
       {loading
-        ? (
-          <CircularProgress />
-          )
+        ? (<CircularProgress />)
         : (
           <>
             <h1>Detalle de la gestión:</h1>
@@ -94,38 +90,20 @@ const CaseDetail = () => {
                     {formmatedDate(caseDetail.date)}
                   </li>
                 </ul>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    paddingTop: '10px'
-                  }}
-                >
+                <Box sx={{ display: 'flex', justifyContent: 'center', paddingTop: '10px' }} >
                   <Link to={`/asesor/${caseDetail.exa}`}>
-                    <i
-                      title='Más gestiones del asesor'
-                      className='case-detail__icon-exa'
-                    >
+                    <i title='Más gestiones del asesor' className='case-detail__icon-exa' >
                       <AccessibilityIcon />
                     </i>
                   </Link>
-                  <i
-                    title={`Monitoreado por ${caseDetail.monitoreador
-                      } el día ${new Date(
-                        caseDetail.fechaDeCarga
-                      ).toLocaleString()} hs`}
-                  >
+                  <i title={`Monitoreado por ${caseDetail.monitoreador} el día ${new Date(caseDetail.fechaDeCarga).toLocaleString()} hs`} >
                     <ContentPasteSearchIcon />
                   </i>
                   <i className='case-detail__icon' onClick={handleOpen}>
                     <TableChartIcon />
                   </i>
                 </Box>
-                <CaseModal
-                  open={open}
-                  handleClose={handleClose}
-                  caseDetail={caseDetail}
-                />
+                <CaseModal open={open} handleClose={handleClose} caseDetail={caseDetail} />
               </Box>
               <Box className='detail-card'>
                 <h2>Detalles</h2>
@@ -140,9 +118,7 @@ const CaseDetail = () => {
                       {caseDetail.comentarioGestion}
                     </p>
                   </li>
-                  {!caseDetail.ec && !caseDetail.om && (
-                    <li className='not-error'>No hay Om ni Ec marcados</li>
-                  )}
+                  {!caseDetail.ec && !caseDetail.om && (<li className='not-error'>No hay Om ni Ec marcados</li>)}
                   {caseDetail.ec && (
                     <li>
                       <h3 className='ec'>Error crítico:</h3>
