@@ -22,7 +22,7 @@ import handlePaste from '../../utils/handlePaste'
 import db from '../../utils/firebaseConfig'
 // Custom hook
 import useGetCases from '../../customHooks/useGetCases'
-import useGetData from '../../customHooks/useGetData'
+import { useGetCells } from '../../customHooks/useGetData'
 // Context
 import { AuthContext } from '../../context/authContext'
 // XLSX
@@ -49,7 +49,7 @@ const Search = () => {
 
   const { user } = useContext(AuthContext)
 
-  const { cells } = useGetData()
+  const { cells } = useGetCells(db)
 
   const { cases, loading } = useGetCases(db)
 

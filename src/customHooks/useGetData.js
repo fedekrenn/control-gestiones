@@ -1,67 +1,94 @@
 import { useState, useEffect } from 'react'
-import db from '../utils/firebaseConfig'
 import { doc, getDoc, getDocs, collection } from 'firebase/firestore'
 
-const useGetData = () => {
-  const [errors, setErrors] = useState([])
-  const [oms, setOms] = useState([])
-  const [agents, setAgents] = useState({})
+const useGetMotives = (dbase) => {
   const [motives, setMotives] = useState([])
-  const [cells, setCells] = useState([])
 
   useEffect(() => {
-    fetchDataFromFirebase(db)
-  }, [])
+    getMotives(dbase)
+  }, [dbase])
 
-  const fetchDataFromFirebase = async (dbase) => {
-    console.log('fetchDataFromFirebase')
+  const getMotives = async (dbase) => {
+    console.log('getMotives')
 
-    try {
-      const criteriaRef = doc(dbase, 'criterios', '2X9z0AYQScDDE04uIcMO')
-      const agentsRef = doc(dbase, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
-      const cellsRef = doc(dbase, 'listadoAsesores', '4KpZYmZikVbntR1C1aiC')
-      const motivesQuerySnapshot = await getDocs(collection(dbase, 'listadoGestiones'))
+    const querySnapshot = await getDocs(collection(dbase, 'listadoGestiones'))
+    const docs = querySnapshot.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id }
+    })
 
-      const [criteriaSnap, agentsSnap, cellsSnap] = await Promise.all([
-        getDoc(criteriaRef),
-        getDoc(agentsRef),
-        getDoc(cellsRef)
-      ])
+    const motives = docs.map((doc) => doc.motivoConsulta)
+    const uniqueMotives = [...new Set(motives)]
+    setMotives(uniqueMotives)
+  }
 
-      if (criteriaSnap.exists()) {
-        const criteriaData = criteriaSnap.data()
-        setErrors(criteriaData.errores)
-        setOms(criteriaData.oms)
-      } else {
-        console.error('No such document for criteria!')
-      }
+  return { motives }
+}
 
-      if (agentsSnap.exists()) {
-        setAgents(agentsSnap.data())
-      } else {
-        console.error('No such document for agents!')
-      }
+const useGetCells = (dbase) => {
+  const [cells, setCells] = useState({})
 
-      if (cellsSnap.exists()) {
-        setCells(cellsSnap.data())
-      } else {
-        console.error('No such document for cells!')
-      }
+  useEffect(() => {
+    getCells(dbase)
+  }, [dbase])
 
-      const docs = motivesQuerySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id
-      }))
+  const getCells = async (dbase) => {
+    console.log('getCells')
 
-      const motives = docs.map((doc) => doc.motivoConsulta)
-      const uniqueMotives = [...new Set(motives)]
-      setMotives(uniqueMotives)
-    } catch (error) {
-      console.error('Error fetching data:', error)
+    const docRef = doc(dbase, 'listadoAsesores', '4KpZYmZikVbntR1C1aiC')
+    const docSnap = await getDoc(docRef)
+
+    docSnap.exists()
+      ? setCells(docSnap.data())
+      : console.error('No such document!')
+  }
+
+  return { cells }
+}
+
+const useGetAgents = (dbase) => {
+  const [agents, setAgents] = useState({})
+
+  useEffect(() => {
+    getManagement(dbase)
+  }, [dbase])
+
+  const getManagement = async (dbase) => {
+    console.log('getManagement')
+
+    const docRef = doc(dbase, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
+    const docSnap = await getDoc(docRef)
+
+    docSnap.exists()
+      ? setAgents(docSnap.data())
+      : console.error('No such document!')
+  }
+
+  return { agents }
+}
+
+const useGetCriteria = (dbase) => {
+  const [errors, setErrors] = useState([])
+  const [oms, setOms] = useState([])
+
+  useEffect(() => {
+    getCriteria(dbase)
+  }, [dbase])
+
+  const getCriteria = async (dbase) => {
+    console.log('getCriteria')
+
+    const docRef = doc(dbase, 'criterios', '2X9z0AYQScDDE04uIcMO')
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+      setErrors(docSnap.data().errores)
+      setOms(docSnap.data().oms)
+    } else {
+      console.error('No such document!')
     }
   }
 
-  return { errors, oms, agents, motives, cells }
+  return { errors, oms }
 }
 
-export default useGetData
+export { useGetMotives, useGetCells, useGetAgents, useGetCriteria }

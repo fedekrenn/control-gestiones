@@ -20,7 +20,7 @@ import db from '../../utils/firebaseConfig'
 // Context
 import { AuthContext } from '../../context/authContext'
 // Hooks
-import useGetData from '../../customHooks/useGetData'
+import { useGetCells } from '../../customHooks/useGetData'
 
 const NewAgent = () => {
   const [cell, setCell] = useState('')
@@ -29,7 +29,7 @@ const NewAgent = () => {
 
   const { user } = useContext(AuthContext)
 
-  const { cells } = useGetData()
+  const { cells } = useGetCells(db)
 
   const cellsSelected = useMemo(() => cells[proc] || [''], [cells, proc])
   const process = useMemo(() => Object.keys(cells), [cells])

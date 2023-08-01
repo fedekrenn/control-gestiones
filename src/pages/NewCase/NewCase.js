@@ -22,7 +22,7 @@ import handlePaste from '../../utils/handlePaste'
 import { addDoc, collection } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 // Hooks
-import useGetData from '../../customHooks/useGetData'
+import { useGetMotives, useGetAgents, useGetCriteria } from '../../customHooks/useGetData'
 // Context
 import { AuthContext } from '../../context/authContext'
 
@@ -55,7 +55,9 @@ const NewCase = () => {
 
   const navigate = useNavigate()
 
-  const { errors, oms, agents, motives } = useGetData(db)
+  const { errors, oms } = useGetCriteria(db)
+  const { agents } = useGetAgents(db)
+  const { motives } = useGetMotives(db)
 
   const agentsArray = useMemo(() => {
     return Object.keys(agents).map((el) => el.toUpperCase())
