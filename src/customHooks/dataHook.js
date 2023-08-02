@@ -1,65 +1,33 @@
 import { useState, useEffect } from 'react'
-import { doc, getDoc, getDocs, collection } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import dbase from '../utils/firebaseConfig'
 
-const useGetMotives = () => {
-  const [motives, setMotives] = useState([])
-
-  useEffect(() => {
-    (async () => {
-      try {
-        console.log('getMotives')
-
-        const querySnapshot = await getDocs(collection(dbase, 'listadoGestiones'))
-
-        const docs = querySnapshot.docs.map(doc => {
-          return {
-            ...doc.data(),
-            id: doc.id
-          }
-        })
-
-        const motives = docs.map(doc => doc.motivoConsulta)
-        const uniqueMotives = [...new Set(motives)]
-
-        setMotives(uniqueMotives)
-      } catch (error) {
-        console.error(error)
-      }
-    })()
-  }, [])
-
-  return { motives }
-}
-
-const useGetCases = () => {
-  const [cases, setCases] = useState([])
+const useGetCaseDetail = (id) => {
+  const [caseDetail, setCaseDetail] = useState({})
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     (async () => {
+      console.log('getCaseDetail')
+
       try {
-        console.log('getCases')
+        const docRef = doc(dbase, 'listadoGestiones', id)
+        const docSnap = await getDoc(docRef)
 
-        const querySnapshot = await getDocs(collection(dbase, 'listadoGestiones'))
+        docSnap.exists() ? setCaseDetail(docSnap.data()) : console.error('No such document!')
 
-        const docs = querySnapshot.docs.map(doc => {
-          return {
-            ...doc.data(),
-            id: doc.id
-          }
-        })
-
-        setCases(docs)
+        setLoading(false)
       } catch (error) {
         console.error(error)
-      } finally {
-        setLoading(false)
       }
-    })()
-  }, [])
+    })(id)
 
-  return { cases, loading }
+    return () => {
+      setCaseDetail({})
+    }
+  }, [id])
+
+  return { caseDetail, loading }
 }
 
 const useGetCells = () => {
@@ -140,4 +108,9 @@ const useGetCriteria = () => {
   return { errors, oms }
 }
 
-export { useGetMotives, useGetCells, useGetAgents, useGetCriteria, useGetCases }
+export {
+  useGetCells,
+  useGetAgents,
+  useGetCriteria,
+  useGetCaseDetail
+}

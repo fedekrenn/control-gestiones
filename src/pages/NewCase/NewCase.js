@@ -22,7 +22,8 @@ import handlePaste from '../../utils/handlePaste'
 import { addDoc, collection } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 // Hooks
-import { useGetMotives, useGetAgents, useGetCriteria } from '../../customHooks/useGetData'
+import { useGetAgents, useGetCriteria } from '../../customHooks/dataHook'
+import { useGetMotives } from '../../customHooks/documentHook'
 // Context
 import { AuthContext } from '../../context/authContext'
 
@@ -307,26 +308,25 @@ const NewCase = () => {
 
             {isEmpty(errValue)
               ? null
-              : (
-                <FormControl sx={{ minWidth: 120 }} size='small' required>
-                  <InputLabel id='demo-simple-select-label-three'>
-                    Detalle EC:
-                  </InputLabel>
-                  <Select
-                    labelId='demo-simple-select-label--three'
-                    id='demo-simple-select-three'
-                    value={errDescription}
-                    label='OMS'
-                    onChange={(e) => setErrDescription(e.target.value)}
-                  >
-                    {errorsSubAtributte.map((om, index) => (
-                      <MenuItem key={index} value={om}>
-                        {om}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                )}
+              : <FormControl sx={{ minWidth: 120 }} size='small' required>
+                <InputLabel id='demo-simple-select-label-three'>
+                  Detalle EC:
+                </InputLabel>
+                <Select
+                  labelId='demo-simple-select-label--three'
+                  id='demo-simple-select-three'
+                  value={errDescription}
+                  label='OMS'
+                  onChange={(e) => setErrDescription(e.target.value)}
+                >
+                  {errorsSubAtributte.map((om, index) => (
+                    <MenuItem key={index} value={om}>
+                      {om}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            }
           </Box>
 
           <Box className='extended-input'>
@@ -349,26 +349,25 @@ const NewCase = () => {
 
             {isEmpty(omsValue)
               ? null
-              : (
-                <FormControl sx={{ minWidth: 120 }} size='small' required>
-                  <InputLabel id='demo-simple-select-label-three'>
-                    Detalle OMS:
-                  </InputLabel>
-                  <Select
-                    labelId='demo-simple-select-label--three'
-                    id='demo-simple-select-three'
-                    value={omsDescription}
-                    label='OMS'
-                    onChange={e => setOmsDescription(e.target.value)}
-                  >
-                    {omsSubAtributte.map((om, index) => (
-                      <MenuItem key={index} value={om}>
-                        {om}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                )}
+              : <FormControl sx={{ minWidth: 120 }} size='small' required>
+                <InputLabel id='demo-simple-select-label-three'>
+                  Detalle OMS:
+                </InputLabel>
+                <Select
+                  labelId='demo-simple-select-label--three'
+                  id='demo-simple-select-three'
+                  value={omsDescription}
+                  label='OMS'
+                  onChange={e => setOmsDescription(e.target.value)}
+                >
+                  {omsSubAtributte.map((om, index) => (
+                    <MenuItem key={index} value={om}>
+                      {om}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            }
           </Box>
         </Box>
 

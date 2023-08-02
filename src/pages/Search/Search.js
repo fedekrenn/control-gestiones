@@ -13,7 +13,8 @@ import Filter from '../../components/Filter/Filter'
 // Utils
 import handlePaste from '../../utils/handlePaste'
 // Custom hook
-import { useGetCells, useGetCases } from '../../customHooks/useGetData'
+import { useGetCells } from '../../customHooks/dataHook'
+import { useGetCases } from '../../customHooks/documentHook'
 // Context
 import { AuthContext } from '../../context/authContext'
 // XLSX
