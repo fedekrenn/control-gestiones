@@ -22,9 +22,12 @@ import handlePaste from '../../utils/handlePaste'
 import { addDoc, collection } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 // Hooks
-import useGetData from '../../customHooks/useGetData'
+import { useGetAgents, useGetCriteria } from '../../customHooks/dataHook'
+import { useGetMotives } from '../../customHooks/documentHook'
 // Context
 import { AuthContext } from '../../context/authContext'
+
+const ORIGINS = ['Calidad Cec', 'Coordinador']
 
 const NewCase = () => {
   const [timeValue, setTimeValue] = useState(null)
@@ -51,14 +54,14 @@ const NewCase = () => {
 
   const { user } = useContext(AuthContext)
 
-  const ways = ['Calidad Cec', 'Coordinador']
-
   const navigate = useNavigate()
 
-  const { errors, oms, agents, motives } = useGetData(db)
+  const { errors, oms } = useGetCriteria()
+  const { agents } = useGetAgents()
+  const { motives } = useGetMotives()
 
   const agentsArray = useMemo(() => {
-    return Object.keys(agents).map((el) => el.toUpperCase())
+    return Object.keys(agents).map(el => el.toUpperCase())
   }, [agents])
 
   const isEmpty = (myState) => myState === '' || myState === 'n/a'
@@ -198,7 +201,7 @@ const NewCase = () => {
             key={resetKey}
             options={agentsArray}
             sx={{ width: 300 }}
-            renderInput={(params) => (
+            renderInput={params => (
               <TextField {...params} required label='Exa' />
             )}
             onChange={handleChangeAutocomplete}
@@ -240,11 +243,11 @@ const NewCase = () => {
         <Box className='input-two form__child'>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DateTimePicker
-              renderInput={(props) => <TextField {...props} required />}
+              renderInput={props => <TextField {...props} required />}
               label='Fecha y hora del caso'
               value={timeValue}
               inputFormat='DD/MM/YYYY HH:mm'
-              onChange={(newValue) => {
+              onChange={newValue => {
                 setTimeValue(newValue)
               }}
             />
@@ -257,7 +260,7 @@ const NewCase = () => {
             variant='outlined'
             key={resetKey}
             options={motives}
-            renderInput={(params) => (
+            renderInput={params => (
               <TextField
                 {...params}
                 required
@@ -272,12 +275,12 @@ const NewCase = () => {
             <Select
               labelId='demo-simple-select-label--one'
               id='demo-simple-select-one'
-              label='ways'
+              label='Realizó'
               sx={{ textAlign: 'left' }}
               value={way}
-              onChange={(e) => setWay(e.target.value)}
+              onChange={e => setWay(e.target.value)}
             >
-              {ways.map((wy, index) => (
+              {ORIGINS.map((wy, index) => (
                 <MenuItem key={index} value={wy}>
                   {wy}
                 </MenuItem>
@@ -305,26 +308,25 @@ const NewCase = () => {
 
             {isEmpty(errValue)
               ? null
-              : (
-                <FormControl sx={{ minWidth: 120 }} size='small' required>
-                  <InputLabel id='demo-simple-select-label-three'>
-                    Detalle EC:
-                  </InputLabel>
-                  <Select
-                    labelId='demo-simple-select-label--three'
-                    id='demo-simple-select-three'
-                    value={errDescription}
-                    label='OMS'
-                    onChange={(e) => setErrDescription(e.target.value)}
-                  >
-                    {errorsSubAtributte.map((om, index) => (
-                      <MenuItem key={index} value={om}>
-                        {om}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                )}
+              : <FormControl sx={{ minWidth: 120 }} size='small' required>
+                <InputLabel id='demo-simple-select-label-three'>
+                  Detalle EC:
+                </InputLabel>
+                <Select
+                  labelId='demo-simple-select-label--three'
+                  id='demo-simple-select-three'
+                  value={errDescription}
+                  label='OMS'
+                  onChange={(e) => setErrDescription(e.target.value)}
+                >
+                  {errorsSubAtributte.map((om, index) => (
+                    <MenuItem key={index} value={om}>
+                      {om}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            }
           </Box>
 
           <Box className='extended-input'>
@@ -347,26 +349,25 @@ const NewCase = () => {
 
             {isEmpty(omsValue)
               ? null
-              : (
-                <FormControl sx={{ minWidth: 120 }} size='small' required>
-                  <InputLabel id='demo-simple-select-label-three'>
-                    Detalle OMS:
-                  </InputLabel>
-                  <Select
-                    labelId='demo-simple-select-label--three'
-                    id='demo-simple-select-three'
-                    value={omsDescription}
-                    label='OMS'
-                    onChange={(e) => setOmsDescription(e.target.value)}
-                  >
-                    {omsSubAtributte.map((om, index) => (
-                      <MenuItem key={index} value={om}>
-                        {om}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                )}
+              : <FormControl sx={{ minWidth: 120 }} size='small' required>
+                <InputLabel id='demo-simple-select-label-three'>
+                  Detalle OMS:
+                </InputLabel>
+                <Select
+                  labelId='demo-simple-select-label--three'
+                  id='demo-simple-select-three'
+                  value={omsDescription}
+                  label='OMS'
+                  onChange={e => setOmsDescription(e.target.value)}
+                >
+                  {omsSubAtributte.map((om, index) => (
+                    <MenuItem key={index} value={om}>
+                      {om}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            }
           </Box>
         </Box>
 

@@ -76,7 +76,7 @@ const CaseModal = ({ open, handleClose, caseDetail }) => {
               <td>Simplicidad</td>
               <td>Uso del Lenguaje</td>
               <td>Posicionamiento</td>
-              <td style={{ width: '150px' }}>Afec al negocio</td>
+              <td sx={{ width: '150px' }}>Afec al negocio</td>
             </tr>
             <tr className='data-row'>
               <td>{hasPersOmision(caseDetail)}</td>

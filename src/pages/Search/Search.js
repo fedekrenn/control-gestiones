@@ -1,13 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 // Librerías
-import {
-  TextField,
-  Button,
-  Box,
-  CircularProgress,
-  Autocomplete
-} from '@mui/material'
+import { TextField, Button, Box, CircularProgress, Autocomplete } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -18,11 +12,9 @@ import Case from '../../components/Case/Case'
 import Filter from '../../components/Filter/Filter'
 // Utils
 import handlePaste from '../../utils/handlePaste'
-// Firebase
-import db from '../../utils/firebaseConfig'
 // Custom hook
-import useGetCases from '../../customHooks/useGetCases'
-import useGetData from '../../customHooks/useGetData'
+import { useGetCells } from '../../customHooks/dataHook'
+import { useGetCases } from '../../customHooks/documentHook'
 // Context
 import { AuthContext } from '../../context/authContext'
 // XLSX
@@ -49,9 +41,8 @@ const Search = () => {
 
   const { user } = useContext(AuthContext)
 
-  const { cells } = useGetData()
-
-  const { cases, loading } = useGetCases(db)
+  const { cells } = useGetCells()
+  const { cases, loading } = useGetCases()
 
   useEffect(() => {
     handleFilter(cases)
@@ -59,17 +50,15 @@ const Search = () => {
   }, [selectProcess, selectCell, selectOrigin, selectMotive, selectTime])
 
   useEffect(() => {
-    selectProcess
-      ? setCellsSelected(cells[selectProcess])
-      : setCellsSelected([''])
+    selectProcess ? setCellsSelected(cells[selectProcess]) : setCellsSelected([''])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectProcess])
 
   useEffect(() => {
-    const AllOrigins = cases.map((_case) => _case.origen)
+    const AllOrigins = cases.map(_case => _case.origen)
     const uniqueOrigins = [...new Set(AllOrigins)]
 
-    const AllMotives = cases.map((_case) => _case.motivoConsulta)
+    const AllMotives = cases.map(_case => _case.motivoConsulta)
     const uniqueMotives = [...new Set(AllMotives)]
 
     setOrigins(uniqueOrigins)
@@ -102,31 +91,23 @@ const Search = () => {
     let filteredCases = [...cases]
 
     if (selectProcess) {
-      filteredCases = filteredCases.filter(
-        (_case) => _case.proceso === selectProcess
-      )
+      filteredCases = filteredCases.filter(_case => _case.proceso === selectProcess)
     }
 
     if (selectCell) {
-      filteredCases = filteredCases.filter(
-        (_case) => _case.celula === selectCell
-      )
+      filteredCases = filteredCases.filter(_case => _case.celula === selectCell)
     }
 
     if (selectOrigin) {
-      filteredCases = filteredCases.filter(
-        (_case) => _case.origen === selectOrigin
-      )
+      filteredCases = filteredCases.filter(_case => _case.origen === selectOrigin)
     }
 
     if (selectMotive) {
-      filteredCases = filteredCases.filter(
-        (_case) => _case.motivoConsulta === selectMotive
-      )
+      filteredCases = filteredCases.filter(_case => _case.motivoConsulta === selectMotive)
     }
 
     if (selectTime) {
-      filteredCases = filteredCases.filter((_case) => {
+      filteredCases = filteredCases.filter(_case => {
         const formattedDate = _case.date.split(' ')[0]
         return formattedDate === moment(selectTime).format('DD/MM/YYYY')
       })
@@ -180,14 +161,13 @@ const Search = () => {
 
   if (loading) {
     return (
-      <Box
-        sx={{
-          minHeight: '60vh',
-          display: 'flex',
-          flexDirection: 'colum',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
+      <Box sx={{
+        minHeight: '60vh',
+        display: 'flex',
+        flexDirection: 'colum',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
       >
         <CircularProgress />
       </Box>
@@ -198,14 +178,13 @@ const Search = () => {
     <main className="search">
       <h1>Búsqueda avanzada de gestiones</h1>
       <form action="" onSubmit={handleSearchByExa}>
-        <Box
-          sx={{
-            margin: '20px',
-            display: 'flex',
-            gap: '4px',
-            alignItems: 'stretch',
-            justifyContent: 'center'
-          }}
+        <Box sx={{
+          margin: '20px',
+          display: 'flex',
+          gap: '4px',
+          alignItems: 'stretch',
+          justifyContent: 'center'
+        }}
         >
           <TextField
             autoFocus
@@ -289,14 +268,13 @@ const Search = () => {
       </section>
       <section className="search__results">
         <h2>Resultados</h2>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '20px',
-            marginBottom: '20px'
-          }}
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '20px',
+          marginBottom: '20px'
+        }}
         >
           {resultCases.length > 0 && (
             <Button variant="outlined" onClick={handleDownloadExcel}>
@@ -304,11 +282,7 @@ const Search = () => {
             </Button>
           )}
           {selectedExa && (
-            <Button
-              variant="outlined"
-              component={Link}
-              to={`/asesor/${selectedExa}`}
-            >
+            <Button variant="outlined" component={Link} to={`/asesor/${selectedExa}`} >
               Ver gestiones de {selectedExa}
             </Button>
           )}

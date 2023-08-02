@@ -9,7 +9,7 @@ import Case from '../../components/Case/Case'
 // Firebase
 import db from '../../utils/firebaseConfig'
 // Custom hook
-import useGetCases from '../../customHooks/useGetCases'
+import { useGetCases } from '../../customHooks/documentHook'
 // Context
 import { AuthContext } from '../../context/authContext'
 
@@ -52,14 +52,7 @@ const CaseList = () => {
       <h2>Listado de gestiones</h2>
       <section className='case-list__search'>
         <form action='' onSubmit={handleSearch} className='case-list__form'>
-          <Box
-            sx={{
-              margin: '20px',
-              display: 'flex',
-              gap: '4px',
-              alignItems: 'stretch'
-            }}
-          >
+          <Box sx={{ margin: '20px', display: 'flex', gap: '4px', alignItems: 'stretch' }}>
             <TextField
               autoFocus
               id='search'
@@ -71,9 +64,7 @@ const CaseList = () => {
               inputProps={{ min: 0 }}
               size='small'
             />
-            <Button variant='contained' type='submit'>
-              Buscar
-            </Button>
+            <Button variant='contained' type='submit'>Buscar</Button>
           </Box>
           <Box sx={{ display: 'flex', gap: '4px' }}>
             {isFiltered && (
@@ -95,34 +86,31 @@ const CaseList = () => {
       </section>
       <section>
         {loading
-          ? (
-            <CircularProgress />
-            )
-          : (
-            <table>
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Número de caso</th>
-                  <th>Origen</th>
-                  <th>Motivo de consulta</th>
-                  <th>Proceso</th>
-                  <th>Legajo</th>
-                  <th>Célula</th>
-                  <th>Fecha de atención</th>
-                  <th>Ver detalles</th>
-                </tr>
-              </thead>
-              {filteredCases
-                .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
-                .slice(0, 10)
-                .map((_case) => (
-                  <tbody key={_case.id}>
-                    <Case _case={_case} />
-                  </tbody>
-                ))}
-            </table>
-            )}
+          ? <CircularProgress />
+          : <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Número de caso</th>
+                <th>Origen</th>
+                <th>Motivo de consulta</th>
+                <th>Proceso</th>
+                <th>Legajo</th>
+                <th>Célula</th>
+                <th>Fecha de atención</th>
+                <th>Ver detalles</th>
+              </tr>
+            </thead>
+            {filteredCases
+              .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
+              .slice(0, 10)
+              .map(_case => (
+                <tbody key={_case.id}>
+                  <Case _case={_case} />
+                </tbody>
+              ))}
+          </table>
+        }
       </section>
     </main>
   )

@@ -20,7 +20,7 @@ import db from '../../utils/firebaseConfig'
 // Context
 import { AuthContext } from '../../context/authContext'
 // Hooks
-import useGetData from '../../customHooks/useGetData'
+import { useGetCells } from '../../customHooks/dataHook'
 
 const NewAgent = () => {
   const [cell, setCell] = useState('')
@@ -29,7 +29,7 @@ const NewAgent = () => {
 
   const { user } = useContext(AuthContext)
 
-  const { cells } = useGetData()
+  const { cells } = useGetCells()
 
   const cellsSelected = useMemo(() => cells[proc] || [''], [cells, proc])
   const process = useMemo(() => Object.keys(cells), [cells])
@@ -157,10 +157,7 @@ const NewAgent = () => {
           </form>
         )}
       </section>
-      <UploadFile
-        selecManual={selecManual}
-        setSelecManual={setSelecManual}
-      />
+      <UploadFile selecManual={selecManual} setSelecManual={setSelecManual} />
     </main>
   )
 }
