@@ -1,13 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 // Librerías
-import {
-  TextField,
-  Button,
-  Box,
-  CircularProgress,
-  Autocomplete
-} from '@mui/material'
+import { TextField, Button, Box, CircularProgress, Autocomplete } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -55,17 +49,15 @@ const Search = () => {
   }, [selectProcess, selectCell, selectOrigin, selectMotive, selectTime])
 
   useEffect(() => {
-    selectProcess
-      ? setCellsSelected(cells[selectProcess])
-      : setCellsSelected([''])
+    selectProcess ? setCellsSelected(cells[selectProcess]) : setCellsSelected([''])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectProcess])
 
   useEffect(() => {
-    const AllOrigins = cases.map((_case) => _case.origen)
+    const AllOrigins = cases.map(_case => _case.origen)
     const uniqueOrigins = [...new Set(AllOrigins)]
 
-    const AllMotives = cases.map((_case) => _case.motivoConsulta)
+    const AllMotives = cases.map(_case => _case.motivoConsulta)
     const uniqueMotives = [...new Set(AllMotives)]
 
     setOrigins(uniqueOrigins)
@@ -98,31 +90,23 @@ const Search = () => {
     let filteredCases = [...cases]
 
     if (selectProcess) {
-      filteredCases = filteredCases.filter(
-        (_case) => _case.proceso === selectProcess
-      )
+      filteredCases = filteredCases.filter(_case => _case.proceso === selectProcess)
     }
 
     if (selectCell) {
-      filteredCases = filteredCases.filter(
-        (_case) => _case.celula === selectCell
-      )
+      filteredCases = filteredCases.filter(_case => _case.celula === selectCell)
     }
 
     if (selectOrigin) {
-      filteredCases = filteredCases.filter(
-        (_case) => _case.origen === selectOrigin
-      )
+      filteredCases = filteredCases.filter(_case => _case.origen === selectOrigin)
     }
 
     if (selectMotive) {
-      filteredCases = filteredCases.filter(
-        (_case) => _case.motivoConsulta === selectMotive
-      )
+      filteredCases = filteredCases.filter(_case => _case.motivoConsulta === selectMotive)
     }
 
     if (selectTime) {
-      filteredCases = filteredCases.filter((_case) => {
+      filteredCases = filteredCases.filter(_case => {
         const formattedDate = _case.date.split(' ')[0]
         return formattedDate === moment(selectTime).format('DD/MM/YYYY')
       })

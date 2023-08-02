@@ -26,6 +26,8 @@ import { useGetMotives, useGetAgents, useGetCriteria } from '../../customHooks/u
 // Context
 import { AuthContext } from '../../context/authContext'
 
+const ORIGINS = ['Calidad Cec', 'Coordinador']
+
 const NewCase = () => {
   const [timeValue, setTimeValue] = useState(null)
 
@@ -50,8 +52,6 @@ const NewCase = () => {
   const [omsDescription, setOmsDescription] = useState('')
 
   const { user } = useContext(AuthContext)
-
-  const ways = ['Calidad Cec', 'Coordinador']
 
   const navigate = useNavigate()
 
@@ -274,12 +274,12 @@ const NewCase = () => {
             <Select
               labelId='demo-simple-select-label--one'
               id='demo-simple-select-one'
-              label='ways'
+              label='Realizó'
               sx={{ textAlign: 'left' }}
               value={way}
               onChange={e => setWay(e.target.value)}
             >
-              {ways.map((wy, index) => (
+              {ORIGINS.map((wy, index) => (
                 <MenuItem key={index} value={wy}>
                   {wy}
                 </MenuItem>

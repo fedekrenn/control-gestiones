@@ -24,7 +24,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 // Assets
 import icon from '../../assets/logo-startek.png'
 
-const pages = [
+const PAGES = [
   { name: 'Nuevo asesor', link: '/nuevo-asesor' },
   { name: 'Nueva gestión', link: '/nuevo-caso' },
   { name: 'Gestiones', link: '/listado-casos' }
@@ -86,7 +86,7 @@ const Header = () => {
               }}
             >
               {user &&
-                pages.map((page, index) => (
+                PAGES.map((page, index) => (
                   <MenuItem key={index} onClick={handleCloseNavMenu}>
                     <Link to={page.link}>
                       <Typography textAlign='center'>{page.name}</Typography>
@@ -97,7 +97,7 @@ const Header = () => {
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {user &&
-              pages.map((page, index) => (
+              PAGES.map((page, index) => (
                 <Link to={page.link} key={index}>
                   <Button
                     onClick={handleCloseNavMenu}
