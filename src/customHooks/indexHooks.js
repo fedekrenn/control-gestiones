@@ -92,7 +92,7 @@ const useGetAgents = () => {
   useEffect(() => {
     (async () => {
       try {
-        console.log('getManagement')
+        console.log('getAgents')
 
         const docRef = doc(dbase, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
         const docSnap = await getDoc(docRef)

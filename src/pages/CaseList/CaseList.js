@@ -78,7 +78,7 @@ const CaseList = () => {
                 Volver a mostrar todos
               </Button>
             )}
-            <Button variant='outlined' component={Link} to='/busqueda-avanzada'>
+            <Button variant='outlined' component={Link} to='/busqueda-avanzada' state={{ cases }}>
               Búsqueda avanzada
             </Button>
           </Box>

@@ -1,7 +1,7 @@
-import { useState, useEffect, useContext } from 'react'
-import { Navigate, Link } from 'react-router-dom'
+import { useState, useEffect, useContext, useMemo } from 'react'
+import { Navigate, Link, useLocation } from 'react-router-dom'
 // Librerías
-import { TextField, Button, Box, CircularProgress, Autocomplete } from '@mui/material'
+import { TextField, Button, Box, Autocomplete } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -13,7 +13,7 @@ import Filter from '../../components/Filter/Filter'
 // Utils
 import handlePaste from '../../utils/handlePaste'
 // Custom hook
-import { useGetCells, useGetCases } from '../../customHooks/indexHooks'
+import { useGetCells } from '../../customHooks/indexHooks'
 // Context
 import { AuthContext } from '../../context/authContext'
 // XLSX
@@ -41,7 +41,10 @@ const Search = () => {
   const { user } = useContext(AuthContext)
 
   const { cells } = useGetCells()
-  const { cases, loading } = useGetCases()
+
+  const location = useLocation()
+
+  const cases = useMemo(() => location.state.cases, [location.state.cases])
 
   useEffect(() => {
     handleFilter(cases)
@@ -157,21 +160,6 @@ const Search = () => {
   }
 
   if (!user) return <Navigate to="/" />
-
-  if (loading) {
-    return (
-      <Box sx={{
-        minHeight: '60vh',
-        display: 'flex',
-        flexDirection: 'colum',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-      >
-        <CircularProgress />
-      </Box>
-    )
-  }
 
   return (
     <main className="search">
