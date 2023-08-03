@@ -17,26 +17,19 @@ import { useGetCells } from '../../customHooks/indexHooks'
 // Context
 import { AuthContext } from '../../context/authContext'
 // XLSX
-import * as XLSX from 'xlsx'
+import { utils, write } from 'xlsx'
 
 const Search = () => {
   const [resultCases, setResultCases] = useState([])
   const [reset, setReset] = useState(false)
-
   const [selectedExa, setSelectedExa] = useState(null)
-
   const [selectTime, setSelectTime] = useState(null)
-
   const [selectProcess, setSelectProcess] = useState('')
   const [selectCell, setSelectCell] = useState('')
   const [selectOrigin, setSelectOrigin] = useState('')
   const [selectMotive, setSelectMotive] = useState('')
   const [cellsSelected, setCellsSelected] = useState([''])
-
   const [resetKey, setResetKey] = useState(0)
-
-  const [origins, setOrigins] = useState([])
-  const [motives, setMotives] = useState([])
 
   const { user } = useContext(AuthContext)
 
@@ -44,7 +37,9 @@ const Search = () => {
 
   const location = useLocation()
 
-  const cases = useMemo(() => location.state.cases, [location.state.cases])
+  const cases = useMemo(() => location.state ? location.state.cases : [], [location.state])
+  const origins = useMemo(() => [...new Set(cases.map(_case => _case.origen))], [cases])
+  const motives = useMemo(() => [...new Set(cases.map(_case => _case.motivoConsulta))], [cases])
 
   useEffect(() => {
     handleFilter(cases)
@@ -56,23 +51,12 @@ const Search = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectProcess])
 
-  useEffect(() => {
-    const AllOrigins = cases.map(_case => _case.origen)
-    const uniqueOrigins = [...new Set(AllOrigins)]
-
-    const AllMotives = cases.map(_case => _case.motivoConsulta)
-    const uniqueMotives = [...new Set(AllMotives)]
-
-    setOrigins(uniqueOrigins)
-    setMotives(uniqueMotives)
-  }, [cases])
-
   const handleDownloadExcel = () => {
-    const workbook = XLSX.utils.book_new()
-    const worksheet = XLSX.utils.json_to_sheet(resultCases)
+    const workbook = utils.book_new()
+    const worksheet = utils.json_to_sheet(resultCases)
 
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'ResultCases')
-    const excelBuffer = XLSX.write(workbook, {
+    utils.book_append_sheet(workbook, worksheet, 'ResultCases')
+    const excelBuffer = write(workbook, {
       bookType: 'xlsx',
       type: 'array'
     })
