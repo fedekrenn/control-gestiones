@@ -20,7 +20,7 @@ import db from '../../utils/firebaseConfig'
 // Context
 import { AuthContext } from '../../context/authContext'
 // Hooks
-import { useGetCells } from '../../customHooks/dataHook'
+import { useGetCells } from '../../customHooks/indexHooks'
 
 const NewAgent = () => {
   const [cell, setCell] = useState('')

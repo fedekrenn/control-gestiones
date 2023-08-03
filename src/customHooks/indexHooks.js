@@ -1,6 +1,41 @@
 import { useState, useEffect } from 'react'
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, getDoc, getDocs, collection } from 'firebase/firestore'
 import dbase from '../utils/firebaseConfig'
+
+const useGetCases = () => {
+  const [cases, setCases] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [motives, setMotives] = useState([])
+
+  useEffect(() => {
+    (async () => {
+      try {
+        console.log('getCases and motives')
+
+        const querySnapshot = await getDocs(collection(dbase, 'listadoGestiones'))
+
+        const docs = querySnapshot.docs.map(doc => {
+          return {
+            ...doc.data(),
+            id: doc.id
+          }
+        })
+
+        const motives = docs.map(doc => doc.motivoConsulta)
+        const uniqueMotives = [...new Set(motives)]
+
+        setMotives(uniqueMotives)
+        setCases(docs)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [])
+
+  return { cases, loading, motives }
+}
 
 const useGetCaseDetail = (id) => {
   const [caseDetail, setCaseDetail] = useState({})
@@ -41,11 +76,7 @@ const useGetCells = () => {
         const docRef = doc(dbase, 'listadoAsesores', '4KpZYmZikVbntR1C1aiC')
         const docSnap = await getDoc(docRef)
 
-        if (docSnap.exists()) {
-          setCells(docSnap.data())
-        } else {
-          console.warn('No such document!')
-        }
+        docSnap.exists() ? setCells(docSnap.data()) : console.warn('No such document!')
       } catch (error) {
         console.error(error)
       }
@@ -66,11 +97,7 @@ const useGetAgents = () => {
         const docRef = doc(dbase, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
         const docSnap = await getDoc(docRef)
 
-        if (docSnap.exists()) {
-          setAgents(docSnap.data())
-        } else {
-          console.warn('No such document!')
-        }
+        docSnap.exists() ? setAgents(docSnap.data()) : console.error('No such document!')
       } catch (error) {
         console.error(error)
       }
@@ -112,5 +139,6 @@ export {
   useGetCells,
   useGetAgents,
   useGetCriteria,
-  useGetCaseDetail
+  useGetCaseDetail,
+  useGetCases
 }

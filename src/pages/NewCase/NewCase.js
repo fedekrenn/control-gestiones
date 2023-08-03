@@ -22,8 +22,7 @@ import handlePaste from '../../utils/handlePaste'
 import { addDoc, collection } from 'firebase/firestore'
 import db from '../../utils/firebaseConfig'
 // Hooks
-import { useGetAgents, useGetCriteria } from '../../customHooks/dataHook'
-import { useGetMotives } from '../../customHooks/documentHook'
+import { useGetAgents, useGetCriteria, useGetCases } from '../../customHooks/indexHooks'
 // Context
 import { AuthContext } from '../../context/authContext'
 
@@ -58,7 +57,7 @@ const NewCase = () => {
 
   const { errors, oms } = useGetCriteria()
   const { agents } = useGetAgents()
-  const { motives } = useGetMotives()
+  const { motives } = useGetCases()
 
   const agentsArray = useMemo(() => {
     return Object.keys(agents).map(el => el.toUpperCase())

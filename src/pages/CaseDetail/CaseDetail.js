@@ -12,7 +12,7 @@ import CaseModal from '../../components/CaseModal/CaseModal'
 // Context
 import { AuthContext } from '../../context/authContext'
 // Custom hooks
-import { useGetCaseDetail } from '../../customHooks/dataHook'
+import { useGetCaseDetail } from '../../customHooks/indexHooks'
 
 const CaseDetail = () => {
   const [open, setOpen] = useState(false)
