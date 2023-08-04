@@ -1,4 +1,4 @@
-import { useState, useContext, useMemo } from 'react'
+import { useState, useContext, useMemo, useRef } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 // Librerías
 import { TextField, Button, Box, Autocomplete } from '@mui/material'
@@ -11,6 +11,7 @@ import Case from '../../components/Case/Case'
 import Filter from '../../components/Filter/Filter'
 // Utils
 import handlePaste from '../../utils/handlePaste'
+import { ORIGINS } from '../../utils/origins'
 // Custom hook
 import { useGetCells } from '../../customHooks/indexHooks'
 // Context
@@ -36,9 +37,8 @@ const Search = () => {
   const { cells } = useGetCells()
   const location = useLocation()
 
-  const cases = useMemo(() => location.state ? location.state.cases : [], [location.state]) // TODO Mejorar
-  const origins = useMemo(() => [...new Set(cases.map(_case => _case.origen))], [cases])
-  const motives = useMemo(() => [...new Set(cases.map(_case => _case.motivoConsulta))], [cases])
+  const cases = useRef(location.state ? location.state.cases : []).current
+  const motives = useRef([...new Set(cases.map(_case => _case.motivoConsulta))]).current
 
   const filteredCases = useMemo(() => {
     return cases.filter(_case => {
@@ -141,7 +141,7 @@ const Search = () => {
           )}
           <Filter
             name={'Origen'}
-            dataValue={origins}
+            dataValue={ORIGINS}
             changeValue={(value) => handleFiltersChange('origin', value)}
             reset={reset}
           />
