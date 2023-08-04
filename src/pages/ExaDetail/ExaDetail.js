@@ -3,11 +3,9 @@ import { Navigate, useParams, Link } from 'react-router-dom'
 // Librerías
 import CircularProgress from '@mui/material/CircularProgress'
 // Custom Hooks
-import { useGetCases } from '../../customHooks/documentHook'
+import { useGetCases } from '../../customHooks/indexHooks'
 // Context
 import { AuthContext } from '../../context/authContext'
-// Firebase
-import db from '../../utils/firebaseConfig'
 // Icons
 import FeedIcon from '@mui/icons-material/Feed'
 
@@ -15,7 +13,7 @@ const ExaDetail = () => {
   const { exa } = useParams()
   const { user } = useContext(AuthContext)
 
-  const { cases, loading } = useGetCases(db)
+  const { cases, loading } = useGetCases()
 
   const [userCases, setUserCases] = useState([])
 

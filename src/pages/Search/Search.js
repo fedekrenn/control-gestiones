@@ -1,76 +1,71 @@
-import { useState, useEffect, useContext } from 'react'
-import { Navigate, Link } from 'react-router-dom'
+import { useState, useContext, useMemo, useRef } from 'react'
+import { Navigate, useLocation } from 'react-router-dom'
 // Librerías
-import { TextField, Button, Box, CircularProgress, Autocomplete } from '@mui/material'
+import { TextField, Button, Box, Autocomplete } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import moment from 'moment'
-import Swal from 'sweetalert2'
 // Components
 import Case from '../../components/Case/Case'
 import Filter from '../../components/Filter/Filter'
 // Utils
 import handlePaste from '../../utils/handlePaste'
-// Custom hook
-import { useGetCells } from '../../customHooks/dataHook'
-import { useGetCases } from '../../customHooks/documentHook'
+import { ORIGINS } from '../../utils/origins'
 // Context
 import { AuthContext } from '../../context/authContext'
+import { CellsContext } from '../../context/cellsContext'
 // XLSX
-import * as XLSX from 'xlsx'
+import { utils, write } from 'xlsx'
 
 const Search = () => {
-  const [resultCases, setResultCases] = useState([])
-  const [reset, setReset] = useState(false)
+  const [reset, setReset] = useState(false) // Y esto?
 
-  const [selectedExa, setSelectedExa] = useState(null)
+  const [filters, setFilters] = useState({
+    exa: '',
+    process: '',
+    cell: '',
+    origin: '',
+    motive: '',
+    time: null
+  })
 
-  const [selectTime, setSelectTime] = useState(null)
-
-  const [selectProcess, setSelectProcess] = useState('')
-  const [selectCell, setSelectCell] = useState('')
-  const [selectOrigin, setSelectOrigin] = useState('')
-  const [selectMotive, setSelectMotive] = useState('')
-  const [cellsSelected, setCellsSelected] = useState([''])
-
-  const [resetKey, setResetKey] = useState(0)
-
-  const [origins, setOrigins] = useState([])
-  const [motives, setMotives] = useState([])
+  const { exa, process, cell, origin, motive, time } = filters
 
   const { user } = useContext(AuthContext)
+  const { cells } = useContext(CellsContext)
 
-  const { cells } = useGetCells()
-  const { cases, loading } = useGetCases()
+  const location = useLocation()
 
-  useEffect(() => {
-    handleFilter(cases)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectProcess, selectCell, selectOrigin, selectMotive, selectTime])
+  const cases = useRef(location.state ? location.state.cases : []).current
+  const motives = useRef([...new Set(cases.map(_case => _case.motivoConsulta))]).current
 
-  useEffect(() => {
-    selectProcess ? setCellsSelected(cells[selectProcess]) : setCellsSelected([''])
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectProcess])
+  const filteredCases = useMemo(() => {
+    return cases.filter(_case => {
+      if (exa && !_case.exa.toLowerCase().includes(exa.toLowerCase())) return false
+      if (process && _case.proceso !== process) return false
+      if (cell && _case.celula !== cell) return false
+      if (origin && _case.origen !== origin) return false
+      if (motive && _case.motivoConsulta !== motive) return false
+      if (time && _case.date.split(' ')[0] !== moment(time).format('DD/MM/YYYY')) return false
 
-  useEffect(() => {
-    const AllOrigins = cases.map(_case => _case.origen)
-    const uniqueOrigins = [...new Set(AllOrigins)]
+      return true
+    })
+  }, [process, cell, origin, motive, time, exa, cases])
 
-    const AllMotives = cases.map(_case => _case.motivoConsulta)
-    const uniqueMotives = [...new Set(AllMotives)]
+  const handleFiltersChange = (filterName, value) => {
+    setFilters({
+      ...filters,
+      [filterName]: value
+    })
+  }
 
-    setOrigins(uniqueOrigins)
-    setMotives(uniqueMotives)
-  }, [cases])
+  const handleDownloadExcel = (cases) => {
+    const workbook = utils.book_new()
+    const worksheet = utils.json_to_sheet(cases)
 
-  const handleDownloadExcel = () => {
-    const workbook = XLSX.utils.book_new()
-    const worksheet = XLSX.utils.json_to_sheet(resultCases)
-
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'ResultCases')
-    const excelBuffer = XLSX.write(workbook, {
+    utils.book_append_sheet(workbook, worksheet, 'ResultCases')
+    const excelBuffer = write(workbook, {
       bookType: 'xlsx',
       type: 'array'
     })
@@ -81,148 +76,72 @@ const Search = () => {
     const url = URL.createObjectURL(data)
     const link = document.createElement('a')
     link.href = url
-    link.setAttribute('download', 'resultCases.xlsx')
+    link.setAttribute('download', 'listado-de-casos.xlsx')
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
   }
 
-  const handleFilter = (cases) => {
-    let filteredCases = [...cases]
-
-    if (selectProcess) {
-      filteredCases = filteredCases.filter(_case => _case.proceso === selectProcess)
-    }
-
-    if (selectCell) {
-      filteredCases = filteredCases.filter(_case => _case.celula === selectCell)
-    }
-
-    if (selectOrigin) {
-      filteredCases = filteredCases.filter(_case => _case.origen === selectOrigin)
-    }
-
-    if (selectMotive) {
-      filteredCases = filteredCases.filter(_case => _case.motivoConsulta === selectMotive)
-    }
-
-    if (selectTime) {
-      filteredCases = filteredCases.filter(_case => {
-        const formattedDate = _case.date.split(' ')[0]
-        return formattedDate === moment(selectTime).format('DD/MM/YYYY')
-      })
-    }
-
-    if (filteredCases.length === 0 || filteredCases.length === cases.length) {
-      setResultCases([])
-    } else {
-      setResultCases(filteredCases)
-    }
-  }
-
-  const handleSearchByExa = (e) => {
-    e.preventDefault()
-
-    const search = e.target.exaSearch.value.toLowerCase()
-    const filteredCases = cases.filter(
-      (_case) => _case.exa.toLowerCase() === search
-    )
-
-    e.target.exaSearch.value = ''
-
-    if (filteredCases.length === 0) {
-      return Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Con ese legajo no se encontraron resultados'
-      })
-    }
-    setResultCases(filteredCases)
-    setSelectedExa(search)
-  }
-
-  const handleFormReset = () => {
-    setResetKey((prevKey) => prevKey + 1)
-  }
-
   const handleReset = () => {
-    setSelectTime(null)
-    setSelectProcess('')
-    setSelectCell('')
-    setSelectOrigin('')
-    setSelectMotive('')
     setReset(!reset)
-    setResultCases([])
-    handleFormReset()
-    setSelectedExa(null)
+    setFilters({
+      exa: '',
+      process: '',
+      cell: '',
+      origin: '',
+      motive: '',
+      time: null
+    })
   }
 
   if (!user) return <Navigate to="/" />
 
-  if (loading) {
-    return (
-      <Box sx={{
-        minHeight: '60vh',
-        display: 'flex',
-        flexDirection: 'colum',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-      >
-        <CircularProgress />
-      </Box>
-    )
-  }
-
   return (
     <main className="search">
       <h1>Búsqueda avanzada de gestiones</h1>
-      <form action="" onSubmit={handleSearchByExa}>
-        <Box sx={{
-          margin: '20px',
-          display: 'flex',
-          gap: '4px',
-          alignItems: 'stretch',
-          justifyContent: 'center'
-        }}
-        >
-          <TextField
-            autoFocus
-            id="exaSearch"
-            label="Buscar por Exa"
-            type="text"
-            variant="outlined"
-            name="exaSearch"
-            placeholder="Ej: EXA03419"
-            size="small"
-            onPaste={handlePaste}
-          />
-          <Button variant="contained" type="submit">
-            Buscar
-          </Button>
-        </Box>
-      </form>
+      <Box sx={{
+        margin: '20px',
+        display: 'flex',
+        gap: '4px',
+        alignItems: 'stretch',
+        justifyContent: 'center'
+      }}
+      >
+        <TextField
+          autoFocus
+          id="exaSearch"
+          label="Buscar por Exa"
+          type="text"
+          variant="outlined"
+          name="exaSearch"
+          placeholder="Ej: EXA03419"
+          size="small"
+          value={exa}
+          onPaste={handlePaste}
+          onChange={(e) => handleFiltersChange('exa', e.target.value)}
+        />
+      </Box>
       <section className="select">
         <h2>Filtrar por:</h2>
         <Box className="select__filters">
           <Filter
             name={'Proceso'}
             dataValue={Object.keys(cells) || []}
-            changeValue={setSelectProcess}
+            changeValue={(value) => handleFiltersChange('process', value)}
             reset={reset}
           />
-          {selectProcess && (
+          {process && (
             <Filter
               name={'Célula'}
-              dataValue={cellsSelected}
-              changeValue={setSelectCell}
+              dataValue={cells[process]}
+              changeValue={(value) => handleFiltersChange('cell', value)}
               reset={reset}
             />
           )}
           <Filter
             name={'Origen'}
-            dataValue={origins}
-            changeValue={setSelectOrigin}
+            dataValue={ORIGINS}
+            changeValue={(value) => handleFiltersChange('origin', value)}
             reset={reset}
           />
           <Autocomplete
@@ -234,10 +153,10 @@ const Search = () => {
             clearIcon={null}
             options={motives}
             variant="outlined"
-            key={resetKey}
+            value={motive}
             sx={{ textAlign: 'left' }}
             onChange={(_, newValue) => {
-              setSelectMotive(newValue)
+              handleFiltersChange('motive', newValue)
             }}
             renderInput={(params) => (
               <TextField
@@ -252,9 +171,9 @@ const Search = () => {
         <Box sx={{ margin: '30px 0' }}>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DatePicker
-              onChange={(newValue) => setSelectTime(moment(newValue))}
+              onChange={(newValue) => handleFiltersChange('time', newValue)}
               renderInput={(params) => <TextField {...params} />}
-              value={selectTime}
+              value={time}
               label="Fecha de la gestión"
               inputFormat="DD/MM/YYYY"
             />
@@ -276,14 +195,9 @@ const Search = () => {
           marginBottom: '20px'
         }}
         >
-          {resultCases.length > 0 && (
-            <Button variant="outlined" onClick={handleDownloadExcel}>
+          {filteredCases.length > 0 && (
+            <Button variant="outlined" onClick={() => handleDownloadExcel(filteredCases)}>
               Descargar Excel
-            </Button>
-          )}
-          {selectedExa && (
-            <Button variant="outlined" component={Link} to={`/asesor/${selectedExa}`} >
-              Ver gestiones de {selectedExa}
             </Button>
           )}
         </Box>
@@ -301,7 +215,7 @@ const Search = () => {
               <th>Ver detalles</th>
             </tr>
           </thead>
-          {resultCases.slice(0, 20).map((_case) => (
+          {filteredCases.slice(0, 20).map((_case) => (
             <tbody key={_case.id}>
               <Case _case={_case} />
             </tbody>
