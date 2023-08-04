@@ -21,7 +21,7 @@ import handlePaste from '../../utils/handlePaste'
 import { ORIGINS } from '../../utils/origins'
 // Firebase
 import { addDoc, collection } from 'firebase/firestore'
-import db from '../../utils/firebaseConfig'
+import { db } from '../../utils/firebaseConfig'
 // Hooks
 import { useGetAgents, useGetCriteria, useGetCases } from '../../customHooks/indexHooks'
 // Context

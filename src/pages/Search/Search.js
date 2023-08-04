@@ -12,16 +12,15 @@ import Filter from '../../components/Filter/Filter'
 // Utils
 import handlePaste from '../../utils/handlePaste'
 import { ORIGINS } from '../../utils/origins'
-// Custom hook
-import { useGetCells } from '../../customHooks/indexHooks'
 // Context
 import { AuthContext } from '../../context/authContext'
+import { CellsContext } from '../../context/cellsContext'
 // XLSX
 import { utils, write } from 'xlsx'
 
 const Search = () => {
   const [reset, setReset] = useState(false) // Y esto?
-  const [resetKey, setResetKey] = useState(0) // Y esto otro?
+
   const [filters, setFilters] = useState({
     exa: '',
     process: '',
@@ -34,7 +33,8 @@ const Search = () => {
   const { exa, process, cell, origin, motive, time } = filters
 
   const { user } = useContext(AuthContext)
-  const { cells } = useGetCells()
+  const { cells } = useContext(CellsContext)
+
   const location = useLocation()
 
   const cases = useRef(location.state ? location.state.cases : []).current
@@ -84,7 +84,6 @@ const Search = () => {
 
   const handleReset = () => {
     setReset(!reset)
-    setResetKey((prevKey) => prevKey + 1)
     setFilters({
       exa: '',
       process: '',
@@ -154,7 +153,7 @@ const Search = () => {
             clearIcon={null}
             options={motives}
             variant="outlined"
-            key={resetKey}
+            value={motive}
             sx={{ textAlign: 'left' }}
             onChange={(_, newValue) => {
               handleFiltersChange('motive', newValue)

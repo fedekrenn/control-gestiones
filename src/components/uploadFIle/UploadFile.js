@@ -5,7 +5,7 @@ import { Button, Box } from '@mui/material'
 import Swal from 'sweetalert2'
 // Firebase
 import { doc, setDoc } from 'firebase/firestore'
-import db from '../../utils/firebaseConfig'
+import { db } from '../../utils/firebaseConfig'
 
 const UploadFile = ({ selecManual, setSelecManual }) => {
   const [xmlsData, setXmlsData] = useState([])

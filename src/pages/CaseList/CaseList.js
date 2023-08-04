@@ -6,15 +6,13 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Swal from 'sweetalert2'
 // Components
 import Case from '../../components/Case/Case'
-// Firebase
-import db from '../../utils/firebaseConfig'
 // Custom hook
 import { useGetCases } from '../../customHooks/indexHooks'
 // Context
 import { AuthContext } from '../../context/authContext'
 
 const CaseList = () => {
-  const { cases, loading } = useGetCases(db)
+  const { cases, loading } = useGetCases()
 
   const [isFiltered, setIsFiltered] = useState(false)
   const [filteredCases, setFilteredCases] = useState([])

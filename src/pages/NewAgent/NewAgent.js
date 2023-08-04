@@ -16,11 +16,10 @@ import UploadFile from '../../components/uploadFIle/UploadFile'
 import handlePaste from '../../utils/handlePaste'
 // Firebase
 import { doc, setDoc } from 'firebase/firestore'
-import db from '../../utils/firebaseConfig'
+import { db } from '../../utils/firebaseConfig'
 // Context
 import { AuthContext } from '../../context/authContext'
-// Hooks
-import { useGetCells } from '../../customHooks/indexHooks'
+import { CellsContext } from '../../context/cellsContext'
 
 const NewAgent = () => {
   const [cell, setCell] = useState('')
@@ -28,8 +27,7 @@ const NewAgent = () => {
   const [selecManual, setSelecManual] = useState(true)
 
   const { user } = useContext(AuthContext)
-
-  const { cells } = useGetCells()
+  const { cells } = useContext(CellsContext)
 
   const cellsSelected = useMemo(() => cells[proc] || [''], [cells, proc])
   const process = useMemo(() => Object.keys(cells), [cells])

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { doc, getDoc, getDocs, collection } from 'firebase/firestore'
-import dbase from '../utils/firebaseConfig'
+import { db } from '../utils/firebaseConfig'
 
 const useGetCases = () => {
   const [cases, setCases] = useState([])
@@ -12,7 +12,7 @@ const useGetCases = () => {
       try {
         console.log('getCases and motives')
 
-        const querySnapshot = await getDocs(collection(dbase, 'listadoGestiones'))
+        const querySnapshot = await getDocs(collection(db, 'listadoGestiones'))
 
         const docs = querySnapshot.docs.map(doc => {
           return {
@@ -46,7 +46,7 @@ const useGetCaseDetail = (id) => {
       console.log('getCaseDetail')
 
       try {
-        const docRef = doc(dbase, 'listadoGestiones', id)
+        const docRef = doc(db, 'listadoGestiones', id)
         const docSnap = await getDoc(docRef)
 
         docSnap.exists() ? setCaseDetail(docSnap.data()) : console.error('No such document!')
@@ -65,27 +65,6 @@ const useGetCaseDetail = (id) => {
   return { caseDetail, loading }
 }
 
-const useGetCells = () => {
-  const [cells, setCells] = useState({})
-
-  useEffect(() => {
-    (async () => {
-      try {
-        console.log('getCells')
-
-        const docRef = doc(dbase, 'listadoAsesores', '4KpZYmZikVbntR1C1aiC')
-        const docSnap = await getDoc(docRef)
-
-        docSnap.exists() ? setCells(docSnap.data()) : console.warn('No such document!')
-      } catch (error) {
-        console.error(error)
-      }
-    })()
-  }, [])
-
-  return { cells }
-}
-
 const useGetAgents = () => {
   const [agents, setAgents] = useState({})
 
@@ -94,7 +73,7 @@ const useGetAgents = () => {
       try {
         console.log('getAgents')
 
-        const docRef = doc(dbase, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
+        const docRef = doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
         const docSnap = await getDoc(docRef)
 
         docSnap.exists() ? setAgents(docSnap.data()) : console.error('No such document!')
@@ -116,7 +95,7 @@ const useGetCriteria = () => {
       try {
         console.log('getCriteria')
 
-        const docRef = doc(dbase, 'criterios', '2X9z0AYQScDDE04uIcMO')
+        const docRef = doc(db, 'criterios', '2X9z0AYQScDDE04uIcMO')
         const docSnap = await getDoc(docRef)
 
         if (docSnap.exists()) {
@@ -136,7 +115,6 @@ const useGetCriteria = () => {
 }
 
 export {
-  useGetCells,
   useGetAgents,
   useGetCriteria,
   useGetCaseDetail,
