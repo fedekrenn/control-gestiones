@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { getDoc, doc } from 'firebase/firestore'
-import { db } from '../utils/firebaseConfig'
+import { db } from '../config/firebaseConfig'
 import { AuthContext } from './authContext' // Importa el contexto de autenticación
 
 const CellsContext = createContext()

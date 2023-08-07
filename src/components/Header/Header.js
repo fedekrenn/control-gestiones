@@ -15,7 +15,7 @@ import {
   MenuItem
 } from '@mui/material'
 // Firebase
-import { auth } from '../../utils/firebaseConfig'
+import { auth } from '../../config/firebaseConfig'
 import { signOut } from 'firebase/auth'
 // Context
 import { AuthContext } from '../../context/authContext'

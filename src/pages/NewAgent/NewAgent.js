@@ -13,10 +13,10 @@ import {
 // Componentes
 import UploadFile from '../../components/uploadFIle/UploadFile'
 // Utils
-import handlePaste from '../../utils/handlePaste'
+import { handlePaste, handleKeyDown } from '../../utils/handleEvent'
 // Firebase
 import { doc, setDoc } from 'firebase/firestore'
-import { db } from '../../utils/firebaseConfig'
+import { db } from '../../config/firebaseConfig'
 // Context
 import { AuthContext } from '../../context/authContext'
 import { CellsContext } from '../../context/cellsContext'
@@ -39,10 +39,6 @@ const NewAgent = () => {
   const handleChangeProc = (event) => {
     setProc(event.target.value)
     setCell('')
-  }
-
-  const handleKeyDown = (e) => {
-    e.keyCode === 32 && e.preventDefault()
   }
 
   const handleSubmit = async (e) => {

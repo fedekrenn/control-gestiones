@@ -17,11 +17,11 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import moment from 'moment'
 import Swal from 'sweetalert2'
 // Utils
-import handlePaste from '../../utils/handlePaste'
+import { handlePaste } from '../../utils/handleEvent'
 import { ORIGINS } from '../../utils/origins'
 // Firebase
 import { addDoc, collection } from 'firebase/firestore'
-import { db } from '../../utils/firebaseConfig'
+import { db } from '../../config/firebaseConfig'
 // Hooks
 import { useGetAgents, useGetCriteria, useGetCases } from '../../customHooks/indexHooks'
 // Context

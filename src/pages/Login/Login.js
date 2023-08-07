@@ -4,7 +4,7 @@ import { useNavigate, Navigate } from 'react-router-dom'
 import { TextField, Button } from '@mui/material'
 import Swal from 'sweetalert2'
 // Firebase
-import { auth } from '../../utils/firebaseConfig'
+import { auth } from '../../config/firebaseConfig'
 import {
   setPersistence,
   signInWithEmailAndPassword,

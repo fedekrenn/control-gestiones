@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { doc, getDoc, getDocs, collection } from 'firebase/firestore'
-import { db } from '../utils/firebaseConfig'
+import { db } from '../config/firebaseConfig'
 
 const useGetCases = () => {
   const [cases, setCases] = useState([])

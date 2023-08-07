@@ -10,7 +10,7 @@ import moment from 'moment'
 import Case from '../../components/Case/Case'
 import Filter from '../../components/Filter/Filter'
 // Utils
-import handlePaste from '../../utils/handlePaste'
+import { handlePaste, handleKeyDown } from '../../utils/handleEvent'
 import { ORIGINS } from '../../utils/origins'
 // Context
 import { AuthContext } from '../../context/authContext'
@@ -118,6 +118,7 @@ const Search = () => {
           size="small"
           value={exa}
           onPaste={handlePaste}
+          onKeyDown={handleKeyDown}
           onChange={(e) => handleFiltersChange('exa', e.target.value)}
         />
       </Box>
