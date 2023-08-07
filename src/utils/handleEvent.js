@@ -6,4 +6,8 @@ const handlePaste = (event) => {
   document.execCommand('insertText', false, trimmedText)
 }
 
-export default handlePaste
+const handleKeyDown = (e) => {
+  e.keyCode === 32 && e.preventDefault()
+}
+
+export { handlePaste, handleKeyDown }

@@ -4,16 +4,8 @@ import Modal from '@mui/material/Modal'
 const CaseModal = ({ open, handleClose, caseDetail }) => {
   const { nombre, numeroCaso, proceso, celula, comentarioGestion } = caseDetail
 
-  const hasInfoError = (caseDetail) => caseDetail.ec.motivo === 'información' ? 'X' : ''
-  const hasTransError = (caseDetail) => caseDetail.ec.motivo === 'transacciones' ? 'X' : ''
-  const hasDerivError = (caseDetail) => caseDetail.ec.motivo === 'derivaciones' ? 'X' : ''
-  const hasTratoError = (caseDetail) => caseDetail.ec.motivo === 'trato' ? 'X' : ''
-
-  const hasAfectOmision = (caseDetail) => caseDetail.om.motivo === 'afectacion' ? 'X' : ''
-  const hasLenguajeOmision = (caseDetail) => caseDetail.om.motivo === 'lenguaje' ? 'X' : ''
-  const hasPersOmision = (caseDetail) => caseDetail.om.motivo === 'personalizacion' ? 'X' : ''
-  const hasPosicionOmision = (caseDetail) => caseDetail.om.motivo === 'posicionamiento' ? 'X' : ''
-  const hasSimplicidadOmision = (caseDetail) => caseDetail.om.motivo === 'simplicidad' ? 'X' : ''
+  const formmatError = (caseDetail, attribute) => caseDetail.ec.motivo === attribute ? 'X' : ''
+  const formmatOm = (caseDetail, attribute) => caseDetail.om.motivo === attribute ? 'X' : ''
 
   return (
     <Modal
@@ -63,10 +55,10 @@ const CaseModal = ({ open, handleClose, caseDetail }) => {
               <td colSpan={2}>Transacciones</td>
             </tr>
             <tr className='data-row'>
-              <td>{hasInfoError(caseDetail)}</td>
-              <td>{hasDerivError(caseDetail)}</td>
-              <td>{hasTratoError(caseDetail)}</td>
-              <td colSpan={2}>{hasTransError(caseDetail)}</td>
+              <td>{formmatError(caseDetail, 'información')}</td>
+              <td>{formmatError(caseDetail, 'derivaciones')}</td>
+              <td>{formmatError(caseDetail, 'trato')}</td>
+              <td colSpan={2}>{formmatError(caseDetail, 'transacciones')}</td>
             </tr>
             <tr>
               <td className='marked' rowSpan='2'>
@@ -79,11 +71,11 @@ const CaseModal = ({ open, handleClose, caseDetail }) => {
               <td sx={{ width: '150px' }}>Afec al negocio</td>
             </tr>
             <tr className='data-row'>
-              <td>{hasPersOmision(caseDetail)}</td>
-              <td>{hasSimplicidadOmision(caseDetail)}</td>
-              <td>{hasLenguajeOmision(caseDetail)}</td>
-              <td>{hasPosicionOmision(caseDetail)}</td>
-              <td>{hasAfectOmision(caseDetail)}</td>
+              <td>{formmatOm(caseDetail, 'personalizacion')}</td>
+              <td>{formmatOm(caseDetail, 'simplicidad')}</td>
+              <td>{formmatOm(caseDetail, 'lenguaje')}</td>
+              <td>{formmatOm(caseDetail, 'posicionamiento')}</td>
+              <td>{formmatOm(caseDetail, 'afectacion')}</td>
             </tr>
             <tr>
               <td className='detail' colSpan={6}>
