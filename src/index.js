@@ -4,17 +4,17 @@ import './index.scss'
 import App from './App'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/authContext'
-import { CellsProvider } from './context/cellsContext'
+import { BasicDataProvider } from './context/basicDataContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <CellsProvider>
+      <BasicDataProvider>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </CellsProvider>
+      </BasicDataProvider>
     </AuthProvider>
   </React.StrictMode>
 )

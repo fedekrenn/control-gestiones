@@ -86,37 +86,8 @@ const useGetAgents = () => {
   return { agents }
 }
 
-const useGetCriteria = () => {
-  const [errors, setErrors] = useState([])
-  const [oms, setOms] = useState([])
-
-  useEffect(() => {
-    (async () => {
-      try {
-        console.log('getCriteria')
-
-        const docRef = doc(db, 'criterios', '2X9z0AYQScDDE04uIcMO')
-        const docSnap = await getDoc(docRef)
-
-        if (docSnap.exists()) {
-          const data = docSnap.data()
-          setErrors(data.errores)
-          setOms(data.oms)
-        } else {
-          console.warn('No such document!')
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    })()
-  }, [])
-
-  return { errors, oms }
-}
-
 export {
   useGetAgents,
-  useGetCriteria,
   useGetCaseDetail,
   useGetCases
 }

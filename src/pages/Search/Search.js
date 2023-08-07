@@ -14,7 +14,7 @@ import { handlePaste, handleKeyDown } from '../../utils/handleEvent'
 import { ORIGINS } from '../../utils/origins'
 // Context
 import { AuthContext } from '../../context/authContext'
-import { CellsContext } from '../../context/cellsContext'
+import { BasicDataContext } from '../../context/basicDataContext'
 // XLSX
 import { utils, write } from 'xlsx'
 
@@ -33,7 +33,7 @@ const Search = () => {
   const { exa, process, cell, origin, motive, time } = filters
 
   const { user } = useContext(AuthContext)
-  const { cells } = useContext(CellsContext)
+  const { cells } = useContext(BasicDataContext)
 
   const location = useLocation()
 

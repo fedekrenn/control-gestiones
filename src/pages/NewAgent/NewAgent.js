@@ -19,7 +19,7 @@ import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
 // Context
 import { AuthContext } from '../../context/authContext'
-import { CellsContext } from '../../context/cellsContext'
+import { BasicDataContext } from '../../context/basicDataContext'
 
 const NewAgent = () => {
   const [cell, setCell] = useState('')
@@ -27,7 +27,7 @@ const NewAgent = () => {
   const [selecManual, setSelecManual] = useState(true)
 
   const { user } = useContext(AuthContext)
-  const { cells } = useContext(CellsContext)
+  const { cells } = useContext(BasicDataContext)
 
   const cellsSelected = useMemo(() => cells[proc] || [''], [cells, proc])
   const process = useMemo(() => Object.keys(cells), [cells])

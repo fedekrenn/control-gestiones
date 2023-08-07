@@ -23,9 +23,10 @@ import { ORIGINS } from '../../utils/origins'
 import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
 // Hooks
-import { useGetAgents, useGetCriteria, useGetCases } from '../../customHooks/indexHooks'
+import { useGetAgents, useGetCases } from '../../customHooks/indexHooks'
 // Context
 import { AuthContext } from '../../context/authContext'
+import { BasicDataContext } from '../../context/basicDataContext'
 
 const NewCase = () => {
   const [timeValue, setTimeValue] = useState(null)
@@ -54,7 +55,7 @@ const NewCase = () => {
 
   const navigate = useNavigate()
 
-  const { errors, oms } = useGetCriteria()
+  const { errors, oms } = useContext(BasicDataContext)
   const { agents } = useGetAgents()
   const { motives } = useGetCases()
 
