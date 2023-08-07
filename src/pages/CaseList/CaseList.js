@@ -1,88 +1,199 @@
-import { useState, useEffect, useContext } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { useState, useContext, useMemo } from 'react'
+import { Navigate } from 'react-router-dom'
 // Librerías
-import { TextField, Button, Box } from '@mui/material'
+import { TextField, Button, Box, Autocomplete } from '@mui/material'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import CircularProgress from '@mui/material/CircularProgress'
-import Swal from 'sweetalert2'
+import moment from 'moment'
 // Components
 import Case from '../../components/Case/Case'
+import Filter from '../../components/Filter/Filter'
+// Utils
+import { handlePaste, handleKeyDown } from '../../utils/handleEvent'
+import { ORIGINS } from '../../utils/origins'
+import { handleDownloadExcel } from '../../utils/handleDowloadExcel'
 // Custom hook
 import { useGetCases } from '../../customHooks/indexHooks'
 // Context
 import { AuthContext } from '../../context/authContext'
+import { BasicDataContext } from '../../context/basicDataContext'
 
 const CaseList = () => {
-  const { cases, loading } = useGetCases()
+  const [reset, setReset] = useState(false) // Y esto?
+  const [filters, setFilters] = useState({
+    caseNumber: '',
+    exa: '',
+    process: '',
+    cell: '',
+    origin: '',
+    motive: '',
+    time: null
+  })
 
-  const [isFiltered, setIsFiltered] = useState(false)
-  const [filteredCases, setFilteredCases] = useState([])
+  const { caseNumber, exa, process, cell, origin, motive, time } = filters
 
   const { user } = useContext(AuthContext)
+  const { cells } = useContext(BasicDataContext)
 
-  useEffect(() => {
-    setFilteredCases(cases)
-  }, [cases])
+  const { cases, loading, motives } = useGetCases()
 
-  const handleSearch = (e) => {
-    e.preventDefault()
+  const filteredCases = useMemo(() => {
+    return cases.filter(_case => {
+      if (caseNumber && !_case.numeroCaso.toString().includes(caseNumber)) return false
+      if (exa && !_case.exa.toLowerCase().includes(exa.toLowerCase())) return false
+      if (process && _case.proceso !== process) return false
+      if (cell && _case.celula !== cell) return false
+      if (origin && _case.origen !== origin) return false
+      if (motive && _case.motivoConsulta !== motive) return false
+      if (time && _case.date.split(' ')[0] !== moment(time).format('DD/MM/YYYY')) return false
 
-    const search = Number(e.target.search.value)
-    const foundedCases = cases.filter((_case) => _case.numeroCaso === search)
+      return true
+    })
+  }, [caseNumber, exa, process, cell, origin, motive, time, cases])
 
-    e.target.search.value = ''
-
-    if (foundedCases.length === 0) {
-      return Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'No se encontró ningún caso con ese número'
-      })
-    }
-
-    setFilteredCases(foundedCases)
-    setIsFiltered(true)
+  const handleFiltersChange = (filterName, value) => {
+    setFilters({
+      ...filters,
+      [filterName]: value
+    })
   }
 
-  if (!user) return <Navigate to='/' />
+  const handleReset = () => {
+    setReset(!reset)
+    setFilters({
+      caseNumber: '',
+      exa: '',
+      process: '',
+      cell: '',
+      origin: '',
+      motive: '',
+      time: null
+    })
+  }
+
+  if (!user) return <Navigate to="/" />
 
   return (
-    <main className='case-list'>
-      <h2>Listado de gestiones</h2>
-      <section className='case-list__search'>
-        <form action='' onSubmit={handleSearch} className='case-list__form'>
-          <Box sx={{ margin: '20px', display: 'flex', gap: '4px', alignItems: 'stretch' }}>
-            <TextField
-              autoFocus
-              id='search'
-              label='Buscar por caso'
-              type='number'
-              variant='outlined'
-              name='search'
-              placeholder='Ej: 24436781'
-              inputProps={{ min: 0 }}
-              size='small'
+    <main className="search">
+      <h1>Búsqueda avanzada de gestiones</h1>
+      <h2>Buscar por:</h2>
+      <Box sx={{
+        margin: '20px',
+        display: 'flex',
+        gap: '15px',
+        alignItems: 'stretch',
+        justifyContent: 'center'
+      }}
+      >
+        <TextField
+          autoFocus
+          id='search'
+          label='Buscar por caso'
+          type='number'
+          variant='outlined'
+          placeholder='Ej: 24436781'
+          inputProps={{ min: 0 }}
+          size='small'
+          value={caseNumber}
+          onPaste={handlePaste}
+          onKeyDown={handleKeyDown}
+          onChange={(e) => handleFiltersChange('caseNumber', e.target.value)}
+        />
+        <TextField
+          autoFocus
+          id="exaSearch"
+          label="Buscar por Exa"
+          type="text"
+          variant="outlined"
+          placeholder="Ej: EXA03419"
+          size="small"
+          value={exa}
+          onPaste={handlePaste}
+          onKeyDown={handleKeyDown}
+          onChange={(e) => handleFiltersChange('exa', e.target.value)}
+        />
+      </Box>
+      <section className="advanced">
+        <h2>Búsqueda avanzada:</h2>
+        <Box sx={{ display: 'flex', padding: '2em', gap: '1em' }}>
+          <Filter
+            name={'Proceso'}
+            dataValue={Object.keys(cells) || []}
+            changeValue={(value) => handleFiltersChange('process', value)}
+            reset={reset}
+          />
+          {process && (
+            <Filter
+              name={'Célula'}
+              dataValue={cells[process]}
+              changeValue={(value) => handleFiltersChange('cell', value)}
+              reset={reset}
             />
-            <Button variant='contained' type='submit'>Buscar</Button>
-          </Box>
-          <Box sx={{ display: 'flex', gap: '4px' }}>
-            {isFiltered && (
-              <Button
-                variant='outlined'
-                onClick={() => {
-                  setIsFiltered(false)
-                  setFilteredCases(cases)
-                }}
-              >
-                Volver a mostrar todos
-              </Button>
+          )}
+          <Filter
+            name={'Origen'}
+            dataValue={ORIGINS}
+            changeValue={(value) => handleFiltersChange('origin', value)}
+            reset={reset}
+          />
+          <Autocomplete
+            fullWidth
+            freeSolo
+            required
+            disablePortal
+            clearOnEscape
+            clearIcon={null}
+            options={motives}
+            variant="outlined"
+            value={motive}
+            sx={{ textAlign: 'left' }}
+            onChange={(_, newValue) => {
+              handleFiltersChange('motive', newValue)
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Motivo de consulta"
+                placeholder="Ej: Consulta de saldo"
+              />
             )}
-            <Button variant='outlined' component={Link} to='/busqueda-avanzada' state={{ cases }}>
-              Búsqueda avanzada
-            </Button>
-          </Box>
-        </form>
+          />
+        </Box>
+        <Box sx={{ margin: '30px 0' }}>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <DatePicker
+              onChange={(newValue) => handleFiltersChange('time', newValue)}
+              renderInput={(params) => <TextField {...params} />}
+              value={time}
+              label="Fecha de la gestión"
+              inputFormat="DD/MM/YYYY"
+            />
+          </LocalizationProvider>
+        </Box>
+        <Box>
+          <Button variant="contained" onClick={handleReset}>
+            Limpiar filtros
+          </Button>
+        </Box>
       </section>
       <section>
+        <h2>Resultados</h2>
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '20px',
+          marginBottom: '20px'
+        }}
+        >
+          {filteredCases.length > 0 && (
+            <Button variant="outlined" onClick={() => handleDownloadExcel(filteredCases)}>
+              Descargar Excel
+            </Button>
+          )}
+        </Box>
         {loading
           ? <CircularProgress />
           : <table>
@@ -95,18 +206,15 @@ const CaseList = () => {
                 <th>Proceso</th>
                 <th>Legajo</th>
                 <th>Célula</th>
-                <th>Fecha de atención</th>
+                <th>Fecha de gestión</th>
                 <th>Ver detalles</th>
               </tr>
             </thead>
-            {filteredCases
-              .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
-              .slice(0, 10)
-              .map(_case => (
-                <tbody key={_case.id}>
-                  <Case _case={_case} />
-                </tbody>
-              ))}
+            {filteredCases.slice(0, 20).map((_case) => (
+              <tbody key={_case.id}>
+                <Case _case={_case} />
+              </tbody>
+            ))}
           </table>
         }
       </section>
