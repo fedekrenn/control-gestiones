@@ -20,7 +20,7 @@ import Swal from 'sweetalert2'
 import { handlePaste } from '../../utils/handleEvent'
 import { ORIGINS } from '../../utils/origins'
 // Firebase
-import { addDoc, collection } from 'firebase/firestore'
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
 // Hooks
 import { useGetAgents, useGetCases } from '../../customHooks/indexHooks'
@@ -32,7 +32,6 @@ const NewCase = () => {
   const [timeValue, setTimeValue] = useState(null)
 
   const [errorsSubAtributte, setErrorsSubAtributte] = useState([])
-
   const [omsSubAtributte, setOmsSubAtributte] = useState([])
 
   const [agentName, setAgentName] = useState('Nombre')
@@ -53,15 +52,12 @@ const NewCase = () => {
 
   const { user } = useContext(AuthContext)
 
-  const navigate = useNavigate()
-
   const { errors, oms } = useContext(BasicDataContext)
   const { agents } = useGetAgents()
   const { motives } = useGetCases()
+  const navigate = useNavigate()
 
-  const agentsArray = useMemo(() => {
-    return Object.keys(agents).map(el => el.toUpperCase())
-  }, [agents])
+  const agentsArray = useMemo(() => Object.keys(agents).map(el => el.toUpperCase()), [agents])
 
   const isEmpty = (myState) => myState === '' || myState === 'n/a'
 
@@ -100,11 +96,7 @@ const NewCase = () => {
     que sea más óptimo de recorrer antes que un array de objetos */
     const convertArray = Object.entries(agents)
 
-    const findAgent =
-      value &&
-      convertArray.find(
-        (agent) => agent[0].toLowerCase() === value.toLowerCase()
-      )
+    const findAgent = value && convertArray.find(agent => agent[0].toLowerCase() === value.toLowerCase())
 
     if (findAgent) {
       setAgentName(findAgent[1].nombre)
@@ -115,7 +107,7 @@ const NewCase = () => {
   }
 
   const handleFormReset = () => {
-    setResetKey((prevKey) => prevKey + 1)
+    setResetKey(prevKey => prevKey + 1)
   }
 
   const handleSubmit = async (e) => {
@@ -128,6 +120,7 @@ const NewCase = () => {
     const puntoATrabajar = e.currentTarget.puntoFalla.value
 
     const newCase = {
+      id: crypto.randomUUID(),
       numeroCaso: parseInt(caseNumber),
       nombre: agentName,
       exa: agentKey,
@@ -149,6 +142,7 @@ const NewCase = () => {
       puntoATrabajar,
       comentarioGestion: comentario
     }
+
     Swal.fire({
       title: '¿Estás seguro?',
       text: 'No podrás revertir los cambios',
@@ -157,28 +151,32 @@ const NewCase = () => {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, guardar'
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const data = await addDoc(collection(db, 'listadoGestiones'), newCase)
-
-        Swal.fire({
-          title: 'Gestion guardada',
-          text: 'Los datos de la gestión han sido guardados correctamente',
-          icon: 'success',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#545454',
-          confirmButtonText: 'Ir al caso',
-          cancelButtonText: 'Cargar otra gestión'
-        }).then((result) => {
-          if (result.isConfirmed) navigate(`/monitoreo/${data.id}`)
-        })
-
-        handleDelete()
-      } else {
-        Swal.fire('Cancelado', 'La gestión no ha sido guardada', 'error')
-      }
     })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          const docRef = doc(db, 'cases-list', 'NeCtxuFq7KGvryxgmBpn')
+
+          await updateDoc(docRef, { cases: arrayUnion(newCase) })
+
+          Swal.fire({
+            title: 'Gestion guardada',
+            text: 'Los datos de la gestión han sido guardados correctamente',
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#545454',
+            confirmButtonText: 'Ir al caso',
+            cancelButtonText: 'Cargar otra gestión'
+          })
+            .then((result) => {
+              if (result.isConfirmed) navigate(`/monitoreo/${newCase.id}`)
+            })
+
+          handleDelete()
+        } else {
+          Swal.fire('Cancelado', 'La gestión no ha sido guardada', 'error')
+        }
+      })
   }
 
   if (!user) return <Navigate to='/' />
@@ -305,9 +303,8 @@ const NewCase = () => {
               </Select>
             </FormControl>
 
-            {isEmpty(errValue)
-              ? null
-              : <FormControl sx={{ minWidth: 120 }} size='small' required>
+            {!isEmpty(errValue) &&
+              <FormControl sx={{ minWidth: 120 }} size='small' required>
                 <InputLabel id='demo-simple-select-label-three'>
                   Detalle EC:
                 </InputLabel>
@@ -346,9 +343,8 @@ const NewCase = () => {
               </Select>
             </FormControl>
 
-            {isEmpty(omsValue)
-              ? null
-              : <FormControl sx={{ minWidth: 120 }} size='small' required>
+            {!isEmpty(omsValue) &&
+              <FormControl sx={{ minWidth: 120 }} size='small' required>
                 <InputLabel id='demo-simple-select-label-three'>
                   Detalle OMS:
                 </InputLabel>

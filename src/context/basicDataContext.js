@@ -16,8 +16,6 @@ const BasicDataProvider = ({ children }) => {
     if (user) {
       (async () => {
         try {
-          console.log('getting cells, errors and oms')
-
           const docRefCells = doc(db, 'listadoAsesores', '4KpZYmZikVbntR1C1aiC')
           const docSnapCells = await getDoc(docRefCells)
 

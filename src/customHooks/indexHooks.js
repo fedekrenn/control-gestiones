@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { doc, getDoc, getDocs, collection } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../config/firebaseConfig'
 
 const useGetCases = () => {
@@ -10,16 +10,10 @@ const useGetCases = () => {
   useEffect(() => {
     (async () => {
       try {
-        console.log('getCases and motives')
+        const docRef = doc(db, 'cases-list', 'NeCtxuFq7KGvryxgmBpn')
+        const docSnap = await getDoc(docRef)
 
-        const querySnapshot = await getDocs(collection(db, 'listadoGestiones'))
-
-        const docs = querySnapshot.docs.map(doc => {
-          return {
-            ...doc.data(),
-            id: doc.id
-          }
-        })
+        const docs = docSnap.data().cases
 
         const motives = docs.map(doc => doc.motivoConsulta)
         const uniqueMotives = [...new Set(motives)]
@@ -40,20 +34,21 @@ const useGetCases = () => {
 const useGetCaseDetail = (id) => {
   const [caseDetail, setCaseDetail] = useState({})
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     (async () => {
-      console.log('getCaseDetail')
-
       try {
-        const docRef = doc(db, 'listadoGestiones', id)
+        const docRef = doc(db, 'cases-list', 'NeCtxuFq7KGvryxgmBpn')
         const docSnap = await getDoc(docRef)
 
-        docSnap.exists() ? setCaseDetail(docSnap.data()) : console.error('No such document!')
+        const uniqueCase = docSnap.data().cases.find(doc => doc.id === id)
+
+        docSnap.exists() ? setCaseDetail(uniqueCase) : setError(true)
 
         setLoading(false)
       } catch (error) {
-        console.error(error)
+        setError(true)
       }
     })(id)
 
@@ -62,7 +57,7 @@ const useGetCaseDetail = (id) => {
     }
   }, [id])
 
-  return { caseDetail, loading }
+  return { caseDetail, loading, error }
 }
 
 const useGetAgents = () => {
@@ -71,8 +66,6 @@ const useGetAgents = () => {
   useEffect(() => {
     (async () => {
       try {
-        console.log('getAgents')
-
         const docRef = doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
         const docSnap = await getDoc(docRef)
 

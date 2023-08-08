@@ -210,6 +210,17 @@ const CaseList = () => {
                 <th>Ver detalles</th>
               </tr>
             </thead>
+            {filteredCases.length === 0 && (
+              <tbody>
+                <tr>
+                  <td colSpan="9">
+                    <Box sx={{ display: 'flex', justifyContent: 'center', margin: '2em 0', color: 'red' }}>
+                      <h3>No se encontraron resultados con esos filtros</h3>
+                    </Box>
+                  </td>
+                </tr>
+              </tbody>
+            )}
             {filteredCases.slice(0, 20).map((_case) => (
               <tbody key={_case.id}>
                 <Case _case={_case} />
