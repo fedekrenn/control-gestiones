@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { Navigate, useParams, Link } from 'react-router-dom'
 // Librerías
 import CircularProgress from '@mui/material/CircularProgress'
@@ -12,26 +12,16 @@ import FeedIcon from '@mui/icons-material/Feed'
 const ExaDetail = () => {
   const { exa } = useParams()
   const { user } = useContext(AuthContext)
-
   const { cases, loading } = useGetCases()
 
-  const [userCases, setUserCases] = useState([])
-
-  useEffect(() => {
-    const data = cases.filter(c => c.exa === exa)
-    setUserCases(data)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cases])
+  const userCases = cases.filter(_case => _case.exa === exa)
 
   if (!user) return <Navigate to='/' />
 
   return (
     <>
       <h1>Detalles de asesor</h1>
-      <h2>
-        {exa.toUpperCase()} - {userCases[0]?.nombre}
-      </h2>
+      <h2>{exa.toUpperCase()} - {userCases[0]?.nombre}</h2>
       {loading
         ? <CircularProgress />
         : <section className='exa-detail'>
