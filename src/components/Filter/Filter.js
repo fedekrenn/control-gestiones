@@ -1,30 +1,17 @@
-import { useState, useEffect } from 'react'
-// Librerías
-import { InputLabel, MenuItem, FormControl, Select } from '@mui/material'
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 
-const Filter = ({ name, dataValue, changeValue, reset }) => {
-  const [value, setValue] = useState('')
-
-  const handleChange = (event) => {
-    setValue(event.target.value)
-    changeValue(event.target.value)
-  }
-
-  useEffect(() => {
-    setValue('')
-  }, [reset])
-
+const FilterSelect = ({ label, value, options, onChange }) => {
   return (
     <FormControl fullWidth sx={{ textAlign: 'left' }}>
-      <InputLabel id='demo-simple-select-label'>{name}</InputLabel>
+      <InputLabel id={`select-label-${label}`}>{label}</InputLabel>
       <Select
-        labelId='demo-simple-select-label'
-        id='demo-simple-select'
+        labelId={`select-label-${label}`}
+        id={`select-${label}`}
         value={value}
-        label={name}
-        onChange={handleChange}
+        label={label}
+        onChange={(e) => onChange(e.target.value)}
       >
-        {dataValue.map((item, index) => (
+        {options.map((item, index) => (
           <MenuItem key={index} value={item}>
             {item}
           </MenuItem>
@@ -34,4 +21,4 @@ const Filter = ({ name, dataValue, changeValue, reset }) => {
   )
 }
 
-export default Filter
+export default FilterSelect

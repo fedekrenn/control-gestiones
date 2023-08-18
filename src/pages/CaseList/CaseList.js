@@ -21,7 +21,6 @@ import { AuthContext } from '../../context/authContext'
 import { BasicDataContext } from '../../context/basicDataContext'
 
 const CaseList = () => {
-  const [reset, setReset] = useState(false) // Y esto?
   const [showFilters, setShowFilters] = useState(false)
 
   const [filters, setFilters] = useState({
@@ -63,16 +62,7 @@ const CaseList = () => {
   }
 
   const handleReset = () => {
-    setReset(!reset)
-    setFilters({
-      caseNumber: '',
-      exa: '',
-      process: '',
-      cell: '',
-      origin: '',
-      motive: '',
-      time: null
-    })
+    setFilters({ caseNumber: '', exa: '', process: '', cell: '', origin: '', motive: '', time: null })
   }
 
   if (!user) return <Navigate to="/" />
@@ -87,14 +77,7 @@ const CaseList = () => {
       </Box>
       {showFilters && (
         <section>
-          <Box sx={{
-            margin: '20px',
-            display: 'flex',
-            gap: '15px',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          >
+          <Box sx={{ margin: '20px', display: 'flex', gap: '15px', alignItems: 'center', justifyContent: 'center' }} >
             <TextField
               autoFocus
               id='search'
@@ -132,24 +115,37 @@ const CaseList = () => {
           </Box>
           <Box sx={{ display: 'flex', padding: '2em', gap: '1em' }}>
             <Filter
-              name={'Proceso'}
-              dataValue={Object.keys(cells) || []}
-              changeValue={(value) => handleFiltersChange('process', value)}
-              reset={reset}
+              label="Proceso"
+              value={process}
+              options={Object.keys(cells)}
+              onChange={(newValue) => {
+                if (filters.cell) {
+                  setFilters({
+                    ...filters,
+                    process: newValue,
+                    cell: ''
+                  })
+                } else {
+                  setFilters({
+                    ...filters,
+                    process: newValue
+                  })
+                }
+              }}
             />
             {process && (
               <Filter
-                name={'Célula'}
-                dataValue={cells[process]}
-                changeValue={(value) => handleFiltersChange('cell', value)}
-                reset={reset}
+                label="Célula"
+                value={cell}
+                options={cells[process]}
+                onChange={(newValue) => handleFiltersChange('cell', newValue)}
               />
             )}
             <Filter
-              name={'Origen'}
-              dataValue={ORIGINS}
-              changeValue={(value) => handleFiltersChange('origin', value)}
-              reset={reset}
+              label="Origen"
+              value={origin}
+              options={ORIGINS}
+              onChange={(newValue) => handleFiltersChange('origin', newValue)}
             />
             <Autocomplete
               fullWidth
@@ -162,9 +158,7 @@ const CaseList = () => {
               variant="outlined"
               value={motive}
               sx={{ textAlign: 'left' }}
-              onChange={(_, newValue) => {
-                handleFiltersChange('motive', newValue)
-              }}
+              onChange={(_, newValue) => handleFiltersChange('motive', newValue)}
               renderInput={(params) => (
                 <TextField
                   {...params}
