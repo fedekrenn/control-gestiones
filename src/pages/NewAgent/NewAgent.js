@@ -36,29 +36,39 @@ const NewAgent = () => {
     const nameValue = e.target.nombre.value
     const cellValue = cell
 
-    await setDoc(
-      doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
-      {
-        [key]: {
-          nombre: nameValue.trim(),
-          celula: cellValue.trim(),
-          proceso: proc.trim()
-        }
-      },
-      { merge: true }
-    )
+    try {
+      await setDoc(
+        doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
+        {
+          [key]: {
+            nombre: nameValue.trim(),
+            celula: cellValue.trim(),
+            proceso: proc.trim()
+          }
+        },
+        { merge: true }
+      )
 
-    Swal.fire({
-      title: 'Realizado!',
-      text: 'El nuevo agente ha sido agregado',
-      icon: 'success',
-      confirmButtonText: 'Ok'
-    })
+      Swal.fire({
+        title: 'Realizado!',
+        text: 'El nuevo agente ha sido agregado',
+        icon: 'success',
+        confirmButtonText: 'Ok'
+      })
 
-    e.target.exa.value = ''
-    e.target.nombre.value = ''
-    setCell('')
-    setProc('')
+      e.target.exa.value = ''
+      e.target.nombre.value = ''
+      setCell('')
+      setProc('')
+    } catch (error) {
+      console.log(error)
+      Swal.fire({
+        title: 'Error!',
+        text: 'Ha ocurrido un error al agregar el nuevo agente',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+    }
   }
 
   if (!user) return <Navigate to='/' />
