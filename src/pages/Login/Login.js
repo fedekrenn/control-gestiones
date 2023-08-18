@@ -58,6 +58,7 @@ const Login = () => {
           label="Usuario"
           variant="outlined"
           name="email"
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />

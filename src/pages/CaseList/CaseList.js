@@ -21,7 +21,8 @@ import { AuthContext } from '../../context/authContext'
 import { BasicDataContext } from '../../context/basicDataContext'
 
 const CaseList = () => {
-  const [reset, setReset] = useState(false) // Y esto?
+  const [showFilters, setShowFilters] = useState(false)
+
   const [filters, setFilters] = useState({
     caseNumber: '',
     exa: '',
@@ -61,139 +62,133 @@ const CaseList = () => {
   }
 
   const handleReset = () => {
-    setReset(!reset)
-    setFilters({
-      caseNumber: '',
-      exa: '',
-      process: '',
-      cell: '',
-      origin: '',
-      motive: '',
-      time: null
-    })
+    setFilters({ caseNumber: '', exa: '', process: '', cell: '', origin: '', motive: '', time: null })
   }
 
   if (!user) return <Navigate to="/" />
 
   return (
     <main className="search">
-      <h1>Búsqueda avanzada de gestiones</h1>
-      <h2>Buscar por:</h2>
-      <Box sx={{
-        margin: '20px',
-        display: 'flex',
-        gap: '15px',
-        alignItems: 'stretch',
-        justifyContent: 'center'
-      }}
-      >
-        <TextField
-          autoFocus
-          id='search'
-          label='Buscar por caso'
-          type='number'
-          variant='outlined'
-          placeholder='Ej: 24436781'
-          inputProps={{ min: 0 }}
-          size='small'
-          value={caseNumber}
-          onPaste={handlePaste}
-          onKeyDown={handleKeyDown}
-          onChange={(e) => handleFiltersChange('caseNumber', e.target.value)}
-        />
-        <TextField
-          autoFocus
-          id="exaSearch"
-          label="Buscar por Exa"
-          type="text"
-          variant="outlined"
-          placeholder="Ej: EXA03419"
-          size="small"
-          value={exa}
-          onPaste={handlePaste}
-          onKeyDown={handleKeyDown}
-          onChange={(e) => handleFiltersChange('exa', e.target.value)}
-        />
+      <h1>Listado de gestiones</h1>
+      <Box sx={{ display: 'flex', justifyContent: 'center', margin: '2em 0' }}>
+        <Button sx={{ width: '170px' }} variant="outlined" onClick={() => setShowFilters(!showFilters)}>
+          {showFilters ? 'Ocultar filtros' : 'Mostrar filtros'}
+        </Button>
       </Box>
-      <section className="advanced">
-        <h2>Búsqueda avanzada:</h2>
-        <Box sx={{ display: 'flex', padding: '2em', gap: '1em' }}>
-          <Filter
-            name={'Proceso'}
-            dataValue={Object.keys(cells) || []}
-            changeValue={(value) => handleFiltersChange('process', value)}
-            reset={reset}
-          />
-          {process && (
-            <Filter
-              name={'Célula'}
-              dataValue={cells[process]}
-              changeValue={(value) => handleFiltersChange('cell', value)}
-              reset={reset}
+      {showFilters && (
+        <section>
+          <Box sx={{ margin: '20px', display: 'flex', gap: '15px', alignItems: 'center', justifyContent: 'center' }} >
+            <TextField
+              autoFocus
+              id='search'
+              label='Buscar por caso'
+              type='number'
+              variant='outlined'
+              placeholder='Ej: 24436781'
+              inputProps={{ min: 0 }}
+              value={caseNumber}
+              onPaste={handlePaste}
+              onKeyDown={handleKeyDown}
+              onChange={(e) => handleFiltersChange('caseNumber', e.target.value)}
             />
-          )}
-          <Filter
-            name={'Origen'}
-            dataValue={ORIGINS}
-            changeValue={(value) => handleFiltersChange('origin', value)}
-            reset={reset}
-          />
-          <Autocomplete
-            fullWidth
-            freeSolo
-            required
-            disablePortal
-            clearOnEscape
-            clearIcon={null}
-            options={motives}
-            variant="outlined"
-            value={motive}
-            sx={{ textAlign: 'left' }}
-            onChange={(_, newValue) => {
-              handleFiltersChange('motive', newValue)
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Motivo de consulta"
-                placeholder="Ej: Consulta de saldo"
+            <TextField
+              autoFocus
+              id="exaSearch"
+              label="Buscar por Exa"
+              type="text"
+              variant="outlined"
+              placeholder="Ej: EXA03419"
+              value={exa}
+              onPaste={handlePaste}
+              onKeyDown={handleKeyDown}
+              onChange={(e) => handleFiltersChange('exa', e.target.value)}
+            />
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <DatePicker
+                onChange={(newValue) => handleFiltersChange('time', newValue)}
+                renderInput={(params) => <TextField {...params} />}
+                value={time}
+                label="Fecha de la gestión"
+                inputFormat="DD/MM/YYYY"
+              />
+            </LocalizationProvider>
+          </Box>
+          <Box sx={{ display: 'flex', padding: '2em', gap: '1em' }}>
+            <Filter
+              label="Proceso"
+              value={process}
+              options={Object.keys(cells)}
+              onChange={(newValue) => {
+                if (filters.cell) {
+                  setFilters({
+                    ...filters,
+                    process: newValue,
+                    cell: ''
+                  })
+                } else {
+                  setFilters({
+                    ...filters,
+                    process: newValue
+                  })
+                }
+              }}
+            />
+            {process && (
+              <Filter
+                label="Célula"
+                value={cell}
+                options={cells[process]}
+                onChange={(newValue) => handleFiltersChange('cell', newValue)}
               />
             )}
-          />
-        </Box>
-        <Box sx={{ margin: '30px 0' }}>
-          <LocalizationProvider dateAdapter={AdapterMoment}>
-            <DatePicker
-              onChange={(newValue) => handleFiltersChange('time', newValue)}
-              renderInput={(params) => <TextField {...params} />}
-              value={time}
-              label="Fecha de la gestión"
-              inputFormat="DD/MM/YYYY"
+            <Filter
+              label="Origen"
+              value={origin}
+              options={ORIGINS}
+              onChange={(newValue) => handleFiltersChange('origin', newValue)}
             />
-          </LocalizationProvider>
-        </Box>
-        <Box>
-          <Button variant="contained" onClick={handleReset}>
-            Limpiar filtros
-          </Button>
-        </Box>
-      </section>
-      <section>
-        <h2>Resultados</h2>
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '20px',
-          marginBottom: '20px'
-        }}
-        >
-          {filteredCases.length > 0 && (
-            <Button variant="outlined" onClick={() => handleDownloadExcel(filteredCases)}>
-              Descargar Excel
+            <Autocomplete
+              fullWidth
+              freeSolo
+              required
+              disablePortal
+              clearOnEscape
+              clearIcon={null}
+              options={motives}
+              variant="outlined"
+              value={motive}
+              sx={{ textAlign: 'left' }}
+              onChange={(_, newValue) => handleFiltersChange('motive', newValue)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Motivo de consulta"
+                  placeholder="Ej: Consulta de saldo"
+                />
+              )}
+            />
+          </Box>
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '20px',
+            marginBottom: '20px'
+          }}>
+            <Button sx={{ width: '170px' }} variant="outlined" onClick={handleReset}>
+              Limpiar filtros
             </Button>
-          )}
-        </Box>
+          </Box>
+
+        </section>
+      )}
+
+      {filteredCases.length > 0 && (
+        <Button sx={{ width: '170px' }} variant="contained" onClick={() => handleDownloadExcel(filteredCases)}>
+          Descargar Excel
+        </Button>
+      )}
+      <section className='results-section'>
         {loading
           ? <CircularProgress />
           : <table>
@@ -221,11 +216,14 @@ const CaseList = () => {
                 </tr>
               </tbody>
             )}
-            {filteredCases.slice(0, 20).map((_case) => (
-              <tbody key={_case.id}>
-                <Case _case={_case} />
-              </tbody>
-            ))}
+            {filteredCases
+              .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
+              .slice(0, 20)
+              .map((_case) => (
+                <tbody key={_case.id}>
+                  <Case _case={_case} />
+                </tbody>
+              ))}
           </table>
         }
       </section>

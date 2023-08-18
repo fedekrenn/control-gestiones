@@ -154,25 +154,29 @@ const NewCase = () => {
     })
       .then(async (result) => {
         if (result.isConfirmed) {
-          const docRef = doc(db, 'cases-list', 'NeCtxuFq7KGvryxgmBpn')
+          try {
+            const docRef = doc(db, 'cases-list', 'NeCtxuFq7KGvryxgmBpn')
 
-          await updateDoc(docRef, { cases: arrayUnion(newCase) })
+            await updateDoc(docRef, { cases: arrayUnion(newCase) })
 
-          Swal.fire({
-            title: 'Gestion guardada',
-            text: 'Los datos de la gestión han sido guardados correctamente',
-            icon: 'success',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#545454',
-            confirmButtonText: 'Ir al caso',
-            cancelButtonText: 'Cargar otra gestión'
-          })
-            .then((result) => {
-              if (result.isConfirmed) navigate(`/monitoreo/${newCase.id}`)
+            Swal.fire({
+              title: 'Gestion guardada',
+              text: 'Los datos de la gestión han sido guardados correctamente',
+              icon: 'success',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#545454',
+              confirmButtonText: 'Ir al caso',
+              cancelButtonText: 'Cargar otra gestión'
             })
+              .then((result) => {
+                if (result.isConfirmed) navigate(`/monitoreo/${newCase.id}`)
+              })
 
-          handleDelete()
+            handleDelete()
+          } catch (error) {
+            Swal.fire('Error', 'No se pudo guardar la gestión', 'error')
+          }
         } else {
           Swal.fire('Cancelado', 'La gestión no ha sido guardada', 'error')
         }
