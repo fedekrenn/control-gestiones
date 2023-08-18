@@ -62,7 +62,7 @@ const UploadFile = ({ selecManual, setSelecManual }) => {
       <input
         type='radio'
         name='select-type'
-        id='type-file'
+        id='type-file-auto'
         onClick={() => setSelecManual(false)}
       />
       <h3>Cargar desde un archivo:</h3>

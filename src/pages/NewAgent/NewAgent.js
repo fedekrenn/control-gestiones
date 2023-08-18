@@ -3,15 +3,12 @@ import { Navigate } from 'react-router-dom'
 // Librerías
 import Swal from 'sweetalert2'
 import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
   Button
 } from '@mui/material'
 // Componentes
 import UploadFile from '../../components/uploadFIle/UploadFile'
+import Filter from '../../components/Filter/Filter'
 // Utils
 import { handlePaste, handleKeyDown } from '../../utils/handleEvent'
 // Firebase
@@ -31,15 +28,6 @@ const NewAgent = () => {
 
   const cellsSelected = useMemo(() => cells[proc] || [''], [cells, proc])
   const process = useMemo(() => Object.keys(cells), [cells])
-
-  const handleChangeCell = (event) => {
-    setCell(event.target.value)
-  }
-
-  const handleChangeProc = (event) => {
-    setProc(event.target.value)
-    setCell('')
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -82,7 +70,7 @@ const NewAgent = () => {
         <input
           type='radio'
           name='select-type'
-          id='type-file'
+          id='type-file-manual'
           defaultChecked
           onClick={() => setSelecManual(true)}
         />
@@ -111,39 +99,30 @@ const NewAgent = () => {
               size='small'
               required
             />
-            <FormControl sx={{ minWidth: 120 }} size='small' required>
-              <InputLabel id='demo-simple-select-label'>Proceso</InputLabel>
-              <Select
-                labelId='demo-simple-select-label'
-                id='demo-simple-select'
-                value={proc}
-                label='Célula'
-                onChange={handleChangeProc}
-              >
-                {process.map((proc, index) => (
-                  <MenuItem key={index} value={proc}>
-                    {proc}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <Filter
+              label='Proceso'
+              value={proc}
+              options={process}
+              size='small'
+              fWidth={false}
+              onChange={(e) => {
+                if (cell) {
+                  setProc(e)
+                  setCell('')
+                } else {
+                  setProc(e)
+                }
+              }}
+            />
             {proc && (
-              <FormControl sx={{ minWidth: 120 }} size='small' required>
-                <InputLabel id='demo-simple-select-label'>Célula</InputLabel>
-                <Select
-                  labelId='demo-simple-select-label'
-                  id='demo-simple-select'
-                  value={cell}
-                  label='Célula'
-                  onChange={handleChangeCell}
-                >
-                  {cellsSelected.map((cell, index) => (
-                    <MenuItem key={index} value={cell}>
-                      {cell}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <Filter
+                label='Célula'
+                value={cell}
+                options={cellsSelected}
+                size='small'
+                fWidth={false}
+                onChange={setCell}
+              />
             )}
             <Button variant='contained' type='submit'>
               Agregar
