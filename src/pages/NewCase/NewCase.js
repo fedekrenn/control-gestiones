@@ -27,6 +27,8 @@ import { useGetAgents, useGetCases } from '../../customHooks/indexHooks'
 // Context
 import { AuthContext } from '../../context/authContext'
 import { BasicDataContext } from '../../context/basicDataContext'
+// Components
+import Filter from '../../components/Filter/Filter'
 
 const NewCase = () => {
   const [timeValue, setTimeValue] = useState(null)
@@ -271,23 +273,15 @@ const NewCase = () => {
               />
             )}
           />
-          <FormControl sx={{ minWidth: 120 }} size='small' required>
-            <InputLabel id='demo-simple-select-label-one'>Realizó</InputLabel>
-            <Select
-              labelId='demo-simple-select-label--one'
-              id='demo-simple-select-one'
-              label='Realizó'
-              sx={{ textAlign: 'left' }}
-              value={way}
-              onChange={e => setWay(e.target.value)}
-            >
-              {ORIGINS.map((wy, index) => (
-                <MenuItem key={index} value={wy}>
-                  {wy}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+
+          <Filter
+            label='Realizó'
+            value={way}
+            options={ORIGINS}
+            size='small'
+            fWidth={false}
+            onChange={setWay}
+          />
 
           <Box className='extended-input'>
             <FormControl sx={{ minWidth: 120 }} size='small' required>
@@ -308,24 +302,14 @@ const NewCase = () => {
             </FormControl>
 
             {!isEmpty(errValue) &&
-              <FormControl sx={{ minWidth: 120 }} size='small' required>
-                <InputLabel id='demo-simple-select-label-three'>
-                  Detalle EC:
-                </InputLabel>
-                <Select
-                  labelId='demo-simple-select-label--three'
-                  id='demo-simple-select-three'
-                  value={errDescription}
-                  label='OMS'
-                  onChange={(e) => setErrDescription(e.target.value)}
-                >
-                  {errorsSubAtributte.map((om, index) => (
-                    <MenuItem key={index} value={om}>
-                      {om}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <Filter
+                label='Detalle EC'
+                value={errDescription}
+                onChange={setErrDescription}
+                options={errorsSubAtributte}
+                size='small'
+                fWidth={false}
+              />
             }
           </Box>
 
@@ -346,33 +330,22 @@ const NewCase = () => {
                 ))}
               </Select>
             </FormControl>
-
             {!isEmpty(omsValue) &&
-              <FormControl sx={{ minWidth: 120 }} size='small' required>
-                <InputLabel id='demo-simple-select-label-three'>
-                  Detalle OMS:
-                </InputLabel>
-                <Select
-                  labelId='demo-simple-select-label--three'
-                  id='demo-simple-select-three'
-                  value={omsDescription}
-                  label='OMS'
-                  onChange={e => setOmsDescription(e.target.value)}
-                >
-                  {omsSubAtributte.map((om, index) => (
-                    <MenuItem key={index} value={om}>
-                      {om}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <Filter
+                label='Detalle OMS'
+                value={omsDescription}
+                onChange={setOmsDescription}
+                options={omsSubAtributte}
+                size='small'
+                fWidth={false}
+              />
             }
           </Box>
-        </Box>
 
+        </Box>
         <Box className='text-area-container form__child'>
           <TextField
-            id='outlined-textarea'
+            id='outlined-textarea-first'
             label='¿Qué faltó para la resolución?'
             name='puntoFalla'
             placeholder='Ej: Indagar necesidades'
@@ -383,7 +356,7 @@ const NewCase = () => {
           />
 
           <TextField
-            id='outlined-textarea'
+            id='outlined-textarea-second'
             label='Comentario de la gestión'
             name='comentarioGestion'
             placeholder='Ej: Cliente se contacta consultando por ...'
