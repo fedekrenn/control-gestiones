@@ -1,15 +1,11 @@
 import { useState, useContext } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
-// Librerías
+// Libraries
 import { TextField, Button } from '@mui/material'
 import Swal from 'sweetalert2'
 // Firebase
 import { auth } from '../../config/firebaseConfig'
-import {
-  setPersistence,
-  signInWithEmailAndPassword,
-  browserSessionPersistence
-} from 'firebase/auth'
+import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from 'firebase/auth'
 // Context
 import { AuthContext } from '../../context/authContext'
 

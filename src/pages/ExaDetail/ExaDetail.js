@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { Navigate, useParams, Link } from 'react-router-dom'
-// Librerías
+// Libraries
 import CircularProgress from '@mui/material/CircularProgress'
 // Custom Hooks
 import { useGetCases } from '../../customHooks/indexHooks'

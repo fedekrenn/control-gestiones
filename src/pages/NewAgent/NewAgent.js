@@ -1,12 +1,9 @@
 import { useState, useMemo, useContext } from 'react'
 import { Navigate } from 'react-router-dom'
-// Librerías
+// Libraries
 import Swal from 'sweetalert2'
-import {
-  TextField,
-  Button
-} from '@mui/material'
-// Componentes
+import { TextField, Button } from '@mui/material'
+// Components
 import UploadFile from '../../components/uploadFIle/UploadFile'
 import Filter from '../../components/Filter/Filter'
 // Utils
@@ -19,31 +16,26 @@ import { AuthContext } from '../../context/authContext'
 import { BasicDataContext } from '../../context/basicDataContext'
 
 const NewAgent = () => {
-  const [cell, setCell] = useState('')
-  const [proc, setProc] = useState('')
+  const [group, setGroup] = useState({ key: '', name: '', cell: '', proc: '' })
   const [selecManual, setSelecManual] = useState(true)
 
   const { user } = useContext(AuthContext)
   const { cells } = useContext(BasicDataContext)
 
-  const cellsSelected = useMemo(() => cells[proc] || [''], [cells, proc])
+  const cellsSelected = useMemo(() => cells[group.proc] || [''], [cells, group])
   const process = useMemo(() => Object.keys(cells), [cells])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const key = e.target.exa.value.toLowerCase()
-    const nameValue = e.target.nombre.value
-    const cellValue = cell
-
     try {
       await setDoc(
         doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
         {
-          [key]: {
-            nombre: nameValue.trim(),
-            celula: cellValue.trim(),
-            proceso: proc.trim()
+          [group.key.toLowerCase()]: {
+            nombre: group.name.trim(),
+            celula: group.cell,
+            proceso: group.proc
           }
         },
         { merge: true }
@@ -56,10 +48,7 @@ const NewAgent = () => {
         confirmButtonText: 'Ok'
       })
 
-      e.target.exa.value = ''
-      e.target.nombre.value = ''
-      setCell('')
-      setProc('')
+      setGroup({ key: '', name: '', cell: '', proc: '' })
     } catch (error) {
       console.log(error)
       Swal.fire({
@@ -93,6 +82,8 @@ const NewAgent = () => {
               type='text'
               variant='outlined'
               name='exa'
+              value={group.key}
+              onChange={(e) => setGroup({ ...group, key: e.target.value })}
               placeholder='Ej: EXA00112'
               onKeyDown={handleKeyDown}
               onPaste={handlePaste}
@@ -104,34 +95,35 @@ const NewAgent = () => {
               label='Nombre completo'
               type='text'
               variant='outlined'
+              value={group.name}
               name='nombre'
+              onChange={(e) => setGroup({ ...group, name: e.target.value })}
               placeholder='Ej: Juan Perez'
               size='small'
               required
             />
             <Filter
               label='Proceso'
-              value={proc}
+              value={group.proc}
               options={process}
               size='small'
               fWidth={false}
               onChange={(e) => {
-                if (cell) {
-                  setProc(e)
-                  setCell('')
+                if (group.cell) {
+                  setGroup({ cell: '', proc: e })
                 } else {
-                  setProc(e)
+                  setGroup({ ...group, proc: e })
                 }
               }}
             />
-            {proc && (
+            {group.proc && (
               <Filter
                 label='Célula'
-                value={cell}
+                value={group.cell}
                 options={cellsSelected}
                 size='small'
                 fWidth={false}
-                onChange={setCell}
+                onChange={(e) => setGroup({ ...group, cell: e })}
               />
             )}
             <Button variant='contained' type='submit'>
