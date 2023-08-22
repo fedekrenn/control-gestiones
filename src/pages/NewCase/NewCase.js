@@ -1,16 +1,7 @@
 import { useState, useMemo, useContext } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-// Librerías
-import {
-  TextField,
-  Autocomplete,
-  Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Box
-} from '@mui/material'
+// Libraries
+import { TextField, Autocomplete, Button, Box } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
@@ -62,18 +53,6 @@ const NewCase = () => {
   const agentsArray = useMemo(() => Object.keys(agents).map(el => el.toUpperCase()), [agents])
 
   const isEmpty = (myState) => myState === '' || myState === 'n/a'
-
-  const handleChangeErr = (event) => {
-    setErrDescription('')
-    setErrValue(event.target.value)
-    setErrorsSubAtributte(errors[event.target.value])
-  }
-
-  const handleChangeOms = (event) => {
-    setOmsDescription('')
-    setOmsValue(event.target.value)
-    setOmsSubAtributte(oms[event.target.value])
-  }
 
   const handleDelete = (e) => {
     document.getElementById('form').reset()
@@ -190,12 +169,7 @@ const NewCase = () => {
   return (
     <main className='new-case'>
       <h2>Agregar nueva gestión</h2>
-      <form
-        className='new-case__form'
-        id='form'
-        onSubmit={handleSubmit}
-        onReset={handleFormReset}
-      >
+      <form className='new-case__form' id='form' onSubmit={handleSubmit} onReset={handleFormReset} >
         <Box className='input-one form__child'>
           <Autocomplete
             disablePortal
@@ -246,13 +220,13 @@ const NewCase = () => {
         <Box className='input-two form__child'>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DateTimePicker
-              renderInput={props => <TextField {...props} required />}
+              renderInput={props => <TextField {...props} size='small' required />}
               label='Fecha y hora del caso'
+              ampm={false}
+              disableFuture
               value={timeValue}
               inputFormat='DD/MM/YYYY HH:mm'
-              onChange={newValue => {
-                setTimeValue(newValue)
-              }}
+              onChange={newValue => setTimeValue(newValue)}
             />
           </LocalizationProvider>
           <Autocomplete
@@ -273,7 +247,6 @@ const NewCase = () => {
               />
             )}
           />
-
           <Filter
             label='Realizó'
             value={way}
@@ -282,25 +255,19 @@ const NewCase = () => {
             fWidth={false}
             onChange={setWay}
           />
-
           <Box className='extended-input'>
-            <FormControl sx={{ minWidth: 120 }} size='small' required>
-              <InputLabel id='demo-simple-select-label-two'>Errores</InputLabel>
-              <Select
-                labelId='demo-simple-select-label--two'
-                id='demo-simple-select-two'
-                value={errValue}
-                label='Errores'
-                onChange={handleChangeErr}
-              >
-                {Object.keys(errors).map((err, index) => (
-                  <MenuItem key={index} value={err}>
-                    {err}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
+            <Filter
+              label='Errores'
+              value={errValue}
+              options={Object.keys(errors)}
+              size='small'
+              fWidth={false}
+              onChange={(newValue) => {
+                setErrDescription('')
+                setErrValue(newValue)
+                setErrorsSubAtributte(errors[newValue])
+              }}
+            />
             {!isEmpty(errValue) &&
               <Filter
                 label='Detalle EC'
@@ -312,24 +279,19 @@ const NewCase = () => {
               />
             }
           </Box>
-
           <Box className='extended-input'>
-            <FormControl sx={{ minWidth: 120 }} size='small' required>
-              <InputLabel id='demo-simple-select-label-three'>OMS</InputLabel>
-              <Select
-                labelId='demo-simple-select-label--three'
-                id='demo-simple-select-three'
-                value={omsValue}
-                label='OMS'
-                onChange={handleChangeOms}
-              >
-                {Object.keys(oms).map((om, index) => (
-                  <MenuItem key={index} value={om}>
-                    {om}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <Filter
+              label='OMS'
+              value={omsValue}
+              options={Object.keys(oms)}
+              size='small'
+              fWidth={false}
+              onChange={(newValue) => {
+                setOmsDescription('')
+                setOmsValue(newValue)
+                setOmsSubAtributte(oms[newValue])
+              }}
+            />
             {!isEmpty(omsValue) &&
               <Filter
                 label='Detalle OMS'
@@ -341,7 +303,6 @@ const NewCase = () => {
               />
             }
           </Box>
-
         </Box>
         <Box className='text-area-container form__child'>
           <TextField
@@ -351,10 +312,8 @@ const NewCase = () => {
             placeholder='Ej: Indagar necesidades'
             rows={2}
             className='textarea-width-first'
-            multiline
             required
           />
-
           <TextField
             id='outlined-textarea-second'
             label='Comentario de la gestión'
@@ -366,7 +325,6 @@ const NewCase = () => {
             required
           />
         </Box>
-
         <Box className='btn-container'>
           <Button variant='contained' type='submit'>
             Agregar
