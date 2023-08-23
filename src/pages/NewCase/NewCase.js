@@ -21,7 +21,7 @@ import { BasicDataContext } from '../../context/basicDataContext'
 // Components
 import Filter from '../../components/Filter/Filter'
 
-const NewCase = () => {
+export default function NewCase() {
   const [timeValue, setTimeValue] = useState(null)
 
   const [errorsSubAtributte, setErrorsSubAtributte] = useState([])
@@ -177,55 +177,54 @@ const NewCase = () => {
             size='small'
             key={resetKey}
             options={agentsArray}
+            onChange={handleChangeAutocomplete}
+            onPaste={handlePaste}
             sx={{ width: 300 }}
             renderInput={params => (
               <TextField {...params} required label='Exa' />
             )}
-            onChange={handleChangeAutocomplete}
-            onPaste={handlePaste}
           />
           <TextField
+            disabled
             id='outlined-basicOne'
             size='small'
-            disabled
-            value={agentName}
             variant='outlined'
+            value={agentName}
           />
           <TextField
+            disabled
             id='outlined-basicTwo'
             size='small'
-            disabled
-            value={agentGroup}
             variant='outlined'
+            value={agentGroup}
           />
           <TextField
+            disabled
             id='outlined-basicThree'
             size='small'
-            disabled
-            value={agentProcess}
             variant='outlined'
+            value={agentProcess}
           />
           <TextField
+            required
             id='outlined-basicFour'
             type='number'
             size='small'
             label='N° caso/solicitud/id'
             variant='outlined'
             placeholder='Ej: 2331244'
-            onChange={(e) => setCaseNumber(e.target.value)}
-            required
+            onChange={e => setCaseNumber(e.target.value)}
           />
         </Box>
-
         <Box className='input-two form__child'>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DateTimePicker
-              renderInput={props => <TextField {...props} size='small' required />}
-              label='Fecha y hora del caso'
-              ampm={false}
               disableFuture
-              value={timeValue}
+              ampm={false}
+              label='Fecha y hora del caso'
               inputFormat='DD/MM/YYYY HH:mm'
+              value={timeValue}
+              renderInput={props => <TextField {...props} size='small' required />}
               onChange={newValue => setTimeValue(newValue)}
             />
           </LocalizationProvider>
@@ -249,20 +248,20 @@ const NewCase = () => {
           />
           <Filter
             label='Realizó'
-            value={way}
-            options={ORIGINS}
             size='small'
             fWidth={false}
+            value={way}
+            options={ORIGINS}
             onChange={setWay}
           />
           <Box className='extended-input'>
             <Filter
               label='Errores'
-              value={errValue}
-              options={Object.keys(errors)}
               size='small'
               fWidth={false}
-              onChange={(newValue) => {
+              value={errValue}
+              options={Object.keys(errors)}
+              onChange={newValue => {
                 setErrDescription('')
                 setErrValue(newValue)
                 setErrorsSubAtributte(errors[newValue])
@@ -271,22 +270,22 @@ const NewCase = () => {
             {!isEmpty(errValue) &&
               <Filter
                 label='Detalle EC'
+                size='small'
+                fWidth={false}
                 value={errDescription}
                 onChange={setErrDescription}
                 options={errorsSubAtributte}
-                size='small'
-                fWidth={false}
               />
             }
           </Box>
           <Box className='extended-input'>
             <Filter
               label='OMS'
-              value={omsValue}
-              options={Object.keys(oms)}
               size='small'
               fWidth={false}
-              onChange={(newValue) => {
+              value={omsValue}
+              options={Object.keys(oms)}
+              onChange={newValue => {
                 setOmsDescription('')
                 setOmsValue(newValue)
                 setOmsSubAtributte(oms[newValue])
@@ -295,34 +294,34 @@ const NewCase = () => {
             {!isEmpty(omsValue) &&
               <Filter
                 label='Detalle OMS'
+                size='small'
+                fWidth={false}
                 value={omsDescription}
                 onChange={setOmsDescription}
                 options={omsSubAtributte}
-                size='small'
-                fWidth={false}
               />
             }
           </Box>
         </Box>
         <Box className='text-area-container form__child'>
           <TextField
+            required
             id='outlined-textarea-first'
             label='¿Qué faltó para la resolución?'
             name='puntoFalla'
             placeholder='Ej: Indagar necesidades'
-            rows={2}
             className='textarea-width-first'
-            required
+            rows={2}
           />
           <TextField
+            required
+            multiline
             id='outlined-textarea-second'
             label='Comentario de la gestión'
             name='comentarioGestion'
             placeholder='Ej: Cliente se contacta consultando por ...'
-            rows={10}
             className='textarea-width-second'
-            multiline
-            required
+            rows={10}
           />
         </Box>
         <Box className='btn-container'>
@@ -337,5 +336,3 @@ const NewCase = () => {
     </main>
   )
 }
-
-export default NewCase

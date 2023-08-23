@@ -7,10 +7,10 @@ import Swal from 'sweetalert2'
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
 
-const UploadFile = ({ selecManual, setSelecManual }) => {
+export default function UploadFile({ selecManual, setSelecManual }) {
   const [xmlsData, setXmlsData] = useState([])
 
-  function handleUploadFile (event) {
+  function handleUploadFile(event) {
     const file = event.target.files[0]
     const reader = new FileReader()
 
@@ -33,8 +33,7 @@ const UploadFile = ({ selecManual, setSelecManual }) => {
       xmlsData.slice(1).forEach(async (agent) => {
         if (agent.length === 0) return
 
-        await setDoc(
-          doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
+        await setDoc(doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
           {
             [agent[0].toLowerCase()]: {
               nombre: agent[1].trim(),
@@ -54,6 +53,12 @@ const UploadFile = ({ selecManual, setSelecManual }) => {
       })
     } catch (error) {
       console.error(error)
+      Swal.fire({
+        title: 'Error!',
+        text: 'No se ha podido agregar a los agentes',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
     }
   }
 
@@ -78,11 +83,7 @@ const UploadFile = ({ selecManual, setSelecManual }) => {
               algunos datos precargados. y podrás seleccionarlos desde las
               listas desplegables.
             </p>
-            <a
-              href='./assets/modelo-nomina.xlsx'
-              download='modelo-nomina.xlsx'
-              className='model'
-            >
+            <a href='./assets/modelo-nomina.xlsx' download='modelo-nomina.xlsx' className='model'>
               Descargar modelo
             </a>
           </Box>
@@ -101,16 +102,16 @@ const UploadFile = ({ selecManual, setSelecManual }) => {
               <table>
                 <thead>
                   <tr>
-                    {xmlsData[0].map((headerValue, i) => (
-                      <th key={i}>{headerValue}</th>
+                    {xmlsData[0].map((headerValue, rowIndex) => (
+                      <th key={rowIndex}>{headerValue}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {xmlsData.slice(1).map((agent, rowIndex) => (
                     <tr key={rowIndex}>
-                      {agent.map((tableValue, tableIndex) => (
-                        <td key={tableIndex}>{tableValue}</td>
+                      {agent.map((tableValue, columIndex) => (
+                        <td key={columIndex}>{tableValue}</td>
                       ))}
                     </tr>
                   ))}
@@ -123,5 +124,3 @@ const UploadFile = ({ selecManual, setSelecManual }) => {
     </section>
   )
 }
-
-export default UploadFile

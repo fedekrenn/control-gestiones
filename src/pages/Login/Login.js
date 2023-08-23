@@ -9,7 +9,7 @@ import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence }
 // Context
 import { AuthContext } from '../../context/authContext'
 
-const Login = () => {
+export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -19,29 +19,30 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault()
 
-    setPersistence(auth, browserSessionPersistence).then(() => {
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Bienvenido',
-            text: 'Has iniciado sesión correctamente',
-            confirmButtonText: 'Aceptar'
-          })
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        signInWithEmailAndPassword(auth, email, password)
+          .then(() => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Bienvenido',
+              text: 'Has iniciado sesión correctamente',
+              confirmButtonText: 'Aceptar'
+            })
 
-          setTimeout(() => {
-            navigate('/inicio')
-          }, 1500)
-        })
-        .catch(() => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Ha ocurrido un error al iniciar sesión',
-            confirmButtonText: 'Aceptar'
+            setTimeout(() => {
+              navigate('/inicio')
+            }, 1500)
           })
-        })
-    })
+          .catch(() => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Ha ocurrido un error al iniciar sesión',
+              confirmButtonText: 'Aceptar'
+            })
+          })
+      })
   }
 
   if (user) return <Navigate to="/inicio" />
@@ -56,7 +57,7 @@ const Login = () => {
           name="email"
           autoComplete="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={e => setEmail(e.target.value)}
         />
         <TextField
           id="outlined-basic-pss"
@@ -65,7 +66,7 @@ const Login = () => {
           variant="outlined"
           name="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
         />
         <Button variant="contained" size="large" type="submit">
           Acceder
@@ -74,5 +75,3 @@ const Login = () => {
     </main>
   )
 }
-
-export default Login

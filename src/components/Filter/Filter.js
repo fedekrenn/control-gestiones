@@ -1,7 +1,7 @@
 import { useId } from 'react'
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 
-const FilterSelect = ({ label, value, options, onChange, size = 'medium', fWidth = true }) => {
+export default function FilterSelect({ label, value, options, onChange, size = 'medium', fWidth = true }) {
   const labelID = useId()
   const inputID = useId()
 
@@ -18,16 +18,14 @@ const FilterSelect = ({ label, value, options, onChange, size = 'medium', fWidth
         inputProps={{ id: inputID }}
         value={value}
         label={label}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={e => onChange(e.target.value)}
       >
-        {options.map((item, index) => (
-          <MenuItem key={index} value={item}>
+        {options.map(item => (
+          <MenuItem key={item} value={item}>
             {item}
           </MenuItem>
         ))}
       </Select>
-    </FormControl>
+    </FormControl >
   )
 }
-
-export default FilterSelect

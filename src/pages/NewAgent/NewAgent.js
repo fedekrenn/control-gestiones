@@ -15,7 +15,7 @@ import { db } from '../../config/firebaseConfig'
 import { AuthContext } from '../../context/authContext'
 import { BasicDataContext } from '../../context/basicDataContext'
 
-const NewAgent = () => {
+export default function NewAgent() {
   const [group, setGroup] = useState({ key: '', name: '', cell: '', proc: '' })
   const [selecManual, setSelecManual] = useState(true)
 
@@ -29,8 +29,7 @@ const NewAgent = () => {
     e.preventDefault()
 
     try {
-      await setDoc(
-        doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
+      await setDoc(doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
         {
           [group.key.toLowerCase()]: {
             nombre: group.name.trim(),
@@ -50,7 +49,7 @@ const NewAgent = () => {
 
       setGroup({ key: '', name: '', cell: '', proc: '' })
     } catch (error) {
-      console.log(error)
+      console.error(error)
       Swal.fire({
         title: 'Error!',
         text: 'Ha ocurrido un error al agregar el nuevo agente',
@@ -77,38 +76,38 @@ const NewAgent = () => {
         {selecManual && (
           <form className='new-agent__form' onSubmit={handleSubmit}>
             <TextField
+              required
               id='outlined-basic-one'
               label='EXA'
               type='text'
               variant='outlined'
               name='exa'
-              value={group.key}
-              onChange={(e) => setGroup({ ...group, key: e.target.value })}
+              size='small'
               placeholder='Ej: EXA00112'
+              value={group.key}
+              onChange={e => setGroup({ ...group, key: e.target.value })}
               onKeyDown={handleKeyDown}
               onPaste={handlePaste}
-              size='small'
-              required
             />
             <TextField
+              required
               id='outlined-basic-two'
               label='Nombre completo'
               type='text'
               variant='outlined'
-              value={group.name}
-              name='nombre'
-              onChange={(e) => setGroup({ ...group, name: e.target.value })}
-              placeholder='Ej: Juan Perez'
               size='small'
-              required
+              name='nombre'
+              placeholder='Ej: Juan Perez'
+              value={group.name}
+              onChange={e => setGroup({ ...group, name: e.target.value })}
             />
             <Filter
               label='Proceso'
+              size='small'
               value={group.proc}
               options={process}
-              size='small'
               fWidth={false}
-              onChange={(e) => {
+              onChange={e => {
                 if (group.cell) {
                   setGroup({ cell: '', proc: e })
                 } else {
@@ -119,11 +118,11 @@ const NewAgent = () => {
             {group.proc && (
               <Filter
                 label='Célula'
+                size='small'
                 value={group.cell}
                 options={cellsSelected}
-                size='small'
                 fWidth={false}
-                onChange={(e) => setGroup({ ...group, cell: e })}
+                onChange={e => setGroup({ ...group, cell: e })}
               />
             )}
             <Button variant='contained' type='submit'>
@@ -136,5 +135,3 @@ const NewAgent = () => {
     </main>
   )
 }
-
-export default NewAgent

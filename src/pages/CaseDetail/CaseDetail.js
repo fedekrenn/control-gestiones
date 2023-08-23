@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react'
 import { useParams, Navigate, Link } from 'react-router-dom'
-// Librerías
+// Libraries
 import CircularProgress from '@mui/material/CircularProgress'
 // Iconos
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch'
@@ -14,8 +14,9 @@ import { AuthContext } from '../../context/authContext'
 // Custom hooks
 import { useGetCaseDetail } from '../../customHooks/indexHooks'
 
-const CaseDetail = () => {
+export default function CaseDetail() {
   const [open, setOpen] = useState(false)
+
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
@@ -64,10 +65,7 @@ const CaseDetail = () => {
                     <span>Origen:</span>
                     {caseDetail.origen}
                   </li>
-                  <li>
-                    <span>Fecha de atención:</span>
-                    {formmatedDate(caseDetail.date)}
-                  </li>
+                  <li><span>Fecha de atención:</span> {formmatedDate(caseDetail.date)}</li>
                 </ul>
                 <Box sx={{ display: 'flex', justifyContent: 'center', paddingTop: '10px' }} >
                   <Link to={`/asesor/${caseDetail.exa}`}>
@@ -117,12 +115,8 @@ const CaseDetail = () => {
                     <li>
                       <h3 className='om'>Oportunidad de mejora:</h3>
                       <Box className='card-detail'>
-                        <p>
-                          <span>Motivo:</span> {caseDetail.om.motivo}
-                        </p>
-                        <p>
-                          <span>Submotivo:</span> {caseDetail.om.submotivo}
-                        </p>
+                        <p><span>Motivo:</span> {caseDetail.om.motivo}</p>
+                        <p><span>Submotivo:</span> {caseDetail.om.submotivo}</p>
                       </Box>
                     </li>
                   )}
@@ -144,5 +138,3 @@ const CaseDetail = () => {
     </main>
   )
 }
-
-export default CaseDetail

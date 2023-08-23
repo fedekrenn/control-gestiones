@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom'
 // Context
 import { AuthContext } from '../../context/authContext'
 
-const MainPage = () => {
+export default function MainPage() {
   const { user } = useContext(AuthContext)
 
   if (!user) return <Navigate to='/' />
@@ -19,5 +19,3 @@ const MainPage = () => {
     </main>
   )
 }
-
-export default MainPage

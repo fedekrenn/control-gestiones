@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import FeedIcon from '@mui/icons-material/Feed'
 
-const Case = ({ _case }) => {
+export default function InteractionCase ({ clientInteraction }) {
   const {
     id,
     celula,
@@ -12,7 +12,7 @@ const Case = ({ _case }) => {
     numeroCaso,
     origen,
     proceso
-  } = _case
+  } = clientInteraction
 
   return (
     <tr>
@@ -32,5 +32,3 @@ const Case = ({ _case }) => {
     </tr>
   )
 }
-
-export default Case

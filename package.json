@@ -36,7 +36,10 @@
       "react-app",
       "react-app/jest",
       "standard"
-    ]
+    ],
+    "rules": {
+      "space-before-function-paren": "off"
+    }
   },
   "browserslist": {
     "production": [
