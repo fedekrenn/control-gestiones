@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import FeedIcon from '@mui/icons-material/Feed'
 
-export default function InteractionCase ({ clientInteraction }) {
+export default function InteractionCase({ clientInteraction }) {
   const {
     id,
     celula,

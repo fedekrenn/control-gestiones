@@ -6,6 +6,7 @@ const useGetCases = () => {
   const [cases, setCases] = useState([])
   const [loading, setLoading] = useState(true)
   const [motives, setMotives] = useState([])
+  const [error, setError] = useState({ status: false, message: '' })
 
   useEffect(() => {
     (async () => {
@@ -21,6 +22,7 @@ const useGetCases = () => {
         setMotives(uniqueMotives)
         setCases(docs)
       } catch (error) {
+        setError({ status: true, message: 'Error en la comunicación con la base de datos' })
         console.error(error)
       } finally {
         setLoading(false)
@@ -28,13 +30,13 @@ const useGetCases = () => {
     })()
   }, [])
 
-  return { cases, loading, motives }
+  return { cases, loading, motives, error }
 }
 
 const useGetCaseDetail = (id) => {
   const [caseDetail, setCaseDetail] = useState({})
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [error, setError] = useState({ status: false, message: '' })
 
   useEffect(() => {
     (async () => {
@@ -44,11 +46,16 @@ const useGetCaseDetail = (id) => {
 
         const uniqueCase = docSnap.data().cases.find(doc => doc.id === id)
 
-        docSnap.exists() ? setCaseDetail(uniqueCase) : setError(true)
-
-        setLoading(false)
+        if (uniqueCase) {
+          setCaseDetail(uniqueCase)
+        } else {
+          setError({ status: true, message: 'El caso no existe' })
+        }
       } catch (error) {
-        setError(true)
+        setError({ status: true, message: 'Error en la comunicación con la base de datos' })
+        console.error(error)
+      } finally {
+        setLoading(false)
       }
     })(id)
 
@@ -62,6 +69,7 @@ const useGetCaseDetail = (id) => {
 
 const useGetAgents = () => {
   const [agents, setAgents] = useState({})
+  const [error, setError] = useState({ status: false, message: '' })
 
   useEffect(() => {
     (async () => {
@@ -69,14 +77,20 @@ const useGetAgents = () => {
         const docRef = doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
         const docSnap = await getDoc(docRef)
 
-        docSnap.exists() ? setAgents(docSnap.data()) : console.error('No such document!')
+        if (docSnap.exists()) {
+          setAgents(docSnap.data())
+        } else {
+          setError({ status: true, message: 'En la base de datos no se encontraron resultados de agentes' })
+          console.error('No such document!')
+        }
       } catch (error) {
+        setError({ status: true, message: 'Error en la comunicación con la base de datos' })
         console.error(error)
       }
     })()
   }, [])
 
-  return { agents }
+  return { agents, error }
 }
 
 export {

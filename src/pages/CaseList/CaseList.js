@@ -10,6 +10,7 @@ import moment from 'moment'
 // Components
 import InteractionCase from '../../components/InteractionCase/InteractionCase'
 import Filter from '../../components/Filter/Filter'
+import Error from '../../components/Error/Error'
 // Utils
 import { handlePaste, handleKeyDown } from '../../utils/handleEvent'
 import { ORIGINS } from '../../utils/origins'
@@ -38,7 +39,7 @@ export default function CaseList() {
   const { user } = useContext(AuthContext)
   const { cells } = useContext(BasicDataContext)
 
-  const { cases, loading, motives } = useGetCases()
+  const { cases, loading, motives, error } = useGetCases()
 
   const filteredCases = useMemo(() => {
     return cases.filter(clientInteraction => {
@@ -66,6 +67,7 @@ export default function CaseList() {
   }
 
   if (!user) return <Navigate to="/" />
+  if (error.status) return <Error message={error.message} />
 
   return (
     <main className="search">
@@ -205,8 +207,8 @@ export default function CaseList() {
                 <th>Ver detalles</th>
               </tr>
             </thead>
-            {filteredCases.length === 0 && (
-              <tbody>
+            {filteredCases.length === 0
+              ? <tbody>
                 <tr>
                   <td colSpan="9">
                     <Box sx={{ display: 'flex', justifyContent: 'center', margin: '2em 0', color: 'red' }}>
@@ -215,15 +217,14 @@ export default function CaseList() {
                   </td>
                 </tr>
               </tbody>
-            )}
-            {filteredCases
-              .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
-              .slice(0, 20)
-              .map((clientInteraction) => (
-                <tbody key={clientInteraction.id}>
-                  <InteractionCase clientInteraction={clientInteraction} />
-                </tbody>
-              ))}
+              : filteredCases
+                .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
+                .slice(0, 20)
+                .map((clientInteraction) => (
+                  <tbody key={clientInteraction.id}>
+                    <InteractionCase clientInteraction={clientInteraction} />
+                  </tbody>
+                ))}
           </table>
         }
       </section>

@@ -20,6 +20,7 @@ import { AuthContext } from '../../context/authContext'
 import { BasicDataContext } from '../../context/basicDataContext'
 // Components
 import Filter from '../../components/Filter/Filter'
+import Error from '../../components/Error/Error'
 
 export default function NewCase() {
   const [timeValue, setTimeValue] = useState(null)
@@ -46,7 +47,7 @@ export default function NewCase() {
   const { user } = useContext(AuthContext)
 
   const { errors, oms } = useContext(BasicDataContext)
-  const { agents } = useGetAgents()
+  const { agents, error } = useGetAgents()
   const { motives } = useGetCases()
   const navigate = useNavigate()
 
@@ -165,6 +166,7 @@ export default function NewCase() {
   }
 
   if (!user) return <Navigate to='/' />
+  if (error.status) return <Error message={error.message} />
 
   return (
     <main className='new-case'>

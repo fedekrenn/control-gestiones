@@ -6,17 +6,20 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { useGetCases } from '../../customHooks/indexHooks'
 // Context
 import { AuthContext } from '../../context/authContext'
+// Components
+import Error from '../../components/Error/Error'
 // Icons
 import FeedIcon from '@mui/icons-material/Feed'
 
 export default function ExaDetail() {
   const { exa } = useParams()
   const { user } = useContext(AuthContext)
-  const { cases, loading } = useGetCases()
+  const { cases, loading, error } = useGetCases()
 
   const userCases = cases.filter(clientInteraction => clientInteraction.exa === exa)
 
   if (!user) return <Navigate to='/' />
+  if (error.status) return <Error message={error.message} />
 
   return (
     <main>
