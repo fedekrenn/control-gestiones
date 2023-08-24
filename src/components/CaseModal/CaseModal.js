@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 
-const CaseModal = ({ open, handleClose, caseDetail }) => {
+export default function CaseModal({ open, handleClose, caseDetail }) {
   const { nombre, numeroCaso, proceso, celula, comentarioGestion } = caseDetail
 
   const formmatError = (caseDetail, attribute) => caseDetail.ec.motivo === attribute ? 'X' : ''
@@ -61,9 +61,7 @@ const CaseModal = ({ open, handleClose, caseDetail }) => {
               <td colSpan={2}>{formmatError(caseDetail, 'transacciones')}</td>
             </tr>
             <tr>
-              <td className='marked' rowSpan='2'>
-                Effortless
-              </td>
+              <td className='marked' rowSpan='2'>Effortless</td>
               <td>Personalización</td>
               <td>Simplicidad</td>
               <td>Uso del Lenguaje</td>
@@ -78,9 +76,7 @@ const CaseModal = ({ open, handleClose, caseDetail }) => {
               <td>{formmatOm(caseDetail, 'afectacion')}</td>
             </tr>
             <tr>
-              <td className='detail' colSpan={6}>
-                {comentarioGestion}
-              </td>
+              <td className='detail' colSpan={6}>{comentarioGestion}</td>
             </tr>
           </tbody>
         </table>
@@ -88,5 +84,3 @@ const CaseModal = ({ open, handleClose, caseDetail }) => {
     </Modal>
   )
 }
-
-export default CaseModal

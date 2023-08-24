@@ -1,12 +1,9 @@
 import { useState, useMemo, useContext } from 'react'
 import { Navigate } from 'react-router-dom'
-// Librerías
+// Libraries
 import Swal from 'sweetalert2'
-import {
-  TextField,
-  Button
-} from '@mui/material'
-// Componentes
+import { TextField, Button } from '@mui/material'
+// Components
 import UploadFile from '../../components/uploadFIle/UploadFile'
 import Filter from '../../components/Filter/Filter'
 // Utils
@@ -18,32 +15,26 @@ import { db } from '../../config/firebaseConfig'
 import { AuthContext } from '../../context/authContext'
 import { BasicDataContext } from '../../context/basicDataContext'
 
-const NewAgent = () => {
-  const [cell, setCell] = useState('')
-  const [proc, setProc] = useState('')
+export default function NewAgent() {
+  const [group, setGroup] = useState({ key: '', name: '', cell: '', proc: '' })
   const [selecManual, setSelecManual] = useState(true)
 
   const { user } = useContext(AuthContext)
   const { cells } = useContext(BasicDataContext)
 
-  const cellsSelected = useMemo(() => cells[proc] || [''], [cells, proc])
+  const cellsSelected = useMemo(() => cells[group.proc] || [''], [cells, group])
   const process = useMemo(() => Object.keys(cells), [cells])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const key = e.target.exa.value.toLowerCase()
-    const nameValue = e.target.nombre.value
-    const cellValue = cell
-
     try {
-      await setDoc(
-        doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
+      await setDoc(doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
         {
-          [key]: {
-            nombre: nameValue.trim(),
-            celula: cellValue.trim(),
-            proceso: proc.trim()
+          [group.key.toLowerCase()]: {
+            nombre: group.name.trim(),
+            celula: group.cell,
+            proceso: group.proc
           }
         },
         { merge: true }
@@ -56,12 +47,9 @@ const NewAgent = () => {
         confirmButtonText: 'Ok'
       })
 
-      e.target.exa.value = ''
-      e.target.nombre.value = ''
-      setCell('')
-      setProc('')
+      setGroup({ key: '', name: '', cell: '', proc: '' })
     } catch (error) {
-      console.log(error)
+      console.error(error)
       Swal.fire({
         title: 'Error!',
         text: 'Ha ocurrido un error al agregar el nuevo agente',
@@ -88,50 +76,53 @@ const NewAgent = () => {
         {selecManual && (
           <form className='new-agent__form' onSubmit={handleSubmit}>
             <TextField
+              required
               id='outlined-basic-one'
               label='EXA'
               type='text'
               variant='outlined'
               name='exa'
+              size='small'
               placeholder='Ej: EXA00112'
+              value={group.key}
+              onChange={e => setGroup({ ...group, key: e.target.value })}
               onKeyDown={handleKeyDown}
               onPaste={handlePaste}
-              size='small'
-              required
             />
             <TextField
+              required
               id='outlined-basic-two'
               label='Nombre completo'
               type='text'
               variant='outlined'
+              size='small'
               name='nombre'
               placeholder='Ej: Juan Perez'
-              size='small'
-              required
+              value={group.name}
+              onChange={e => setGroup({ ...group, name: e.target.value })}
             />
             <Filter
               label='Proceso'
-              value={proc}
-              options={process}
               size='small'
+              value={group.proc}
+              options={process}
               fWidth={false}
-              onChange={(e) => {
-                if (cell) {
-                  setProc(e)
-                  setCell('')
+              onChange={e => {
+                if (group.cell) {
+                  setGroup({ cell: '', proc: e })
                 } else {
-                  setProc(e)
+                  setGroup({ ...group, proc: e })
                 }
               }}
             />
-            {proc && (
+            {group.proc && (
               <Filter
                 label='Célula'
-                value={cell}
-                options={cellsSelected}
                 size='small'
+                value={group.cell}
+                options={cellsSelected}
                 fWidth={false}
-                onChange={setCell}
+                onChange={e => setGroup({ ...group, cell: e })}
               />
             )}
             <Button variant='contained' type='submit'>
@@ -144,5 +135,3 @@ const NewAgent = () => {
     </main>
   )
 }
-
-export default NewAgent

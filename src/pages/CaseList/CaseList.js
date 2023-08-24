@@ -1,6 +1,6 @@
 import { useState, useContext, useMemo } from 'react'
 import { Navigate } from 'react-router-dom'
-// Librerías
+// Libraries
 import { TextField, Button, Box, Autocomplete } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -8,8 +8,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import CircularProgress from '@mui/material/CircularProgress'
 import moment from 'moment'
 // Components
-import Case from '../../components/Case/Case'
+import InteractionCase from '../../components/InteractionCase/InteractionCase'
 import Filter from '../../components/Filter/Filter'
+import Error from '../../components/Error/Error'
 // Utils
 import { handlePaste, handleKeyDown } from '../../utils/handleEvent'
 import { ORIGINS } from '../../utils/origins'
@@ -20,7 +21,7 @@ import { useGetCases } from '../../customHooks/indexHooks'
 import { AuthContext } from '../../context/authContext'
 import { BasicDataContext } from '../../context/basicDataContext'
 
-const CaseList = () => {
+export default function CaseList() {
   const [showFilters, setShowFilters] = useState(false)
 
   const [filters, setFilters] = useState({
@@ -38,17 +39,17 @@ const CaseList = () => {
   const { user } = useContext(AuthContext)
   const { cells } = useContext(BasicDataContext)
 
-  const { cases, loading, motives } = useGetCases()
+  const { cases, loading, motives, error } = useGetCases()
 
   const filteredCases = useMemo(() => {
-    return cases.filter(_case => {
-      if (caseNumber && !_case.numeroCaso.toString().includes(caseNumber)) return false
-      if (exa && !_case.exa.toLowerCase().includes(exa.toLowerCase())) return false
-      if (process && _case.proceso !== process) return false
-      if (cell && _case.celula !== cell) return false
-      if (origin && _case.origen !== origin) return false
-      if (motive && _case.motivoConsulta !== motive) return false
-      if (time && _case.date.split(' ')[0] !== moment(time).format('DD/MM/YYYY')) return false
+    return cases.filter(clientInteraction => {
+      if (caseNumber && !clientInteraction.numeroCaso.toString().includes(caseNumber)) return false
+      if (exa && !clientInteraction.exa.toLowerCase().includes(exa.toLowerCase())) return false
+      if (process && clientInteraction.proceso !== process) return false
+      if (cell && clientInteraction.celula !== cell) return false
+      if (origin && clientInteraction.origen !== origin) return false
+      if (motive && clientInteraction.motivoConsulta !== motive) return false
+      if (time && clientInteraction.date.split(' ')[0] !== moment(time).format('DD/MM/YYYY')) return false
 
       return true
     })
@@ -66,6 +67,7 @@ const CaseList = () => {
   }
 
   if (!user) return <Navigate to="/" />
+  if (error.status) return <Error message={error.message} />
 
   return (
     <main className="search">
@@ -89,7 +91,7 @@ const CaseList = () => {
               value={caseNumber}
               onPaste={handlePaste}
               onKeyDown={handleKeyDown}
-              onChange={(e) => handleFiltersChange('caseNumber', e.target.value)}
+              onChange={e => handleFiltersChange('caseNumber', e.target.value)}
             />
             <TextField
               autoFocus
@@ -101,12 +103,12 @@ const CaseList = () => {
               value={exa}
               onPaste={handlePaste}
               onKeyDown={handleKeyDown}
-              onChange={(e) => handleFiltersChange('exa', e.target.value)}
+              onChange={e => handleFiltersChange('exa', e.target.value)}
             />
             <LocalizationProvider dateAdapter={AdapterMoment}>
               <DatePicker
-                onChange={(newValue) => handleFiltersChange('time', newValue)}
-                renderInput={(params) => <TextField {...params} />}
+                onChange={newValue => handleFiltersChange('time', newValue)}
+                renderInput={params => <TextField {...params} />}
                 value={time}
                 label="Fecha de la gestión"
                 inputFormat="DD/MM/YYYY"
@@ -118,7 +120,7 @@ const CaseList = () => {
               label="Proceso"
               value={process}
               options={Object.keys(cells)}
-              onChange={(newValue) => {
+              onChange={newValue => {
                 if (filters.cell) {
                   setFilters({
                     ...filters,
@@ -138,14 +140,14 @@ const CaseList = () => {
                 label="Célula"
                 value={cell}
                 options={cells[process]}
-                onChange={(newValue) => handleFiltersChange('cell', newValue)}
+                onChange={newValue => handleFiltersChange('cell', newValue)}
               />
             )}
             <Filter
               label="Origen"
               value={origin}
               options={ORIGINS}
-              onChange={(newValue) => handleFiltersChange('origin', newValue)}
+              onChange={newValue => handleFiltersChange('origin', newValue)}
             />
             <Autocomplete
               fullWidth
@@ -159,7 +161,7 @@ const CaseList = () => {
               value={motive}
               sx={{ textAlign: 'left' }}
               onChange={(_, newValue) => handleFiltersChange('motive', newValue)}
-              renderInput={(params) => (
+              renderInput={params => (
                 <TextField
                   {...params}
                   label="Motivo de consulta"
@@ -205,8 +207,8 @@ const CaseList = () => {
                 <th>Ver detalles</th>
               </tr>
             </thead>
-            {filteredCases.length === 0 && (
-              <tbody>
+            {filteredCases.length === 0
+              ? <tbody>
                 <tr>
                   <td colSpan="9">
                     <Box sx={{ display: 'flex', justifyContent: 'center', margin: '2em 0', color: 'red' }}>
@@ -215,20 +217,17 @@ const CaseList = () => {
                   </td>
                 </tr>
               </tbody>
-            )}
-            {filteredCases
-              .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
-              .slice(0, 20)
-              .map((_case) => (
-                <tbody key={_case.id}>
-                  <Case _case={_case} />
-                </tbody>
-              ))}
+              : filteredCases
+                .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
+                .slice(0, 20)
+                .map((clientInteraction) => (
+                  <tbody key={clientInteraction.id}>
+                    <InteractionCase clientInteraction={clientInteraction} />
+                  </tbody>
+                ))}
           </table>
         }
       </section>
     </main>
   )
 }
-
-export default CaseList
