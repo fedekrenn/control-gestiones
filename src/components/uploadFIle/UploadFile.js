@@ -1,5 +1,5 @@
 import { useState } from 'react'
-// Librerías
+// Libraries
 import { read, utils } from 'xlsx'
 import { Button, Box } from '@mui/material'
 import Swal from 'sweetalert2'
@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
 
-export default function UploadFile({ selecManual, setSelecManual }) {
+export default function UploadFile() {
   const [xmlsData, setXmlsData] = useState([])
 
   function handleUploadFile(event) {
@@ -64,61 +64,50 @@ export default function UploadFile({ selecManual, setSelecManual }) {
 
   return (
     <section className='file-upload'>
-      <input
-        type='radio'
-        name='select-type'
-        id='type-file-auto'
-        onClick={() => setSelecManual(false)}
-      />
-      <h3>Cargar desde un archivo:</h3>
-      {!selecManual && (
-        <>
-          <Box>
-            <p>
-              IMPORTANTE: Cuando completes los datos es necesario que uses el
-              modelo que podrás descargarte a continuación a fin de evitar
-              posibles problemas durante la carga. Debido a que las células y
-              los nombres de procesos tienen que coincidir con los que se
-              encuentran en la base de datos encontrarás que el modelo ya tiene
-              algunos datos precargados. y podrás seleccionarlos desde las
-              listas desplegables.
-            </p>
-            <a href='./assets/modelo-nomina.xlsx' download='modelo-nomina.xlsx' className='model'>
-              Descargar modelo
-            </a>
-          </Box>
-          <input type='file' accept='.xlsx' onChange={handleUploadFile} />
+      <Box>
+        <p>
+          IMPORTANTE: Cuando completes los datos es necesario que uses el
+          modelo que podrás descargarte a continuación a fin de evitar
+          posibles problemas durante la carga. Debido a que las células y
+          los nombres de procesos tienen que coincidir con los que se
+          encuentran en la base de datos encontrarás que el modelo ya tiene
+          algunos datos precargados. y podrás seleccionarlos desde las
+          listas desplegables.
+        </p>
+        <a href='./assets/modelo-nomina.xlsx' download='modelo-nomina.xlsx' className='model'>
+          Descargar modelo
+        </a>
+      </Box>
+      <input type='file' accept='.xlsx' onChange={handleUploadFile} />
 
-          {xmlsData.length !== 0 && (
-            <>
-              <Button
-                variant='contained'
-                component='label'
-                color='error'
-                onClick={() => handleUploadAll(xmlsData)}
-              >
-                Cargar todos
-              </Button>
-              <table>
-                <thead>
-                  <tr>
-                    {xmlsData[0].map((headerValue, rowIndex) => (
-                      <th key={rowIndex}>{headerValue}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {xmlsData.slice(1).map((agent, rowIndex) => (
-                    <tr key={rowIndex}>
-                      {agent.map((tableValue, columIndex) => (
-                        <td key={columIndex}>{tableValue}</td>
-                      ))}
-                    </tr>
+      {xmlsData.length !== 0 && (
+        <>
+          <Button
+            variant='contained'
+            component='label'
+            color='error'
+            onClick={() => handleUploadAll(xmlsData)}
+          >
+            Cargar todos
+          </Button>
+          <table>
+            <thead>
+              <tr>
+                {xmlsData[0].map((headerValue, rowIndex) => (
+                  <th key={rowIndex}>{headerValue}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {xmlsData.slice(1).map((agent, rowIndex) => (
+                <tr key={rowIndex}>
+                  {agent.map((tableValue, columIndex) => (
+                    <td key={columIndex}>{tableValue}</td>
                   ))}
-                </tbody>
-              </table>
-            </>
-          )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </>
       )}
     </section>
