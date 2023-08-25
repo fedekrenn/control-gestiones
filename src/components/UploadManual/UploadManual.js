@@ -1,8 +1,9 @@
 // React
-import { useState, useMemo, useContext } from 'react'
+import { useState, useMemo, useContext, useRef, useEffect } from 'react'
 // Libraries
 import { TextField, Button } from '@mui/material'
 import Swal from 'sweetalert2'
+import autoAnimate from '@formkit/auto-animate'
 // Components
 import Filter from '../../components/Filter/Filter'
 // Utils
@@ -16,10 +17,15 @@ import { BasicDataContext } from '../../context/basicDataContext'
 export default function UploadManual() {
   const [group, setGroup] = useState({ key: '', name: '', cell: '', proc: '' })
 
+  const parent = useRef(null)
   const { cells } = useContext(BasicDataContext)
 
   const cellsSelected = useMemo(() => cells[group.proc] || [''], [cells, group])
   const process = useMemo(() => Object.keys(cells), [cells])
+
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current, { duration: 150 })
+  }, [parent])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -57,7 +63,7 @@ export default function UploadManual() {
 
   return (
     <section>
-      <form className='new-agent__form' onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} ref={parent}>
         <TextField
           required
           id='outlined-basic-one'

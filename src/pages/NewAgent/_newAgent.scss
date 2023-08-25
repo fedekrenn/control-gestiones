@@ -22,4 +22,11 @@
       border: 1px solid #1e1e1e;
     }
   }
+
+  form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .7em;
+  }
 }

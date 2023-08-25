@@ -1,9 +1,10 @@
 // React
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect, useRef } from 'react'
 // React router dom
 import { Navigate } from 'react-router-dom'
 // Libraries
 import { Box } from '@mui/material'
+import autoAnimate from '@formkit/auto-animate'
 // Components
 import UploadFile from '../../components/uploadFIle/UploadFile'
 import UploadManual from '../../components/UploadManual/UploadManual'
@@ -13,7 +14,13 @@ import { AuthContext } from '../../context/authContext'
 export default function NewAgent() {
   const [showManual, setShowManual] = useState(true)
 
+  const parent = useRef(null)
+
   const { user } = useContext(AuthContext)
+
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current)
+  }, [parent])
 
   const config = {
     display: 'flex',
@@ -26,7 +33,7 @@ export default function NewAgent() {
   if (!user) return <Navigate to='/' />
 
   return (
-    <main className='new-agent'>
+    <main className='new-agent' ref={parent}>
       <h2>Sección para agregar asesores:</h2>
       <Box sx={config}>
         <input
