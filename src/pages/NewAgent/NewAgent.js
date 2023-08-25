@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom'
 import { Box } from '@mui/material'
 import autoAnimate from '@formkit/auto-animate'
 // Components
-import UploadFile from '../../components/uploadFIle/UploadFile'
+import UploadFile from '../../components/UploadFile/UploadFile'
 import UploadManual from '../../components/UploadManual/UploadManual'
 // Context
 import { AuthContext } from '../../context/authContext'
