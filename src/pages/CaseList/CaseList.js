@@ -1,9 +1,10 @@
-import { useState, useContext, useMemo } from 'react'
+import { useState, useEffect, useRef, useContext, useMemo } from 'react'
 import { Navigate } from 'react-router-dom'
 // Libraries
 import { Button, Box } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 import moment from 'moment'
+import autoAnimate from '@formkit/auto-animate'
 // Components
 import InteractionCase from '../../components/InteractionCase/InteractionCase'
 import Error from '../../components/Error/Error'
@@ -30,6 +31,12 @@ export default function CaseList() {
 
   const { caseNumber, exa, process, cell, origin, motive, time } = filters
 
+  const parent = useRef(null)
+
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current)
+  }, [parent])
+
   const { user } = useContext(AuthContext)
   const { cases, loading, motives, error } = useGetCases()
 
@@ -51,7 +58,7 @@ export default function CaseList() {
   if (error.status) return <Error message={error.message} />
 
   return (
-    <main className='search'>
+    <main className='search' ref={parent}>
       <h1>Listado de gestiones</h1>
       <Button
         sx={{ width: '170px', display: 'block', margin: '1em auto' }}
