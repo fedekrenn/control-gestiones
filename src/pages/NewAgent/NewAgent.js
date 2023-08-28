@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom'
 import { Box } from '@mui/material'
 import autoAnimate from '@formkit/auto-animate'
 // Components
-import UploadFile from '../../components/UploadFile/UploadFile'
+import UploadFromFile from '../../components/UploadFromFile/UploadFromFile'
 import UploadManual from '../../components/UploadManual/UploadManual'
 // Context
 import { AuthContext } from '../../context/authContext'
@@ -56,7 +56,7 @@ export default function NewAgent() {
         />
         <h3>Cargar desde archivo:</h3>
       </Box>
-      {!showManual && <UploadFile />}
+      {!showManual && <UploadFromFile />}
     </main>
   )
 }

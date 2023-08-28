@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
 
-export default function UploadFile() {
+export default function UploadFromFile() {
   const [xmlsData, setXmlsData] = useState([])
 
   function handleUploadFile(event) {
