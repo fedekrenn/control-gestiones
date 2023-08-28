@@ -58,6 +58,7 @@ export default function FiltersContainer({ setFilters, filters, motives }) {
         />
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <DatePicker
+            disableFuture
             onChange={newValue => handleFiltersChange('time', newValue)}
             renderInput={params => <TextField {...params} />}
             value={time}

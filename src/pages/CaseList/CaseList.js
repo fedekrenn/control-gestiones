@@ -5,6 +5,7 @@ import { Button, Box } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 import moment from 'moment'
 import autoAnimate from '@formkit/auto-animate'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 // Components
 import InteractionCase from '../../components/InteractionCase/InteractionCase'
 import Error from '../../components/Error/Error'
@@ -18,6 +19,7 @@ import { AuthContext } from '../../context/authContext'
 
 export default function CaseList() {
   const [showFilters, setShowFilters] = useState(false)
+  const [animationParent] = useAutoAnimate()
 
   const [filters, setFilters] = useState({
     caseNumber: '',
@@ -113,14 +115,15 @@ export default function CaseList() {
                   </td>
                 </tr>
               </tbody>
-              : filteredCases
-                .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
-                .slice(0, 20)
-                .map(clientInteraction => (
-                  <tbody key={clientInteraction.id}>
-                    <InteractionCase clientInteraction={clientInteraction} />
-                  </tbody>
-                ))}
+              : <tbody ref={animationParent}>
+                {filteredCases
+                  .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
+                  .slice(0, 20)
+                  .map(clientInteraction => (
+                    <InteractionCase clientInteraction={clientInteraction} key={clientInteraction.id} />
+                  ))}
+              </tbody>
+            }
           </table>
         }
       </section>
