@@ -12,6 +12,7 @@ CMS para carga de gestiones y control de las mismas para servicio de calidad de 
 - Sweetalert2
 - Xlsx
 - Material UI
+- AutoAnimate
 
 ## 🔧 Instalación 
 
@@ -21,7 +22,7 @@ git clone https://github.com/fedekrenn/control-gestiones.git
 ```
 2. Instalar las dependencias: 
 ```
-npm install
+pnpm install
 ```
 4. Crear una cuenta de Firebase, luego un archivo .env con las keys apuntando al servicio de firestore y auth de Firebase con los siguientes datos: 
 ```
@@ -34,7 +35,7 @@ REACT_APP_APPID=
 ```
 5. Inicializar la app
 ```
-npm start 
+pnpm start 
 ```
 
 
