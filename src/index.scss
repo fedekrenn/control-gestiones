@@ -8,7 +8,7 @@
 
 /* Components */
 @use './components/Header/header';
-@use './components/Case/case';
+@use './components/InteractionCase/interactionCase';
 @use './components/uploadFIle/uploadFile';
 @use './components/CaseModal/caseModal';
 
@@ -19,3 +19,4 @@
 @use './pages/NewCase/newCase';
 @use './pages/CaseDetail/caseDetail';
 @use './pages/ExaDetail/exaDetails';
+@use './pages/CaseList/caseList';

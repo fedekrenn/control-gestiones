@@ -1,44 +1,32 @@
 .new-agent {
-  section {
-    margin: 5em;
-    h3 {
-        display: inline-block;
-      text-align: center;
-      margin-bottom: 1em;
-    }
-    p {
-      width: 60%;
-      margin: 2em auto;
-    }
-    a.model {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      margin: 2em auto;
-      width: 20%;
-      padding: 1em;
-      border: 1px solid #fff;
-      border-radius: 5px;
-      background-color: #1e1e1e;
-      color: #fff;
-      text-decoration: none;
-      &:hover {
-        background-color: #fff;
-        color: #1e1e1e;
-        border: 1px solid #1e1e1e;
-      }
-    }
-    input[type="radio"] {
-        display: inline;
-        margin-right: .7em;
+  p {
+    width: 60%;
+    margin: 2em auto;
+  }
+  a.model {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 2em auto;
+    width: 20%;
+    padding: 1em;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    background-color: #1e1e1e;
+    color: #fff;
+    text-decoration: none;
+    &:hover {
+      background-color: #fff;
+      color: #1e1e1e;
+      border: 1px solid #1e1e1e;
     }
   }
-}
 
-.new-agent__form {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
+  form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .7em;
+  }
 }

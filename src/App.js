@@ -9,22 +9,20 @@ import CaseDetail from './pages/CaseDetail/CaseDetail'
 import CaseList from './pages/CaseList/CaseList'
 import ExaDetail from './pages/ExaDetail/ExaDetail'
 
-function App () {
+function App() {
   return (
     <>
       <Header />
-      <main>
-        <Routes>
-          <Route path='/' element={<Login />} />
-          <Route path='/inicio' element={<MainPage />} />
-          <Route path='/nuevo-asesor' element={<NewAgent />} />
-          <Route path='/nuevo-caso' element={<NewCase />} />
-          <Route path='/monitoreo/:id' element={<CaseDetail />} />
-          <Route path='/listado-casos' element={<CaseList />} />
-          <Route path='/asesor/:exa' element={<ExaDetail />} />
-          <Route path='*' element={<h1>404, página no encontrada!</h1>} />
-        </Routes>
-      </main>
+      <Routes>
+        <Route path='/' element={<Login />} />
+        <Route path='/inicio' element={<MainPage />} />
+        <Route path='/nuevo-asesor' element={<NewAgent />} />
+        <Route path='/nuevo-caso' element={<NewCase />} />
+        <Route path='/monitoreo/:id' element={<CaseDetail />} />
+        <Route path='/listado-casos' element={<CaseList />} />
+        <Route path='/asesor/:exa' element={<ExaDetail />} />
+        <Route path='*' element={<h1>404, página no encontrada!</h1>} />
+      </Routes>
     </>
   )
 }

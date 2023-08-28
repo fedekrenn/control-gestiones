@@ -1,16 +1,7 @@
 import { useState, useMemo, useContext } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-// Librerías
-import {
-  TextField,
-  Autocomplete,
-  Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Box
-} from '@mui/material'
+// Libraries
+import { TextField, Autocomplete, Button, Box } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
@@ -27,8 +18,11 @@ import { useGetAgents, useGetCases } from '../../customHooks/indexHooks'
 // Context
 import { AuthContext } from '../../context/authContext'
 import { BasicDataContext } from '../../context/basicDataContext'
+// Components
+import Filter from '../../components/Filter/Filter'
+import Error from '../../components/Error/Error'
 
-const NewCase = () => {
+export default function NewCase() {
   const [timeValue, setTimeValue] = useState(null)
 
   const [errorsSubAtributte, setErrorsSubAtributte] = useState([])
@@ -53,25 +47,13 @@ const NewCase = () => {
   const { user } = useContext(AuthContext)
 
   const { errors, oms } = useContext(BasicDataContext)
-  const { agents } = useGetAgents()
+  const { agents, error } = useGetAgents()
   const { motives } = useGetCases()
   const navigate = useNavigate()
 
   const agentsArray = useMemo(() => Object.keys(agents).map(el => el.toUpperCase()), [agents])
 
   const isEmpty = (myState) => myState === '' || myState === 'n/a'
-
-  const handleChangeErr = (event) => {
-    setErrDescription('')
-    setErrValue(event.target.value)
-    setErrorsSubAtributte(errors[event.target.value])
-  }
-
-  const handleChangeOms = (event) => {
-    setOmsDescription('')
-    setOmsValue(event.target.value)
-    setOmsSubAtributte(oms[event.target.value])
-  }
 
   const handleDelete = (e) => {
     document.getElementById('form').reset()
@@ -154,25 +136,29 @@ const NewCase = () => {
     })
       .then(async (result) => {
         if (result.isConfirmed) {
-          const docRef = doc(db, 'cases-list', 'NeCtxuFq7KGvryxgmBpn')
+          try {
+            const docRef = doc(db, 'cases-list', 'NeCtxuFq7KGvryxgmBpn')
 
-          await updateDoc(docRef, { cases: arrayUnion(newCase) })
+            await updateDoc(docRef, { cases: arrayUnion(newCase) })
 
-          Swal.fire({
-            title: 'Gestion guardada',
-            text: 'Los datos de la gestión han sido guardados correctamente',
-            icon: 'success',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#545454',
-            confirmButtonText: 'Ir al caso',
-            cancelButtonText: 'Cargar otra gestión'
-          })
-            .then((result) => {
-              if (result.isConfirmed) navigate(`/monitoreo/${newCase.id}`)
+            Swal.fire({
+              title: 'Gestion guardada',
+              text: 'Los datos de la gestión han sido guardados correctamente',
+              icon: 'success',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#545454',
+              confirmButtonText: 'Ir al caso',
+              cancelButtonText: 'Cargar otra gestión'
             })
+              .then((result) => {
+                if (result.isConfirmed) navigate(`/monitoreo/${newCase.id}`)
+              })
 
-          handleDelete()
+            handleDelete()
+          } catch (error) {
+            Swal.fire('Error', 'No se pudo guardar la gestión', 'error')
+          }
         } else {
           Swal.fire('Cancelado', 'La gestión no ha sido guardada', 'error')
         }
@@ -180,16 +166,12 @@ const NewCase = () => {
   }
 
   if (!user) return <Navigate to='/' />
+  if (error.status) return <Error message={error.message} />
 
   return (
     <main className='new-case'>
       <h2>Agregar nueva gestión</h2>
-      <form
-        className='new-case__form'
-        id='form'
-        onSubmit={handleSubmit}
-        onReset={handleFormReset}
-      >
+      <form className='new-case__form' id='form' onSubmit={handleSubmit} onReset={handleFormReset} >
         <Box className='input-one form__child'>
           <Autocomplete
             disablePortal
@@ -197,56 +179,55 @@ const NewCase = () => {
             size='small'
             key={resetKey}
             options={agentsArray}
+            onChange={handleChangeAutocomplete}
+            onPaste={handlePaste}
             sx={{ width: 300 }}
             renderInput={params => (
               <TextField {...params} required label='Exa' />
             )}
-            onChange={handleChangeAutocomplete}
-            onPaste={handlePaste}
           />
           <TextField
+            disabled
             id='outlined-basicOne'
             size='small'
-            disabled
-            value={agentName}
             variant='outlined'
+            value={agentName}
           />
           <TextField
+            disabled
             id='outlined-basicTwo'
             size='small'
-            disabled
-            value={agentGroup}
             variant='outlined'
+            value={agentGroup}
           />
           <TextField
+            disabled
             id='outlined-basicThree'
             size='small'
-            disabled
-            value={agentProcess}
             variant='outlined'
+            value={agentProcess}
           />
           <TextField
+            required
             id='outlined-basicFour'
             type='number'
             size='small'
             label='N° caso/solicitud/id'
             variant='outlined'
             placeholder='Ej: 2331244'
-            onChange={(e) => setCaseNumber(e.target.value)}
-            required
+            onChange={e => setCaseNumber(e.target.value)}
           />
         </Box>
-
         <Box className='input-two form__child'>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DateTimePicker
-              renderInput={props => <TextField {...props} required />}
+              disableFuture
+              ampm={false}
               label='Fecha y hora del caso'
-              value={timeValue}
               inputFormat='DD/MM/YYYY HH:mm'
-              onChange={newValue => {
-                setTimeValue(newValue)
-              }}
+              value={timeValue}
+              renderInput={props => <TextField {...props} size='small' required />}
+              onChange={newValue => setTimeValue(newValue)}
             />
           </LocalizationProvider>
           <Autocomplete
@@ -267,129 +248,84 @@ const NewCase = () => {
               />
             )}
           />
-          <FormControl sx={{ minWidth: 120 }} size='small' required>
-            <InputLabel id='demo-simple-select-label-one'>Realizó</InputLabel>
-            <Select
-              labelId='demo-simple-select-label--one'
-              id='demo-simple-select-one'
-              label='Realizó'
-              sx={{ textAlign: 'left' }}
-              value={way}
-              onChange={e => setWay(e.target.value)}
-            >
-              {ORIGINS.map((wy, index) => (
-                <MenuItem key={index} value={wy}>
-                  {wy}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
+          <Filter
+            label='Realizó'
+            size='small'
+            fWidth={false}
+            value={way}
+            options={ORIGINS}
+            onChange={setWay}
+          />
           <Box className='extended-input'>
-            <FormControl sx={{ minWidth: 120 }} size='small' required>
-              <InputLabel id='demo-simple-select-label-two'>Errores</InputLabel>
-              <Select
-                labelId='demo-simple-select-label--two'
-                id='demo-simple-select-two'
-                value={errValue}
-                label='Errores'
-                onChange={handleChangeErr}
-              >
-                {Object.keys(errors).map((err, index) => (
-                  <MenuItem key={index} value={err}>
-                    {err}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
+            <Filter
+              label='Errores'
+              size='small'
+              fWidth={false}
+              value={errValue}
+              options={Object.keys(errors)}
+              onChange={newValue => {
+                setErrDescription('')
+                setErrValue(newValue)
+                setErrorsSubAtributte(errors[newValue])
+              }}
+            />
             {!isEmpty(errValue) &&
-              <FormControl sx={{ minWidth: 120 }} size='small' required>
-                <InputLabel id='demo-simple-select-label-three'>
-                  Detalle EC:
-                </InputLabel>
-                <Select
-                  labelId='demo-simple-select-label--three'
-                  id='demo-simple-select-three'
-                  value={errDescription}
-                  label='OMS'
-                  onChange={(e) => setErrDescription(e.target.value)}
-                >
-                  {errorsSubAtributte.map((om, index) => (
-                    <MenuItem key={index} value={om}>
-                      {om}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <Filter
+                label='Detalle EC'
+                size='small'
+                fWidth={false}
+                value={errDescription}
+                onChange={setErrDescription}
+                options={errorsSubAtributte}
+              />
             }
           </Box>
-
           <Box className='extended-input'>
-            <FormControl sx={{ minWidth: 120 }} size='small' required>
-              <InputLabel id='demo-simple-select-label-three'>OMS</InputLabel>
-              <Select
-                labelId='demo-simple-select-label--three'
-                id='demo-simple-select-three'
-                value={omsValue}
-                label='OMS'
-                onChange={handleChangeOms}
-              >
-                {Object.keys(oms).map((om, index) => (
-                  <MenuItem key={index} value={om}>
-                    {om}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
+            <Filter
+              label='OMS'
+              size='small'
+              fWidth={false}
+              value={omsValue}
+              options={Object.keys(oms)}
+              onChange={newValue => {
+                setOmsDescription('')
+                setOmsValue(newValue)
+                setOmsSubAtributte(oms[newValue])
+              }}
+            />
             {!isEmpty(omsValue) &&
-              <FormControl sx={{ minWidth: 120 }} size='small' required>
-                <InputLabel id='demo-simple-select-label-three'>
-                  Detalle OMS:
-                </InputLabel>
-                <Select
-                  labelId='demo-simple-select-label--three'
-                  id='demo-simple-select-three'
-                  value={omsDescription}
-                  label='OMS'
-                  onChange={e => setOmsDescription(e.target.value)}
-                >
-                  {omsSubAtributte.map((om, index) => (
-                    <MenuItem key={index} value={om}>
-                      {om}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <Filter
+                label='Detalle OMS'
+                size='small'
+                fWidth={false}
+                value={omsDescription}
+                onChange={setOmsDescription}
+                options={omsSubAtributte}
+              />
             }
           </Box>
         </Box>
-
         <Box className='text-area-container form__child'>
           <TextField
-            id='outlined-textarea'
+            required
+            id='outlined-textarea-first'
             label='¿Qué faltó para la resolución?'
             name='puntoFalla'
             placeholder='Ej: Indagar necesidades'
-            rows={2}
             className='textarea-width-first'
-            multiline
-            required
+            rows={2}
           />
-
           <TextField
-            id='outlined-textarea'
+            required
+            multiline
+            id='outlined-textarea-second'
             label='Comentario de la gestión'
             name='comentarioGestion'
             placeholder='Ej: Cliente se contacta consultando por ...'
-            rows={10}
             className='textarea-width-second'
-            multiline
-            required
+            rows={10}
           />
         </Box>
-
         <Box className='btn-container'>
           <Button variant='contained' type='submit'>
             Agregar
@@ -402,5 +338,3 @@ const NewCase = () => {
     </main>
   )
 }
-
-export default NewCase
