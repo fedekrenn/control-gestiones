@@ -9,8 +9,8 @@
 /* Components */
 @use './components/Header/header';
 @use './components/InteractionCase/interactionCase';
-@use './components/uploadFromFile/uploadFromFile';
 @use './components/CaseModal/caseModal';
+@use './components/UploadFromFile/uploadFromFile';
 
 /* Pages */
 @use './pages/MainPage/mainPage';
