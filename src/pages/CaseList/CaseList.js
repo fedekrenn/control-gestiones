@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useContext, useMemo } from 'react'
 import { Navigate } from 'react-router-dom'
 // Libraries
-import { Button, Box } from '@mui/material'
+import { Button } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 import moment from 'moment'
 import autoAnimate from '@formkit/auto-animate'
@@ -10,6 +10,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 import InteractionCase from '../../components/InteractionCase/InteractionCase'
 import Error from '../../components/Error/Error'
 import FiltersContainer from '../../components/FiltersContainer/FilterContainer'
+import Empty from '../../components/Empty/Empty'
 // Utils
 import { handleDownloadExcel } from '../../utils/handleDowloadExcel'
 // Custom hook
@@ -104,14 +105,7 @@ export default function CaseList() {
               ? <tbody>
                 <tr>
                   <td colSpan='9'>
-                    <Box sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      margin: '2em 0',
-                      color: 'red'
-                    }}>
-                      <h3>No se encontraron resultados con esos filtros</h3>
-                    </Box>
+                    <Empty />
                   </td>
                 </tr>
               </tbody>
