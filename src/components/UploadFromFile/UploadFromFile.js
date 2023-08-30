@@ -6,6 +6,8 @@ import Swal from 'sweetalert2'
 // Firebase
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
+// SVG
+import UploadSvg from '../../assets/upload.svg'
 
 export default function UploadFromFile() {
   const [xmlsData, setXmlsData] = useState([])
@@ -77,8 +79,11 @@ export default function UploadFromFile() {
         <a href='./assets/modelo-nomina.xlsx' download='modelo-nomina.xlsx' className='model'>
           Descargar modelo
         </a>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <img src={UploadSvg} alt='Subir archivo' />
+          <input type='file' accept='.xlsx' onChange={handleUploadFile} />
+        </Box>
       </Box>
-      <input type='file' accept='.xlsx' onChange={handleUploadFile} />
 
       {xmlsData.length !== 0 && (
         <>
