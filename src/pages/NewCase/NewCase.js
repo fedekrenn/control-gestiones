@@ -9,7 +9,6 @@ import moment from 'moment'
 import Swal from 'sweetalert2'
 // Utils
 import { handlePaste } from '../../utils/handleEvent'
-import { ORIGINS } from '../../utils/origins'
 // Firebase
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
@@ -30,13 +29,10 @@ export default function NewCase() {
 
   const [agentName, setAgentName] = useState('Nombre')
   const [agentGroup, setAgentGroup] = useState('Célula')
-  const [agentProcess, setAgentProcess] = useState('Proceso')
   const [agentKey, setAgentKey] = useState('')
   const [caseNumber, setCaseNumber] = useState(0)
 
   const [resetKey, setResetKey] = useState(0)
-
-  const [way, setWay] = useState('')
 
   const [errValue, setErrValue] = useState('')
   const [errDescription, setErrDescription] = useState('')
@@ -62,17 +58,14 @@ export default function NewCase() {
     setOmsValue('')
     setOmsDescription('')
     setCaseNumber('')
-    setWay('')
     setAgentName('Nombre')
     setAgentGroup('Célula')
-    setAgentProcess('Proceso')
     setTimeValue(null)
   }
 
   const handleChangeAutocomplete = (event, value) => {
     setAgentName('Nombre')
     setAgentGroup('Célula')
-    setAgentProcess('Proceso')
 
     /* Empleamos el siguiente código para transformar el objeto de agentes en un array plano
     que sea más óptimo de recorrer antes que un array de objetos */
@@ -81,9 +74,8 @@ export default function NewCase() {
     const findAgent = value && convertArray.find(agent => agent[0].toLowerCase() === value.toLowerCase())
 
     if (findAgent) {
-      setAgentName(findAgent[1].nombre)
-      setAgentGroup(findAgent[1].celula)
-      setAgentProcess(findAgent[1].proceso)
+      setAgentName(findAgent[1].name)
+      setAgentGroup(findAgent[1].cell)
       setAgentKey(findAgent[0])
     }
   }
@@ -107,10 +99,9 @@ export default function NewCase() {
       nombre: agentName,
       exa: agentKey,
       celula: agentGroup,
-      proceso: agentProcess,
       date: moment(timeValue).format('DD/MM/YYYY HH:mm:ss'),
       motivoConsulta,
-      origen: way,
+      origen: 'Coordinador', // TODO: Tiene que tomar el valor del perfil del usuario
       ec:
         errValue === 'n/a'
           ? false
@@ -201,13 +192,6 @@ export default function NewCase() {
             value={agentGroup}
           />
           <TextField
-            disabled
-            id='outlined-basicThree'
-            size='small'
-            variant='outlined'
-            value={agentProcess}
-          />
-          <TextField
             required
             id='outlined-basicFour'
             type='number'
@@ -242,19 +226,11 @@ export default function NewCase() {
               <TextField
                 {...params}
                 required
-                label='Motivo de consulta'
+                // label='Motivo de consulta'
                 placeholder='Ej: Consulta de saldo'
                 name='motivoConsulta'
               />
             )}
-          />
-          <Filter
-            label='Realizó'
-            size='small'
-            fWidth={false}
-            value={way}
-            options={ORIGINS}
-            onChange={setWay}
           />
           <Box className='extended-input'>
             <Filter
