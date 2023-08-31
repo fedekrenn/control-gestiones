@@ -10,8 +10,7 @@ export default function InteractionCase({ clientInteraction }) {
     motivoConsulta,
     nombre,
     numeroCaso,
-    origen,
-    proceso
+    origen
   } = clientInteraction
 
   return (
@@ -20,7 +19,6 @@ export default function InteractionCase({ clientInteraction }) {
       <td>{numeroCaso}</td>
       <td>{origen}</td>
       <td>{motivoConsulta}</td>
-      <td>{proceso}</td>
       <td>{exa.toUpperCase()}</td>
       <td>{celula}</td>
       <td>{date}</td>

@@ -25,14 +25,13 @@ export default function CaseList() {
   const [filters, setFilters] = useState({
     caseNumber: '',
     exa: '',
-    process: '',
     cell: '',
     origin: '',
     motive: '',
     time: null
   })
 
-  const { caseNumber, exa, process, cell, origin, motive, time } = filters
+  const { caseNumber, exa, cell, origin, motive, time } = filters
 
   const parent = useRef(null)
 
@@ -47,7 +46,6 @@ export default function CaseList() {
     return cases.filter((clientInteraction) => {
       if (caseNumber && !clientInteraction.numeroCaso.toString().includes(caseNumber)) return false
       if (exa && !clientInteraction.exa.toLowerCase().includes(exa.toLowerCase())) return false
-      if (process && clientInteraction.proceso !== process) return false
       if (cell && clientInteraction.celula !== cell) return false
       if (origin && clientInteraction.origen !== origin) return false
       if (motive && clientInteraction.motivoConsulta !== motive) return false
@@ -55,7 +53,7 @@ export default function CaseList() {
 
       return true
     })
-  }, [caseNumber, exa, process, cell, origin, motive, time, cases])
+  }, [caseNumber, exa, cell, origin, motive, time, cases])
 
   if (!user) return <Navigate to='/' />
   if (error.status) return <Error message={error.message} />
@@ -94,7 +92,6 @@ export default function CaseList() {
                 <th>Número de caso</th>
                 <th>Origen</th>
                 <th>Motivo de consulta</th>
-                <th>Proceso</th>
                 <th>Legajo</th>
                 <th>Célula</th>
                 <th>Fecha de gestión</th>
