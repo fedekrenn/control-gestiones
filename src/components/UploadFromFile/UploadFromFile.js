@@ -38,9 +38,8 @@ export default function UploadFromFile() {
         await setDoc(doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
           {
             [agent[0].toLowerCase()]: {
-              nombre: agent[1].trim(),
-              celula: agent[2].trim(),
-              proceso: agent[3].trim()
+              name: agent[1].trim(),
+              cell: agent[2].trim()
             }
           },
           { merge: true }

@@ -1,9 +1,8 @@
 // React
-import { useState, useMemo, useContext, useRef, useEffect } from 'react'
+import { useState, useContext } from 'react'
 // Libraries
 import { TextField, Button } from '@mui/material'
 import Swal from 'sweetalert2'
-import autoAnimate from '@formkit/auto-animate'
 // Components
 import Filter from '../../components/Filter/Filter'
 // Utils
@@ -15,17 +14,9 @@ import { db } from '../../config/firebaseConfig'
 import { BasicDataContext } from '../../context/basicDataContext'
 
 export default function UploadManual() {
-  const [group, setGroup] = useState({ key: '', name: '', cell: '', proc: '' })
+  const [group, setGroup] = useState({ key: '', name: '', cell: '' })
 
-  const parent = useRef(null)
   const { cells } = useContext(BasicDataContext)
-
-  const cellsSelected = useMemo(() => cells[group.proc] || [''], [cells, group])
-  const process = useMemo(() => Object.keys(cells), [cells])
-
-  useEffect(() => {
-    parent.current && autoAnimate(parent.current, { duration: 150 })
-  }, [parent])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -34,9 +25,8 @@ export default function UploadManual() {
       await setDoc(doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
         {
           [group.key.toLowerCase()]: {
-            nombre: group.name.trim(),
-            celula: group.cell,
-            proceso: group.proc
+            name: group.name.trim(),
+            cell: group.cell
           }
         },
         { merge: true }
@@ -49,7 +39,7 @@ export default function UploadManual() {
         confirmButtonText: 'Ok'
       })
 
-      setGroup({ key: '', name: '', cell: '', proc: '' })
+      setGroup({ key: '', name: '', cell: '' })
     } catch (error) {
       console.error(error)
       Swal.fire({
@@ -63,7 +53,7 @@ export default function UploadManual() {
 
   return (
     <section>
-      <form onSubmit={handleSubmit} ref={parent}>
+      <form onSubmit={handleSubmit}>
         <TextField
           required
           id='outlined-basic-one'
@@ -91,29 +81,13 @@ export default function UploadManual() {
           onChange={e => setGroup({ ...group, name: e.target.value })}
         />
         <Filter
-          label='Proceso'
+          label='Célula'
           size='small'
-          value={group.proc}
-          options={process}
+          value={group.cell}
+          options={cells.Cecor}
           fWidth={false}
-          onChange={e => {
-            if (group.cell) {
-              setGroup({ cell: '', proc: e })
-            } else {
-              setGroup({ ...group, proc: e })
-            }
-          }}
+          onChange={e => setGroup({ ...group, cell: e })}
         />
-        {group.proc && (
-          <Filter
-            label='Célula'
-            size='small'
-            value={group.cell}
-            options={cellsSelected}
-            fWidth={false}
-            onChange={e => setGroup({ ...group, cell: e })}
-          />
-        )}
         <Button variant='contained' type='submit'>
           Agregar
         </Button>
