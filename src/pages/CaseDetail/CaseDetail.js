@@ -52,10 +52,6 @@ export default function CaseDetail() {
                   <span>Célula:</span>
                   {caseDetail.celula}
                 </li>
-                <li>
-                  <span>Proceso:</span>
-                  {caseDetail.proceso}
-                </li>
                 <hr />
                 <li>
                   <span>Número de caso:</span>

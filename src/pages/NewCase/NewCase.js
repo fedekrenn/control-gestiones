@@ -16,16 +16,12 @@ import { db } from '../../config/firebaseConfig'
 import { useGetAgents, useGetCases } from '../../customHooks/indexHooks'
 // Context
 import { AuthContext } from '../../context/authContext'
-import { BasicDataContext } from '../../context/basicDataContext'
+// import { BasicDataContext } from '../../context/basicDataContext'
 // Components
-import Filter from '../../components/Filter/Filter'
 import Error from '../../components/Error/Error'
 
 export default function NewCase() {
   const [timeValue, setTimeValue] = useState(null)
-
-  const [errorsSubAtributte, setErrorsSubAtributte] = useState([])
-  const [omsSubAtributte, setOmsSubAtributte] = useState([])
 
   const [agentName, setAgentName] = useState('Nombre')
   const [agentGroup, setAgentGroup] = useState('Célula')
@@ -34,29 +30,17 @@ export default function NewCase() {
 
   const [resetKey, setResetKey] = useState(0)
 
-  const [errValue, setErrValue] = useState('')
-  const [errDescription, setErrDescription] = useState('')
-
-  const [omsValue, setOmsValue] = useState('')
-  const [omsDescription, setOmsDescription] = useState('')
-
   const { user } = useContext(AuthContext)
 
-  const { errors, oms } = useContext(BasicDataContext)
+  // const { oms } = useContext(BasicDataContext)
   const { agents, error } = useGetAgents()
   const { motives } = useGetCases()
   const navigate = useNavigate()
 
   const agentsArray = useMemo(() => Object.keys(agents).map(el => el.toUpperCase()), [agents])
 
-  const isEmpty = (myState) => myState === '' || myState === 'n/a'
-
   const handleDelete = (e) => {
     document.getElementById('form').reset()
-    setErrValue('')
-    setErrDescription('')
-    setOmsValue('')
-    setOmsDescription('')
     setCaseNumber('')
     setAgentName('Nombre')
     setAgentGroup('Célula')
@@ -102,14 +86,8 @@ export default function NewCase() {
       date: moment(timeValue).format('DD/MM/YYYY HH:mm:ss'),
       motivoConsulta,
       origen: 'Coordinador', // TODO: Tiene que tomar el valor del perfil del usuario
-      ec:
-        errValue === 'n/a'
-          ? false
-          : { motivo: errValue, submotivo: errDescription },
-      om:
-        omsValue === 'n/a'
-          ? false
-          : { motivo: omsValue, submotivo: omsDescription },
+      ec: 'TODO',
+      om: 'TODO',
       fechaDeCarga: Date.now(),
       monitoreador: user.email,
       puntoATrabajar,
@@ -191,6 +169,8 @@ export default function NewCase() {
             variant='outlined'
             value={agentGroup}
           />
+        </Box>
+        <Box className='input-two form__child'>
           <TextField
             required
             id='outlined-basicFour'
@@ -201,8 +181,6 @@ export default function NewCase() {
             placeholder='Ej: 2331244'
             onChange={e => setCaseNumber(e.target.value)}
           />
-        </Box>
-        <Box className='input-two form__child'>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DateTimePicker
               disableFuture
@@ -226,60 +204,15 @@ export default function NewCase() {
               <TextField
                 {...params}
                 required
-                // label='Motivo de consulta'
+                label='Motivo de consulta'
                 placeholder='Ej: Consulta de saldo'
                 name='motivoConsulta'
               />
             )}
           />
-          <Box className='extended-input'>
-            <Filter
-              label='Errores'
-              size='small'
-              fWidth={false}
-              value={errValue}
-              options={Object.keys(errors)}
-              onChange={newValue => {
-                setErrDescription('')
-                setErrValue(newValue)
-                setErrorsSubAtributte(errors[newValue])
-              }}
-            />
-            {!isEmpty(errValue) &&
-              <Filter
-                label='Detalle EC'
-                size='small'
-                fWidth={false}
-                value={errDescription}
-                onChange={setErrDescription}
-                options={errorsSubAtributte}
-              />
-            }
-          </Box>
-          <Box className='extended-input'>
-            <Filter
-              label='OMS'
-              size='small'
-              fWidth={false}
-              value={omsValue}
-              options={Object.keys(oms)}
-              onChange={newValue => {
-                setOmsDescription('')
-                setOmsValue(newValue)
-                setOmsSubAtributte(oms[newValue])
-              }}
-            />
-            {!isEmpty(omsValue) &&
-              <Filter
-                label='Detalle OMS'
-                size='small'
-                fWidth={false}
-                value={omsDescription}
-                onChange={setOmsDescription}
-                options={omsSubAtributte}
-              />
-            }
-          </Box>
+        </Box>
+        <Box className='input-three form__child'>
+          <h2>TODO</h2>
         </Box>
         <Box className='text-area-container form__child'>
           <TextField

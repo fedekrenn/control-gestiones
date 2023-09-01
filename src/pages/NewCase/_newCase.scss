@@ -4,9 +4,9 @@
   grid-template-rows: 2fr 2.5fr 0.7fr;
   gap: 0px 0px;
   grid-template-areas:
-    "input-one input-two"
-    "text-area-container text-area-container"
-    "btn-container btn-container";
+    'input-one input-two'
+    'text-area-container text-area-container'
+    'btn-container btn-container';
   .btn-container {
     display: flex;
     justify-content: center;
@@ -18,14 +18,8 @@
   }
 }
 
-.extended-input{
-    display: flex;
-    gap: 2em;
-}
-
 .btn-container {
   grid-area: btn-container;
-
 }
 
 .text-area-container {
@@ -35,14 +29,14 @@
 
 .input-one {
   grid-area: input-one;
-  & > *{
+  & > * {
     width: 300px;
   }
 }
 
 .input-two {
   grid-area: input-two;
-  & > *{
+  & > * {
     width: 300px;
   }
 }

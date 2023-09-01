@@ -2,7 +2,7 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 
 export default function CaseModal({ open, handleClose, caseDetail }) {
-  const { nombre, numeroCaso, proceso, celula, comentarioGestion } = caseDetail
+  const { nombre, numeroCaso, celula, comentarioGestion } = caseDetail
 
   const formmatError = (caseDetail, attribute) => caseDetail.ec.motivo === attribute ? 'X' : ''
   const formmatOm = (caseDetail, attribute) => caseDetail.om.motivo === attribute ? 'X' : ''
@@ -42,7 +42,7 @@ export default function CaseModal({ open, handleClose, caseDetail }) {
             <tr>
               <td colSpan={2}>{nombre}</td>
               <td>{numeroCaso}</td>
-              <td>{proceso}</td>
+              <td>TODO a cambiar</td>
               <td colSpan={2}>{celula}</td>
             </tr>
             <tr>
