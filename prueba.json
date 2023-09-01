@@ -1,0 +1,36 @@
+{
+  "habilities": {
+    "questions": [
+      {
+        "key": "customerNeedDetection",
+        "text": "Capacidad de detectar e interpretar la necesidad del cliente"
+      },
+      {
+        "key": "commonSense",
+        "text": "Pensamiento analítico y sentido común"
+      },
+      {
+        "key": "effectiveCommunication",
+        "text": "Comunicación efectiva"
+      },
+      {
+        "key": "flexibility",
+        "text": "Flexibilidad y adaptación"
+      },
+      {
+        "key": "problemSolving",
+        "text": "Capacidad resolutiva"
+      }
+    ]
+  },
+  "perception": {
+    "questions": ["¿Qué percepción general te dejó de la gestión del caso?"],
+    "answers": [
+      "No se evalúa",
+      "Necesitamos cambiar cosas",
+      "Se podría haber hecho mejor",
+      "Buena",
+      "Ejemplar"
+    ]
+  }
+}

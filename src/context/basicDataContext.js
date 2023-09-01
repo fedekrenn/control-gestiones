@@ -7,8 +7,8 @@ const BasicDataContext = createContext()
 
 const BasicDataProvider = ({ children }) => {
   const [cells, setCells] = useState({})
-  const [errors, setErrors] = useState([])
-  const [oms, setOms] = useState([])
+  const [habilities, setHabilities] = useState([])
+  const [perception, setPerception] = useState([])
 
   const { user } = useContext(AuthContext)
 
@@ -19,13 +19,13 @@ const BasicDataProvider = ({ children }) => {
           const docRefCells = doc(db, 'listadoAsesores', '4KpZYmZikVbntR1C1aiC')
           const docSnapCells = await getDoc(docRefCells)
 
-          const docRefAttributes = doc(db, 'criterios', '2X9z0AYQScDDE04uIcMO')
+          const docRefAttributes = doc(db, 'criteria', 'tNvqGoA6vlN7EgaUYH7T')
           const docSnapAttributes = await getDoc(docRefAttributes)
 
           if (docSnapCells.exists() && docSnapAttributes.exists()) {
             setCells(docSnapCells.data())
-            setErrors(docSnapAttributes.data().errores)
-            setOms(docSnapAttributes.data().oms)
+            setHabilities(docSnapAttributes.data().info.habilities)
+            setPerception(docSnapAttributes.data().info.perception)
           } else {
             console.warn('No such document!')
           }
@@ -36,7 +36,7 @@ const BasicDataProvider = ({ children }) => {
     }
   }, [user])
 
-  const data = { cells, errors, oms }
+  const data = { cells, habilities, perception }
 
   return (
     <BasicDataContext.Provider value={data}>

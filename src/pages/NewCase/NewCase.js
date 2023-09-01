@@ -16,9 +16,10 @@ import { db } from '../../config/firebaseConfig'
 import { useGetAgents, useGetCases } from '../../customHooks/indexHooks'
 // Context
 import { AuthContext } from '../../context/authContext'
-// import { BasicDataContext } from '../../context/basicDataContext'
+import { BasicDataContext } from '../../context/basicDataContext'
 // Components
 import Error from '../../components/Error/Error'
+import StarsRange from '../../components/StarsRange/StarsRange'
 
 export default function NewCase() {
   const [timeValue, setTimeValue] = useState(null)
@@ -28,11 +29,21 @@ export default function NewCase() {
   const [agentKey, setAgentKey] = useState('')
   const [caseNumber, setCaseNumber] = useState(0)
 
+  const [caseHabilities, setCaseHabilities] = useState({
+    customerNeedDetection: 0,
+    commonSense: 0,
+    effectiveCommunication: 0,
+    flexibility: 0,
+    problemSolving: 0
+  })
+
+  console.log(caseHabilities)
+
   const [resetKey, setResetKey] = useState(0)
 
   const { user } = useContext(AuthContext)
 
-  // const { oms } = useContext(BasicDataContext)
+  const { habilities } = useContext(BasicDataContext)
   const { agents, error } = useGetAgents()
   const { motives } = useGetCases()
   const navigate = useNavigate()
@@ -212,7 +223,16 @@ export default function NewCase() {
           />
         </Box>
         <Box className='input-three form__child'>
-          <h2>TODO</h2>
+          <ul>
+            {habilities.questions.map(question => (
+              <StarsRange
+                key={question.key}
+                question={question.text}
+                value={Object.values(caseHabilities)[question.key]}
+                onChange={newValue => setCaseHabilities(prevState => ({ ...prevState, [question.key]: newValue }))}
+              />
+            ))}
+          </ul>
         </Box>
         <Box className='text-area-container form__child'>
           <TextField
