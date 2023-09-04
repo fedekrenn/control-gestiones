@@ -16,7 +16,7 @@ const BasicDataProvider = ({ children }) => {
     if (user) {
       (async () => {
         try {
-          const docRefCells = doc(db, 'listadoAsesores', '4KpZYmZikVbntR1C1aiC')
+          const docRefCells = doc(db, 'agentsList', 'RojI95r5bfYpye8puHdq')
           const docSnapCells = await getDoc(docRefCells)
 
           const docRefAttributes = doc(db, 'criteria', 'tNvqGoA6vlN7EgaUYH7T')

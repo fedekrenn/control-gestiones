@@ -74,7 +74,7 @@ const useGetAgents = () => {
   useEffect(() => {
     (async () => {
       try {
-        const docRef = doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
+        const docRef = doc(db, 'agentsList', 'JUYcFTPxnTi8vQwCMoJC')
         const docSnap = await getDoc(docRef)
 
         if (docSnap.exists()) {

@@ -37,8 +37,6 @@ export default function NewCase() {
     problemSolving: 0
   })
 
-  console.log(caseHabilities)
-
   const [resetKey, setResetKey] = useState(0)
 
   const { user } = useContext(AuthContext)

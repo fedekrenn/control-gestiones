@@ -21,8 +21,19 @@ export default function UploadManual() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    const regex = /^ex[a-zA-Z]\d+$/i
+
+    if (!regex.test(group.key)) {
+      return Swal.fire({
+        title: 'Error!',
+        text: 'El EXA ingresado no es válido',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+    }
+
     try {
-      await setDoc(doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
+      await setDoc(doc(db, 'agentsList', 'JUYcFTPxnTi8vQwCMoJC'),
         {
           [group.key.toLowerCase()]: {
             name: group.name.trim(),
