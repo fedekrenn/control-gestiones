@@ -52,10 +52,10 @@ export default function UploadManual() {
 
       setAgentInfo({ key: '', name: '', cell: '' })
     } catch (error) {
-      console.error(error)
+      console.error(error.message)
       Swal.fire({
         title: 'Error!',
-        text: 'Ha ocurrido un error al agregar el nuevo agente',
+        text: `Ha ocurrido un error al agregar el nuevo agente: ${error.message}`,
         icon: 'error',
         confirmButtonText: 'Ok'
       })
