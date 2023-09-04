@@ -14,7 +14,7 @@ import { db } from '../../config/firebaseConfig'
 import { BasicDataContext } from '../../context/basicDataContext'
 
 export default function UploadManual() {
-  const [group, setGroup] = useState({ key: '', name: '', cell: '' })
+  const [agentInfo, setAgentInfo] = useState({ key: '', name: '', cell: '' })
 
   const { cells } = useContext(BasicDataContext)
 
@@ -23,7 +23,7 @@ export default function UploadManual() {
 
     const regex = /^ex[a-zA-Z]\d+$/i
 
-    if (!regex.test(group.key)) {
+    if (!regex.test(agentInfo.key)) {
       return Swal.fire({
         title: 'Error!',
         text: 'El EXA ingresado no es válido',
@@ -35,9 +35,9 @@ export default function UploadManual() {
     try {
       await setDoc(doc(db, 'agentsList', 'JUYcFTPxnTi8vQwCMoJC'),
         {
-          [group.key.toLowerCase()]: {
-            name: group.name.trim(),
-            cell: group.cell
+          [agentInfo.key.toLowerCase()]: {
+            name: agentInfo.name.trim(),
+            cell: agentInfo.cell
           }
         },
         { merge: true }
@@ -50,7 +50,7 @@ export default function UploadManual() {
         confirmButtonText: 'Ok'
       })
 
-      setGroup({ key: '', name: '', cell: '' })
+      setAgentInfo({ key: '', name: '', cell: '' })
     } catch (error) {
       console.error(error)
       Swal.fire({
@@ -74,8 +74,8 @@ export default function UploadManual() {
           name='exa'
           size='small'
           placeholder='Ej: EXA00112'
-          value={group.key}
-          onChange={e => setGroup({ ...group, key: e.target.value })}
+          value={agentInfo.key}
+          onChange={e => setAgentInfo({ ...agentInfo, key: e.target.value })}
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
         />
@@ -88,16 +88,16 @@ export default function UploadManual() {
           size='small'
           name='nombre'
           placeholder='Ej: Juan Perez'
-          value={group.name}
-          onChange={e => setGroup({ ...group, name: e.target.value })}
+          value={agentInfo.name}
+          onChange={e => setAgentInfo({ ...agentInfo, name: e.target.value })}
         />
         <Filter
           label='Célula'
           size='small'
-          value={group.cell}
+          value={agentInfo.cell}
           options={cells.Cecor}
           fWidth={false}
-          onChange={e => setGroup({ ...group, cell: e })}
+          onChange={e => setAgentInfo({ ...agentInfo, cell: e })}
         />
         <Button variant='contained' type='submit'>
           Agregar
