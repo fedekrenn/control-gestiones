@@ -1,12 +1,13 @@
 .new-case__form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 2fr 2.5fr 0.7fr;
+  grid-template-rows: 1fr 2.5fr 5fr 0.7fr;
   gap: 0px 0px;
   grid-template-areas:
-    "input-one input-two"
-    "text-area-container text-area-container"
-    "btn-container btn-container";
+    'input-one input-two'
+    'input-three input-three'
+    'text-area-container text-area-container'
+    'btn-container btn-container';
   .btn-container {
     display: flex;
     justify-content: center;
@@ -18,14 +19,8 @@
   }
 }
 
-.extended-input{
-    display: flex;
-    gap: 2em;
-}
-
 .btn-container {
   grid-area: btn-container;
-
 }
 
 .text-area-container {
@@ -35,15 +30,32 @@
 
 .input-one {
   grid-area: input-one;
-  & > *{
+  & > * {
     width: 300px;
   }
 }
 
 .input-two {
   grid-area: input-two;
-  & > *{
+  & > * {
     width: 300px;
+  }
+}
+
+.input-three {
+  grid-area: input-three;
+  & > * {
+    width: 300px;
+  }
+  ul {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 }
 

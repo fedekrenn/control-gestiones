@@ -9,7 +9,6 @@ import moment from 'moment'
 import Swal from 'sweetalert2'
 // Utils
 import { handlePaste } from '../../utils/handleEvent'
-import { ORIGINS } from '../../utils/origins'
 // Firebase
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
@@ -19,60 +18,47 @@ import { useGetAgents, useGetCases } from '../../customHooks/indexHooks'
 import { AuthContext } from '../../context/authContext'
 import { BasicDataContext } from '../../context/basicDataContext'
 // Components
-import Filter from '../../components/Filter/Filter'
 import Error from '../../components/Error/Error'
+import StarsRange from '../../components/StarsRange/StarsRange'
 
 export default function NewCase() {
   const [timeValue, setTimeValue] = useState(null)
 
-  const [errorsSubAtributte, setErrorsSubAtributte] = useState([])
-  const [omsSubAtributte, setOmsSubAtributte] = useState([])
-
   const [agentName, setAgentName] = useState('Nombre')
   const [agentGroup, setAgentGroup] = useState('Célula')
-  const [agentProcess, setAgentProcess] = useState('Proceso')
   const [agentKey, setAgentKey] = useState('')
   const [caseNumber, setCaseNumber] = useState(0)
 
+  const [caseHabilities, setCaseHabilities] = useState({
+    customerNeedDetection: 0,
+    commonSense: 0,
+    effectiveCommunication: 0,
+    flexibility: 0,
+    problemSolving: 0
+  })
+
   const [resetKey, setResetKey] = useState(0)
-
-  const [way, setWay] = useState('')
-
-  const [errValue, setErrValue] = useState('')
-  const [errDescription, setErrDescription] = useState('')
-
-  const [omsValue, setOmsValue] = useState('')
-  const [omsDescription, setOmsDescription] = useState('')
 
   const { user } = useContext(AuthContext)
 
-  const { errors, oms } = useContext(BasicDataContext)
+  const { habilities } = useContext(BasicDataContext)
   const { agents, error } = useGetAgents()
   const { motives } = useGetCases()
   const navigate = useNavigate()
 
   const agentsArray = useMemo(() => Object.keys(agents).map(el => el.toUpperCase()), [agents])
 
-  const isEmpty = (myState) => myState === '' || myState === 'n/a'
-
   const handleDelete = (e) => {
     document.getElementById('form').reset()
-    setErrValue('')
-    setErrDescription('')
-    setOmsValue('')
-    setOmsDescription('')
     setCaseNumber('')
-    setWay('')
     setAgentName('Nombre')
     setAgentGroup('Célula')
-    setAgentProcess('Proceso')
     setTimeValue(null)
   }
 
   const handleChangeAutocomplete = (event, value) => {
     setAgentName('Nombre')
     setAgentGroup('Célula')
-    setAgentProcess('Proceso')
 
     /* Empleamos el siguiente código para transformar el objeto de agentes en un array plano
     que sea más óptimo de recorrer antes que un array de objetos */
@@ -81,9 +67,8 @@ export default function NewCase() {
     const findAgent = value && convertArray.find(agent => agent[0].toLowerCase() === value.toLowerCase())
 
     if (findAgent) {
-      setAgentName(findAgent[1].nombre)
-      setAgentGroup(findAgent[1].celula)
-      setAgentProcess(findAgent[1].proceso)
+      setAgentName(findAgent[1].name)
+      setAgentGroup(findAgent[1].cell)
       setAgentKey(findAgent[0])
     }
   }
@@ -107,18 +92,11 @@ export default function NewCase() {
       nombre: agentName,
       exa: agentKey,
       celula: agentGroup,
-      proceso: agentProcess,
       date: moment(timeValue).format('DD/MM/YYYY HH:mm:ss'),
       motivoConsulta,
-      origen: way,
-      ec:
-        errValue === 'n/a'
-          ? false
-          : { motivo: errValue, submotivo: errDescription },
-      om:
-        omsValue === 'n/a'
-          ? false
-          : { motivo: omsValue, submotivo: omsDescription },
+      origen: 'Coordinador', // TODO: Tiene que tomar el valor del perfil del usuario
+      ec: 'TODO',
+      om: 'TODO',
       fechaDeCarga: Date.now(),
       monitoreador: user.email,
       puntoATrabajar,
@@ -200,13 +178,8 @@ export default function NewCase() {
             variant='outlined'
             value={agentGroup}
           />
-          <TextField
-            disabled
-            id='outlined-basicThree'
-            size='small'
-            variant='outlined'
-            value={agentProcess}
-          />
+        </Box>
+        <Box className='input-two form__child'>
           <TextField
             required
             id='outlined-basicFour'
@@ -217,8 +190,6 @@ export default function NewCase() {
             placeholder='Ej: 2331244'
             onChange={e => setCaseNumber(e.target.value)}
           />
-        </Box>
-        <Box className='input-two form__child'>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DateTimePicker
               disableFuture
@@ -248,62 +219,18 @@ export default function NewCase() {
               />
             )}
           />
-          <Filter
-            label='Realizó'
-            size='small'
-            fWidth={false}
-            value={way}
-            options={ORIGINS}
-            onChange={setWay}
-          />
-          <Box className='extended-input'>
-            <Filter
-              label='Errores'
-              size='small'
-              fWidth={false}
-              value={errValue}
-              options={Object.keys(errors)}
-              onChange={newValue => {
-                setErrDescription('')
-                setErrValue(newValue)
-                setErrorsSubAtributte(errors[newValue])
-              }}
-            />
-            {!isEmpty(errValue) &&
-              <Filter
-                label='Detalle EC'
-                size='small'
-                fWidth={false}
-                value={errDescription}
-                onChange={setErrDescription}
-                options={errorsSubAtributte}
+        </Box>
+        <Box className='input-three form__child'>
+          <ul>
+            {habilities.questions.map(question => (
+              <StarsRange
+                key={question.key}
+                question={question.text}
+                value={Object.values(caseHabilities)[question.key]}
+                onChange={newValue => setCaseHabilities(prevState => ({ ...prevState, [question.key]: newValue }))}
               />
-            }
-          </Box>
-          <Box className='extended-input'>
-            <Filter
-              label='OMS'
-              size='small'
-              fWidth={false}
-              value={omsValue}
-              options={Object.keys(oms)}
-              onChange={newValue => {
-                setOmsDescription('')
-                setOmsValue(newValue)
-                setOmsSubAtributte(oms[newValue])
-              }}
-            />
-            {!isEmpty(omsValue) &&
-              <Filter
-                label='Detalle OMS'
-                size='small'
-                fWidth={false}
-                value={omsDescription}
-                onChange={setOmsDescription}
-                options={omsSubAtributte}
-              />
-            }
-          </Box>
+            ))}
+          </ul>
         </Box>
         <Box className='text-area-container form__child'>
           <TextField

@@ -6,6 +6,8 @@ import Swal from 'sweetalert2'
 // Firebase
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
+// SVG
+import UploadSvg from '../../assets/upload.svg'
 
 export default function UploadFromFile() {
   const [xmlsData, setXmlsData] = useState([])
@@ -29,28 +31,51 @@ export default function UploadFromFile() {
   const handleUploadAll = async (xmlsData) => {
     if (xmlsData.length === 0) return alert('No hay datos para cargar')
 
+    let count = 0
+    let error = false
+    const buffer = []
+
     try {
       xmlsData.slice(1).forEach(async (agent) => {
         if (agent.length === 0) return
 
-        await setDoc(doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw'),
+        const regex = /^ex[a-zA-Z]\d+$/i
+
+        if (!regex.test(agent[0])) {
+          error = true
+          buffer.push(agent[0])
+          return
+        }
+
+        count++
+        await setDoc(doc(db, 'agentsList', 'JUYcFTPxnTi8vQwCMoJC'),
           {
             [agent[0].toLowerCase()]: {
-              nombre: agent[1].trim(),
-              celula: agent[2].trim(),
-              proceso: agent[3].trim()
+              name: agent[1].trim(),
+              cell: agent[2].trim()
             }
           },
           { merge: true }
         )
       })
 
-      Swal.fire({
-        title: 'Realizado!',
-        text: 'Todos los agentes han sido agregados',
-        icon: 'success',
-        confirmButtonText: 'Ok'
-      })
+      if (error) {
+        return Swal.fire({
+          title: 'Atención!',
+          html: `Uno o más EXA ingresados no son válidos, revisa los siguientes EXA:<br><br>
+           ${buffer.join('<br> ')}<br><br>
+           ${count > 0 ? `Los demás ${count} agentes han sido agregados correctamente` : ''}`,
+          icon: 'warning',
+          confirmButtonText: 'Ok'
+        })
+      } else {
+        Swal.fire({
+          title: 'Realizado!',
+          text: 'Todos los agentes han sido agregados',
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        })
+      }
     } catch (error) {
       console.error(error)
       Swal.fire({
@@ -66,19 +91,20 @@ export default function UploadFromFile() {
     <section className='file-upload'>
       <Box>
         <p>
-          IMPORTANTE: Cuando completes los datos es necesario que uses el
-          modelo que podrás descargarte a continuación a fin de evitar
-          posibles problemas durante la carga. Debido a que las células y
-          los nombres de procesos tienen que coincidir con los que se
-          encuentran en la base de datos encontrarás que el modelo ya tiene
-          algunos datos precargados. y podrás seleccionarlos desde las
-          listas desplegables.
+          <span className='alert'>IMPORTANTE:</span> Cuando completes los datos es necesario que uses el modelo
+          que podrás descargarte a continuación, esto a fin de evitar posibles problemas
+          durante la carga. Los nombres de las células tienen que coincidir de manera exacta
+          con los que se encuentran en la base de datos. Encontrarás que el modelo ya tiene
+          algunos datos precargados y podrás seleccionarlos desde las listas desplegables.
         </p>
         <a href='./assets/modelo-nomina.xlsx' download='modelo-nomina.xlsx' className='model'>
           Descargar modelo
         </a>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <img src={UploadSvg} alt='Subir archivo' />
+          <input type='file' accept='.xlsx' onChange={handleUploadFile} />
+        </Box>
       </Box>
-      <input type='file' accept='.xlsx' onChange={handleUploadFile} />
 
       {xmlsData.length !== 0 && (
         <>

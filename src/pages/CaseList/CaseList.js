@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useContext, useMemo } from 'react'
 import { Navigate } from 'react-router-dom'
 // Libraries
-import { Button, Box } from '@mui/material'
+import { Button } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 import moment from 'moment'
 import autoAnimate from '@formkit/auto-animate'
@@ -10,6 +10,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 import InteractionCase from '../../components/InteractionCase/InteractionCase'
 import Error from '../../components/Error/Error'
 import FiltersContainer from '../../components/FiltersContainer/FilterContainer'
+import Empty from '../../components/Empty/Empty'
 // Utils
 import { handleDownloadExcel } from '../../utils/handleDowloadExcel'
 // Custom hook
@@ -24,14 +25,13 @@ export default function CaseList() {
   const [filters, setFilters] = useState({
     caseNumber: '',
     exa: '',
-    process: '',
     cell: '',
     origin: '',
     motive: '',
     time: null
   })
 
-  const { caseNumber, exa, process, cell, origin, motive, time } = filters
+  const { caseNumber, exa, cell, origin, motive, time } = filters
 
   const parent = useRef(null)
 
@@ -46,7 +46,6 @@ export default function CaseList() {
     return cases.filter((clientInteraction) => {
       if (caseNumber && !clientInteraction.numeroCaso.toString().includes(caseNumber)) return false
       if (exa && !clientInteraction.exa.toLowerCase().includes(exa.toLowerCase())) return false
-      if (process && clientInteraction.proceso !== process) return false
       if (cell && clientInteraction.celula !== cell) return false
       if (origin && clientInteraction.origen !== origin) return false
       if (motive && clientInteraction.motivoConsulta !== motive) return false
@@ -54,7 +53,7 @@ export default function CaseList() {
 
       return true
     })
-  }, [caseNumber, exa, process, cell, origin, motive, time, cases])
+  }, [caseNumber, exa, cell, origin, motive, time, cases])
 
   if (!user) return <Navigate to='/' />
   if (error.status) return <Error message={error.message} />
@@ -93,7 +92,6 @@ export default function CaseList() {
                 <th>Número de caso</th>
                 <th>Origen</th>
                 <th>Motivo de consulta</th>
-                <th>Proceso</th>
                 <th>Legajo</th>
                 <th>Célula</th>
                 <th>Fecha de gestión</th>
@@ -104,14 +102,7 @@ export default function CaseList() {
               ? <tbody>
                 <tr>
                   <td colSpan='9'>
-                    <Box sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      margin: '2em 0',
-                      color: 'red'
-                    }}>
-                      <h3>No se encontraron resultados con esos filtros</h3>
-                    </Box>
+                    <Empty />
                   </td>
                 </tr>
               </tbody>

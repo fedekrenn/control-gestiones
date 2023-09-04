@@ -14,7 +14,7 @@ import { ORIGINS } from '../../utils/origins'
 import { BasicDataContext } from '../../context/basicDataContext'
 
 export default function FiltersContainer({ setFilters, filters, motives }) {
-  const { caseNumber, exa, process, cell, origin, motive, time } = filters
+  const { caseNumber, exa, cell, origin, motive, time } = filters
   const { cells } = useContext(BasicDataContext)
 
   const handleFiltersChange = (filterName, value) => {
@@ -25,7 +25,7 @@ export default function FiltersContainer({ setFilters, filters, motives }) {
   }
 
   const handleReset = () => {
-    setFilters({ caseNumber: '', exa: '', process: '', cell: '', origin: '', motive: '', time: null })
+    setFilters({ caseNumber: '', exa: '', cell: '', origin: '', motive: '', time: null })
   }
 
   return (
@@ -69,32 +69,11 @@ export default function FiltersContainer({ setFilters, filters, motives }) {
       </Box>
       <Box sx={{ display: 'flex', padding: '2em', gap: '1em' }}>
         <Filter
-          label="Proceso"
-          value={process}
-          options={Object.keys(cells)}
-          onChange={newValue => {
-            if (filters.cell) {
-              setFilters({
-                ...filters,
-                process: newValue,
-                cell: ''
-              })
-            } else {
-              setFilters({
-                ...filters,
-                process: newValue
-              })
-            }
-          }}
+          label="Célula"
+          value={cell}
+          options={cells.Cecor}
+          onChange={newValue => handleFiltersChange('cell', newValue)}
         />
-        {process && (
-          <Filter
-            label="Célula"
-            value={cell}
-            options={cells[process]}
-            onChange={newValue => handleFiltersChange('cell', newValue)}
-          />
-        )}
         <Filter
           label="Origen"
           value={origin}

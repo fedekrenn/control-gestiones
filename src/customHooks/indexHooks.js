@@ -17,7 +17,7 @@ const useGetCases = () => {
         const docs = docSnap.data().cases
 
         const motives = docs.map(doc => doc.motivoConsulta)
-        const uniqueMotives = [...new Set(motives)]
+        const uniqueMotives = motives[0] !== undefined ? [...new Set(motives)] : []
 
         setMotives(uniqueMotives)
         setCases(docs)
@@ -74,7 +74,7 @@ const useGetAgents = () => {
   useEffect(() => {
     (async () => {
       try {
-        const docRef = doc(db, 'listadoAsesores', 'Svnqcl3BtN6xxZT2ggqw')
+        const docRef = doc(db, 'agentsList', 'JUYcFTPxnTi8vQwCMoJC')
         const docSnap = await getDoc(docRef)
 
         if (docSnap.exists()) {

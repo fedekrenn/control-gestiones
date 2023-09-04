@@ -9,7 +9,6 @@ import {
   Typography,
   Menu,
   Container,
-  Avatar,
   Button,
   Tooltip,
   MenuItem
@@ -23,6 +22,7 @@ import { AuthContext } from '../../context/authContext'
 import MenuIcon from '@mui/icons-material/Menu'
 // Assets
 import icon from '../../assets/logo-startek.png'
+import picProfile from '../../assets/profile.svg'
 
 const PAGES = [
   { name: 'Nuevo asesor', link: '/nuevo-asesor' },
@@ -104,7 +104,11 @@ export default function Header() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt='Remy Sharp' src='' />
+                  <img
+                    src={picProfile}
+                    alt='Foto de perfil'
+                    className='img-profile'
+                  />
                 </IconButton>
               </Tooltip>
               <Menu
