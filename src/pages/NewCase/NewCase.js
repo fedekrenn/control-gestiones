@@ -46,7 +46,10 @@ export default function NewCase() {
   const { motives } = useGetCases()
   const navigate = useNavigate()
 
-  const agentsArray = useMemo(() => Object.keys(agents).map(el => el.toUpperCase()), [agents])
+  const agentsArray = useMemo(
+    () => Object.keys(agents).map((el) => el.toUpperCase()),
+    [agents]
+  )
 
   const handleDelete = (e) => {
     document.getElementById('form').reset()
@@ -64,7 +67,11 @@ export default function NewCase() {
     que sea más óptimo de recorrer antes que un array de objetos */
     const convertArray = Object.entries(agents)
 
-    const findAgent = value && convertArray.find(agent => agent[0].toLowerCase() === value.toLowerCase())
+    const findAgent =
+      value &&
+      convertArray.find(
+        (agent) => agent[0].toLowerCase() === value.toLowerCase()
+      )
 
     if (findAgent) {
       setAgentName(findAgent[1].name)
@@ -74,13 +81,22 @@ export default function NewCase() {
   }
 
   const handleFormReset = () => {
-    setResetKey(prevKey => prevKey + 1)
+    setResetKey((prevKey) => prevKey + 1)
+    setCaseHabilities({
+      customerNeedDetection: 0,
+      commonSense: 0,
+      effectiveCommunication: 0,
+      flexibility: 0,
+      problemSolving: 0
+    })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (agentKey === '' || timeValue === null) { return Swal.fire('Error', 'Debes completar todos los campos', 'error') }
+    if (agentKey === '' || timeValue === null) {
+      return Swal.fire('Error', 'Debes completar todos los campos', 'error')
+    }
 
     const comentario = e.currentTarget.comentarioGestion.value
     const motivoConsulta = e.currentTarget.motivoConsulta.value
@@ -111,36 +127,34 @@ export default function NewCase() {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, guardar'
-    })
-      .then(async (result) => {
-        if (result.isConfirmed) {
-          try {
-            const docRef = doc(db, 'cases-list', 'NeCtxuFq7KGvryxgmBpn')
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const docRef = doc(db, 'cases-list', 'NeCtxuFq7KGvryxgmBpn')
 
-            await updateDoc(docRef, { cases: arrayUnion(newCase) })
+          await updateDoc(docRef, { cases: arrayUnion(newCase) })
 
-            Swal.fire({
-              title: 'Gestion guardada',
-              text: 'Los datos de la gestión han sido guardados correctamente',
-              icon: 'success',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#545454',
-              confirmButtonText: 'Ir al caso',
-              cancelButtonText: 'Cargar otra gestión'
-            })
-              .then((result) => {
-                if (result.isConfirmed) navigate(`/monitoreo/${newCase.id}`)
-              })
+          Swal.fire({
+            title: 'Gestion guardada',
+            text: 'Los datos de la gestión han sido guardados correctamente',
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#545454',
+            confirmButtonText: 'Ir al caso',
+            cancelButtonText: 'Cargar otra gestión'
+          }).then((result) => {
+            if (result.isConfirmed) navigate(`/monitoreo/${newCase.id}`)
+          })
 
-            handleDelete()
-          } catch (error) {
-            Swal.fire('Error', 'No se pudo guardar la gestión', 'error')
-          }
-        } else {
-          Swal.fire('Cancelado', 'La gestión no ha sido guardada', 'error')
+          handleDelete()
+        } catch (error) {
+          Swal.fire('Error', 'No se pudo guardar la gestión', 'error')
         }
-      })
+      } else {
+        Swal.fire('Cancelado', 'La gestión no ha sido guardada', 'error')
+      }
+    })
   }
 
   if (!user) return <Navigate to='/' />
@@ -149,7 +163,12 @@ export default function NewCase() {
   return (
     <main className='new-case'>
       <h2>Agregar nueva gestión</h2>
-      <form className='new-case__form' id='form' onSubmit={handleSubmit} onReset={handleFormReset} >
+      <form
+        className='new-case__form'
+        id='form'
+        onSubmit={handleSubmit}
+        onReset={handleFormReset}
+      >
         <Box className='input-one form__child'>
           <Autocomplete
             disablePortal
@@ -197,7 +216,9 @@ export default function NewCase() {
               label='Fecha y hora del caso'
               inputFormat='DD/MM/YYYY HH:mm'
               value={timeValue}
-              renderInput={props => <TextField {...props} size='small' required />}
+              renderInput={(props) => (
+                <TextField {...props} size='small' required />
+              )}
               onChange={newValue => setTimeValue(newValue)}
             />
           </LocalizationProvider>
@@ -209,7 +230,7 @@ export default function NewCase() {
             variant='outlined'
             key={resetKey}
             options={motives}
-            renderInput={params => (
+            renderInput={(params) => (
               <TextField
                 {...params}
                 required
@@ -222,14 +243,22 @@ export default function NewCase() {
         </Box>
         <Box className='input-three form__child'>
           <ul>
-            {habilities.questions.map(question => (
-              <StarsRange
-                key={question.key}
-                question={question.text}
-                value={Object.values(caseHabilities)[question.key]}
-                onChange={newValue => setCaseHabilities(prevState => ({ ...prevState, [question.key]: newValue }))}
-              />
-            ))}
+            {habilities?.questions?.map(question => {
+              // console.log(caseHabilities[question.key])
+              return (
+                <StarsRange
+                  key={question.key}
+                  question={question.text}
+                  value={caseHabilities[question.key]}
+                  onChange={newValue =>
+                    setCaseHabilities(prevState => ({
+                      ...prevState,
+                      [question.key]: newValue
+                    }))
+                  }
+                />
+              )
+            })}
           </ul>
         </Box>
         <Box className='text-area-container form__child'>
