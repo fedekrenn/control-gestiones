@@ -8,7 +8,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import moment from 'moment'
 import Swal from 'sweetalert2'
 // Utils
-import { handlePaste } from '../../utils/handleEvent'
+import { handlePaste } from '../../utils/events'
 // Firebase
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
@@ -20,6 +20,8 @@ import { BasicDataContext } from '../../context/basicDataContext'
 // Components
 import Error from '../../components/Error/Error'
 import StarsRange from '../../components/StarsRange/StarsRange'
+// Utils
+import { OPTIONS } from '../../utils/constants'
 
 export default function NewCase() {
   const [agentKey, setAgentKey] = useState('')
@@ -268,11 +270,9 @@ export default function NewCase() {
               label="¿Qué percepción general te dejó el caso?"
               onChange={e => setPerspective(e.target.value)}
             >
-              <MenuItem value='No se evalúa'>No se evalúa</MenuItem>
-              <MenuItem value='Necesitamos cambiar cosas'>Necesitamos cambiar cosas</MenuItem>
-              <MenuItem value='Se podría haber hecho mejor'>Se podría haber hecho mejor</MenuItem>
-              <MenuItem value='Buena'>Buena</MenuItem>
-              <MenuItem value='Ejemplar'>Ejemplar</MenuItem>
+              {OPTIONS.map((option, i) => (
+                <MenuItem key={i} value={option}>{option}</MenuItem>
+              ))}
             </Select>
           </FormControl>
           <TextField

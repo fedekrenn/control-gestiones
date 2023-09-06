@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 // Components
 import Filter from '../../components/Filter/Filter'
 // Utils
-import { handlePaste, handleKeyDown } from '../../utils/handleEvent'
+import { handlePaste, handleKeyDown } from '../../utils/events'
 // Firebase
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'

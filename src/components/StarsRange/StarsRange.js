@@ -1,13 +1,9 @@
+// React
 import { useState } from 'react'
+// Libraries
 import { Rating, Typography, Box } from '@mui/material'
-
-const labels = {
-  1: 'Completamente ausente',
-  2: 'Algo ausente',
-  3: 'Neutro (ni presente ni ausente)',
-  4: 'Algo presente',
-  5: 'Completamente presente'
-}
+// Utils
+import { LABELS } from '../../utils/constants'
 
 export default function StarsRange({ question, value, onChange }) {
   const [hover, setHover] = useState(-1)
@@ -18,7 +14,7 @@ export default function StarsRange({ question, value, onChange }) {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '1em' }}>
         {value !== null && (
           <Box sx={{ color: 'grey', fontSize: '11px' }}>
-            {labels[hover !== -1 ? hover : value]}
+            {LABELS[hover !== -1 ? hover : value]}
           </Box>
         )}
         <Rating
