@@ -1,7 +1,7 @@
 import { useState, useMemo, useContext } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 // Libraries
-import { TextField, Autocomplete, Button, Box } from '@mui/material'
+import { TextField, Autocomplete, Button, Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
@@ -22,12 +22,14 @@ import Error from '../../components/Error/Error'
 import StarsRange from '../../components/StarsRange/StarsRange'
 
 export default function NewCase() {
-  const [timeValue, setTimeValue] = useState(null)
-
+  const [agentKey, setAgentKey] = useState('')
   const [agentName, setAgentName] = useState('Nombre')
   const [agentGroup, setAgentGroup] = useState('Célula')
-  const [agentKey, setAgentKey] = useState('')
   const [caseNumber, setCaseNumber] = useState(0)
+  const [timeValue, setTimeValue] = useState(null)
+  const [motivoConsulta, setMotivoConsulta] = useState('')
+  const [perspective, setPerspective] = useState('')
+  const [comment, setComment] = useState('')
 
   const [caseHabilities, setCaseHabilities] = useState({
     customerNeedDetection: 0,
@@ -46,10 +48,7 @@ export default function NewCase() {
   const { motives } = useGetCases()
   const navigate = useNavigate()
 
-  const agentsArray = useMemo(
-    () => Object.keys(agents).map((el) => el.toUpperCase()),
-    [agents]
-  )
+  const agentsArray = useMemo(() => Object.keys(agents).map(el => el.toUpperCase()), [agents])
 
   const handleDelete = (e) => {
     document.getElementById('form').reset()
@@ -57,9 +56,12 @@ export default function NewCase() {
     setAgentName('Nombre')
     setAgentGroup('Célula')
     setTimeValue(null)
+    setPerspective('')
+    setComment('')
+    setMotivoConsulta('')
   }
 
-  const handleChangeAutocomplete = (event, value) => {
+  const handleChangeAutocomplete = (_, value) => {
     setAgentName('Nombre')
     setAgentGroup('Célula')
 
@@ -67,11 +69,8 @@ export default function NewCase() {
     que sea más óptimo de recorrer antes que un array de objetos */
     const convertArray = Object.entries(agents)
 
-    const findAgent =
-      value &&
-      convertArray.find(
-        (agent) => agent[0].toLowerCase() === value.toLowerCase()
-      )
+    const findAgent = value &&
+      convertArray.find((agent) => agent[0].toLowerCase() === value.toLowerCase())
 
     if (findAgent) {
       setAgentName(findAgent[1].name)
@@ -94,14 +93,6 @@ export default function NewCase() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (agentKey === '' || timeValue === null) {
-      return Swal.fire('Error', 'Debes completar todos los campos', 'error')
-    }
-
-    const comentario = e.currentTarget.comentarioGestion.value
-    const motivoConsulta = e.currentTarget.motivoConsulta.value
-    const puntoATrabajar = e.currentTarget.puntoFalla.value
-
     const newCase = {
       id: crypto.randomUUID(),
       numeroCaso: parseInt(caseNumber),
@@ -115,8 +106,8 @@ export default function NewCase() {
       om: 'TODO',
       fechaDeCarga: Date.now(),
       monitoreador: user.email,
-      puntoATrabajar,
-      comentarioGestion: comentario
+      perspective,
+      comment
     }
 
     Swal.fire({
@@ -228,15 +219,18 @@ export default function NewCase() {
             id='outlined-basicFifth'
             size='small'
             variant='outlined'
+            value={motivoConsulta}
             key={resetKey}
             options={motives}
-            renderInput={(params) => (
+            onChange={(_, value) => setMotivoConsulta(value)}
+            renderInput={params => (
               <TextField
                 {...params}
                 required
                 label='Motivo de consulta'
                 placeholder='Ej: Consulta de saldo'
                 name='motivoConsulta'
+                onChange={e => setMotivoConsulta(e.target.value)}
               />
             )}
           />
@@ -244,7 +238,6 @@ export default function NewCase() {
         <Box className='input-three form__child'>
           <ul>
             {habilities?.questions?.map(question => {
-              // console.log(caseHabilities[question.key])
               return (
                 <StarsRange
                   key={question.key}
@@ -262,15 +255,26 @@ export default function NewCase() {
           </ul>
         </Box>
         <Box className='text-area-container form__child'>
-          <TextField
-            required
-            id='outlined-textarea-first'
-            label='¿Qué faltó para la resolución?'
-            name='puntoFalla'
-            placeholder='Ej: Indagar necesidades'
-            className='textarea-width-first'
-            rows={2}
-          />
+          <FormControl sx={{ m: 1, minWidth: '350px', textAlign: 'left' }}>
+            <InputLabel htmlFor={'select-perception'} id="label-select-perception">
+              ¿Qué percepción general te dejó el caso?
+            </InputLabel>
+            <Select
+              required
+              labelId="label-select-perception"
+              name="select-perception-jajaa"
+              value={perspective}
+              inputProps={{ id: 'select-perception' }}
+              label="¿Qué percepción general te dejó el caso?"
+              onChange={e => setPerspective(e.target.value)}
+            >
+              <MenuItem value='No se evalúa'>No se evalúa</MenuItem>
+              <MenuItem value='Necesitamos cambiar cosas'>Necesitamos cambiar cosas</MenuItem>
+              <MenuItem value='Se podría haber hecho mejor'>Se podría haber hecho mejor</MenuItem>
+              <MenuItem value='Buena'>Buena</MenuItem>
+              <MenuItem value='Ejemplar'>Ejemplar</MenuItem>
+            </Select>
+          </FormControl>
           <TextField
             required
             multiline
@@ -280,6 +284,8 @@ export default function NewCase() {
             placeholder='Ej: Cliente se contacta consultando por ...'
             className='textarea-width-second'
             rows={10}
+            value={comment}
+            onChange={e => setComment(e.target.value)}
           />
         </Box>
         <Box className='btn-container'>
