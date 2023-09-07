@@ -16,7 +16,7 @@ const useGetCases = () => {
 
         const docs = docSnap.data().cases
 
-        const motives = docs.map(doc => doc.motivoConsulta)
+        const motives = docs.map(doc => doc.contactReason)
         const uniqueMotives = motives[0] !== undefined ? [...new Set(motives)] : []
 
         setMotives(uniqueMotives)

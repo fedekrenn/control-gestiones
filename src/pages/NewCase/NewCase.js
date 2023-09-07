@@ -24,21 +24,12 @@ import StarsRange from '../../components/StarsRange/StarsRange'
 import { OPTIONS } from '../../utils/constants'
 
 export default function NewCase() {
-  // const [agentKey, setAgentKey] = useState('')
-  // const [agentName, setAgentName] = useState('Nombre')
-  // const [agentGroup, setAgentGroup] = useState('Célula')
-  // const [caseNumber, setCaseNumber] = useState(0)
-  // const [timeValue, setTimeValue] = useState(null)
-  // const [motivoConsulta, setMotivoConsulta] = useState('')
-  // const [perspective, setPerspective] = useState('')
-  // const [comment, setComment] = useState('')
-
   const [caseData, setCaseData] = useState({
-    agentId: '',
     agentName: 'Nombre',
     agentGroup: 'Célula',
-    caseNumber: 0,
     date: null,
+    agentId: '',
+    caseNumber: '',
     contactReason: '',
     perspective: '',
     comment: ''
@@ -52,8 +43,6 @@ export default function NewCase() {
     problemSolving: 0
   })
 
-  const [resetKey, setResetKey] = useState(0)
-
   const { user } = useContext(AuthContext)
 
   const { habilities } = useContext(BasicDataContext)
@@ -63,14 +52,7 @@ export default function NewCase() {
 
   const agentsArray = useMemo(() => Object.keys(agents).map(el => el.toUpperCase()), [agents])
 
-  const handleReset = (e) => {
-    // setCaseNumber('')
-    // setAgentName('Nombre')
-    // setAgentGroup('Célula')
-    // setTimeValue(null)
-    // setPerspective('')
-    // setComment('')
-    // setMotivoConsulta('')
+  const handleReset = () => {
     setCaseHabilities({
       customerNeedDetection: 0,
       commonSense: 0,
@@ -79,21 +61,18 @@ export default function NewCase() {
       problemSolving: 0
     })
     setCaseData({
-      agentId: '',
       agentName: 'Nombre',
       agentGroup: 'Célula',
-      caseNumber: 0,
       date: null,
+      agentId: '',
+      caseNumber: '',
       contactReason: '',
       perspective: '',
       comment: ''
     })
-    setResetKey((prevKey) => prevKey + 1)
   }
 
   const handleChangeAutocomplete = (_, value) => {
-    // setAgentName('Nombre')
-    // setAgentGroup('Célula')
     setCaseData(prevState => ({
       ...prevState,
       agentName: 'Nombre',
@@ -105,12 +84,9 @@ export default function NewCase() {
     const convertArray = Object.entries(agents)
 
     const findedAgent = value &&
-      convertArray.find((agent) => agent[0].toLowerCase() === value.toLowerCase())
+      convertArray.find(agent => agent[0].toLowerCase() === value.toLowerCase())
 
     if (findedAgent) {
-      // setAgentName(findAgent[1].name)
-      // setAgentGroup(findAgent[1].cell)
-      // setAgentKey(findAgent[0])
       setCaseData(prevState => ({
         ...prevState,
         agentName: findedAgent[1].name,
@@ -120,35 +96,10 @@ export default function NewCase() {
     }
   }
 
-  // const handleFormReset = () => {
-  //   setResetKey((prevKey) => prevKey + 1)
-  //   setCaseHabilities({
-  //     customerNeedDetection: 0,
-  //     commonSense: 0,
-  //     effectiveCommunication: 0,
-  //     flexibility: 0,
-  //     problemSolving: 0
-  //   })
-  // }
-
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     const newCase = {
-      // id: crypto.randomUUID(),
-      // numeroCaso: parseInt(caseNumber),
-      // nombre: agentName,
-      // exa: agentKey,
-      // celula: agentGroup,
-      // date: moment(timeValue).format('DD/MM/YYYY HH:mm:ss'),
-      // motivoConsulta,
-      // origen: 'Coordinador', // TODO: Tiene que tomar el valor del perfil del usuario
-      // ec: 'TODO',
-      // om: 'TODO',
-      // fechaDeCarga: Date.now(),
-      // monitoreador: user.email,
-      // perspective,
-      // comment
       ...caseData,
       caseHabilities,
       id: crypto.randomUUID(),
@@ -185,8 +136,6 @@ export default function NewCase() {
           }).then((result) => {
             if (result.isConfirmed) navigate(`/monitoreo/${newCase.id}`)
           })
-
-          // handleDelete()
           handleReset()
         } catch (error) {
           Swal.fire('Error', 'No se pudo guardar la gestión', 'error')
@@ -194,6 +143,13 @@ export default function NewCase() {
       } else {
         Swal.fire('Cancelado', 'La gestión no ha sido guardada', 'error')
       }
+    })
+  }
+
+  const handleDataChange = (dataToChange, value) => {
+    setCaseData({
+      ...caseData,
+      [dataToChange]: value
     })
   }
 
@@ -214,8 +170,8 @@ export default function NewCase() {
             disablePortal
             id='combo-box-demo'
             size='small'
-            key={resetKey}
-            options={agentsArray}
+            value={caseData.agentId.toUpperCase()}
+            options={[...agentsArray, '']}
             onChange={handleChangeAutocomplete}
             onPaste={handlePaste}
             sx={{ width: 300 }}
@@ -228,7 +184,6 @@ export default function NewCase() {
             id='outlined-basicOne'
             size='small'
             variant='outlined'
-            // value={agentName}
             value={caseData.agentName}
           />
           <TextField
@@ -236,7 +191,6 @@ export default function NewCase() {
             id='outlined-basicTwo'
             size='small'
             variant='outlined'
-            // value={agentGroup}
             value={caseData.agentGroup}
           />
         </Box>
@@ -249,11 +203,8 @@ export default function NewCase() {
             label='N° caso/solicitud/id'
             variant='outlined'
             placeholder='Ej: 2331244'
-            // onChange={e => setCaseNumber(e.target.value)}
-            onChange={e => setCaseData(prevState => ({
-              ...prevState,
-              caseNumber: parseInt(e.target.value)
-            }))}
+            value={caseData.caseNumber}
+            onChange={e => handleDataChange('caseNumber', parseInt(e.target.value))}
           />
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DateTimePicker
@@ -261,16 +212,11 @@ export default function NewCase() {
               ampm={false}
               label='Fecha y hora del caso'
               inputFormat='DD/MM/YYYY HH:mm'
-              // value={timeValue}
               value={caseData.date}
+              onChange={newValue => handleDataChange('date', newValue)}
               renderInput={(props) => (
                 <TextField {...props} size='small' required />
               )}
-              // onChange={newValue => setTimeValue(newValue)}
-              onChange={newValue => setCaseData(prevState => ({
-                ...prevState,
-                date: newValue
-              }))}
             />
           </LocalizationProvider>
           <Autocomplete
@@ -279,15 +225,9 @@ export default function NewCase() {
             id='outlined-basicFifth'
             size='small'
             variant='outlined'
-            // value={motivoConsulta}
             value={caseData.contactReason}
-            key={resetKey}
             options={motives}
-            // onChange={(_, value) => setMotivoConsulta(value)}
-            onChange={(_, value) => setCaseData(prevState => ({
-              ...prevState,
-              contactReason: value
-            }))}
+            onChange={(_, value) => handleDataChange('contactReason', value)}
             renderInput={params => (
               <TextField
                 {...params}
@@ -295,11 +235,7 @@ export default function NewCase() {
                 label='Motivo de consulta'
                 placeholder='Ej: Consulta de saldo'
                 name='motivoConsulta'
-                // onChange={e => setMotivoConsulta(e.target.value)}
-                onChange={e => setCaseData(prevState => ({
-                  ...prevState,
-                  contactReason: e.target.value
-                }))}
+                onChange={e => handleDataChange('contactReason', e.target.value)}
               />
             )}
           />
@@ -316,8 +252,7 @@ export default function NewCase() {
                     setCaseHabilities(prevState => ({
                       ...prevState,
                       [question.key]: newValue
-                    }))
-                  }
+                    }))}
                 />
               )
             })}
@@ -332,15 +267,10 @@ export default function NewCase() {
               required
               labelId="label-select-perception"
               name="select-perception-jajaa"
-              // value={perspective}
               value={caseData.perspective}
               inputProps={{ id: 'select-perception' }}
               label="¿Qué percepción general te dejó el caso?"
-              // onChange={e => setPerspective(e.target.value)}
-              onChange={e => setCaseData(prevState => ({
-                ...prevState,
-                perspective: e.target.value
-              }))}
+              onChange={e => handleDataChange('perspective', e.target.value)}
             >
               {OPTIONS.map((option, i) => (
                 <MenuItem key={i} value={option}>{option}</MenuItem>
@@ -356,22 +286,16 @@ export default function NewCase() {
             placeholder='Ej: Cliente se contacta consultando por ...'
             className='textarea-width-second'
             rows={10}
-            // value={comment}
             value={caseData.comment}
-            // onChange={e => setComment(e.target.value)}
-            onChange={e => setCaseData(prevState => ({
-              ...prevState,
-              comment: e.target.value
-            }))}
+            onChange={e => handleDataChange('comment', e.target.value)}
           />
         </Box>
         <Box className='btn-container'>
           <Button variant='contained' type='submit'>
             Agregar
           </Button>
-          {/* <Button variant='outlined' type='reset' onClick={handleDelete}> */}
           <Button variant='outlined' type='reset'>
-            Eliminar
+            Reestablecer
           </Button>
         </Box>
       </form>
