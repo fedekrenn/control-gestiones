@@ -1,27 +1,29 @@
 import { Link } from 'react-router-dom'
 import FeedIcon from '@mui/icons-material/Feed'
 
-export default function InteractionCase({ clientInteraction }) {
+export default function InteractionCase({ caseData }) {
   const {
     id,
-    celula,
+    agentId,
+    agentGroup,
+    agentName,
     date,
-    exa,
-    motivoConsulta,
-    nombre,
-    numeroCaso,
-    origen
-  } = clientInteraction
+    contactReason,
+    caseNumber,
+    origin,
+    perspective
+  } = caseData
 
   return (
     <tr>
-      <td>{nombre}</td>
-      <td>{numeroCaso}</td>
-      <td>{origen}</td>
-      <td>{motivoConsulta}</td>
-      <td>{exa.toUpperCase()}</td>
-      <td>{celula}</td>
+      <td>{agentId.toUpperCase()}</td>
+      <td>{agentName}</td>
+      <td>{caseNumber}</td>
+      <td>{origin}</td>
+      <td>{contactReason}</td>
+      <td>{agentGroup}</td>
       <td>{date}</td>
+      <td>{perspective}</td>
       <td className='table-icon' title='Haz click para conocer los detalles del monitoreo'>
         <Link to={`/monitoreo/${id}`}>
           <FeedIcon color='primary' fontSize='large' />

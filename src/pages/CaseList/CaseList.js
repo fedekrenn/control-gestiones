@@ -88,13 +88,14 @@ export default function CaseList() {
           : <table>
             <thead>
               <tr>
+                <th>Legajo</th>
                 <th>Nombre</th>
                 <th>Número de caso</th>
                 <th>Origen</th>
                 <th>Motivo de consulta</th>
-                <th>Legajo</th>
                 <th>Célula</th>
-                <th>Fecha de gestión</th>
+                <th>Fecha atención</th>
+                <th>Percepción</th>
                 <th>Ver detalles</th>
               </tr>
             </thead>
@@ -108,10 +109,10 @@ export default function CaseList() {
               </tbody>
               : <tbody ref={animationParent}>
                 {filteredCases
-                  .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
+                  .sort((a, b) => b.timestamp - a.timestamp)
                   .slice(0, 20)
-                  .map(clientInteraction => (
-                    <InteractionCase clientInteraction={clientInteraction} key={clientInteraction.id} />
+                  .map(caseData => (
+                    <InteractionCase caseData={caseData} key={caseData.id} />
                   ))}
               </tbody>
             }
