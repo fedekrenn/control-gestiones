@@ -2,10 +2,12 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 
 export default function CaseModal({ open, handleClose, caseDetail }) {
-  const { nombre, numeroCaso, celula, comentarioGestion } = caseDetail
+  // const { agentName, caseNumber, agentGroup, comment } = caseDetail
 
-  const formmatError = (caseDetail, attribute) => caseDetail.ec.motivo === attribute ? 'X' : ''
-  const formmatOm = (caseDetail, attribute) => caseDetail.om.motivo === attribute ? 'X' : ''
+  console.log(caseDetail)
+
+  // const formmatError = (caseDetail, attribute) => caseDetail.ec.motivo === attribute ? 'X' : ''
+  // const formmatOm = (caseDetail, attribute) => caseDetail.om.motivo === attribute ? 'X' : ''
 
   return (
     <Modal
@@ -26,7 +28,8 @@ export default function CaseModal({ open, handleClose, caseDetail }) {
           p: 4
         }}
       >
-        <table id='send-case'>
+        <h2>A desarrollar</h2>
+        {/* <table id='send-case'>
           <thead>
             <tr>
               <th colSpan={6}>CALIDAD CEC</th>
@@ -79,7 +82,7 @@ export default function CaseModal({ open, handleClose, caseDetail }) {
               <td className='detail' colSpan={6}>{comentarioGestion}</td>
             </tr>
           </tbody>
-        </table>
+        </table> */}
       </Box>
     </Modal>
   )

@@ -25,6 +25,8 @@ export default function CaseDetail() {
   const { caseDetail, loading, error } = useGetCaseDetail(id)
   const { user } = useContext(AuthContext)
 
+  const { agentName, caseNumber, agentId, agentGroup, origin, contactReason, date, comment, monitor, timestamp } = caseDetail
+
   const formmatedDate = (string) => string?.split(' ').join(' - ')
 
   if (!user) return <Navigate to='/' />
@@ -41,35 +43,30 @@ export default function CaseDetail() {
               <h2>Info gestión</h2>
               <ul>
                 <li>
-                  <span>Nombre del asesor:</span>
-                  {caseDetail.nombre}
+                  <span>Nombre del asesor:</span> {agentName}
                 </li>
                 <li>
-                  <span>Exa:</span>
-                  {caseDetail.exa?.toUpperCase()}
+                  <span>Exa:</span> {agentId?.toUpperCase()}
                 </li>
                 <li>
-                  <span>Célula:</span>
-                  {caseDetail.celula}
+                  <span>Célula:</span> {agentGroup}
                 </li>
                 <hr />
                 <li>
-                  <span>Número de caso:</span>
-                  {caseDetail.numeroCaso}
+                  <span>Número de caso:</span> {caseNumber}
                 </li>
                 <li>
-                  <span>Origen:</span>
-                  {caseDetail.origen}
+                  <span>Origen:</span> {origin}
                 </li>
-                <li><span>Fecha de atención:</span> {formmatedDate(caseDetail.date)}</li>
+                <li><span>Fecha de atención:</span> {formmatedDate(date)}</li>
               </ul>
               <Box sx={{ display: 'flex', justifyContent: 'center', paddingTop: '10px' }} >
-                <Link to={`/asesor/${caseDetail.exa}`}>
+                <Link to={`/asesor/${agentId}`}>
                   <i title='Más gestiones del asesor' className='case-detail__icon-exa' >
                     <AccessibilityIcon />
                   </i>
                 </Link>
-                <i title={`Monitoreado por ${caseDetail.monitoreador} el día ${new Date(caseDetail.fechaDeCarga).toLocaleString()} hs`} >
+                <i title={`Monitoreado por ${monitor} el día ${new Date(timestamp).toLocaleString()} hs`} >
                   <ContentPasteSearchIcon />
                 </i>
                 <i className='case-detail__icon' onClick={handleOpen}>
@@ -82,53 +79,15 @@ export default function CaseDetail() {
               <h2>Detalles</h2>
               <ul>
                 <li>
-                  <span>Motivo de contacto:</span>
-                  {caseDetail.motivoConsulta}
+                  <span>Motivo de contacto:</span> {contactReason}
                 </li>
                 <li>
                   <span>Comentarios de la gestión:</span>
-                  <p className='detail-card__comment'>
-                    {caseDetail.comentarioGestion}
-                  </p>
+                  <p className='detail-card__comment'>{comment}</p>
                 </li>
-                {!caseDetail.ec && !caseDetail.om && (
-                  <li className='not-error'>No hay Om ni Ec marcados</li>
-                )}
-                {caseDetail.ec && (
-                  <li>
-                    <h3 className='ec'>Error crítico:</h3>
-                    <Box className='card-detail'>
-                      <p>
-                        <span>Motivo:</span> {caseDetail.ec.motivo}
-                      </p>
-                      <p>
-                        <span>Submotivo:</span> {caseDetail.ec.submotivo}
-                      </p>
-                    </Box>
-                  </li>
-                )}
-                {caseDetail.om && (
-                  <li>
-                    <h3 className='om'>Oportunidad de mejora:</h3>
-                    <Box className='card-detail'>
-                      <p><span>Motivo:</span> {caseDetail.om.motivo}</p>
-                      <p><span>Submotivo:</span> {caseDetail.om.submotivo}</p>
-                    </Box>
-                  </li>
-                )}
               </ul>
             </Box>
           </section>
-          {caseDetail.puntoATrabajar !== '-' && (
-            <section className='case-detail__section'>
-              <Box className='detail-card center'>
-                <h2>El punto a trabajar con este asesor es:</h2>
-                <p className='detail-card__comment'>
-                  {caseDetail.puntoATrabajar}
-                </p>
-              </Box>
-            </section>
-          )}
         </>
       }
     </main>

@@ -44,11 +44,11 @@ export default function CaseList() {
 
   const filteredCases = useMemo(() => {
     return cases.filter((clientInteraction) => {
-      if (caseNumber && !clientInteraction.numeroCaso.toString().includes(caseNumber)) return false
-      if (exa && !clientInteraction.exa.toLowerCase().includes(exa.toLowerCase())) return false
-      if (cell && clientInteraction.celula !== cell) return false
-      if (origin && clientInteraction.origen !== origin) return false
-      if (motive && clientInteraction.motivoConsulta !== motive) return false
+      if (cell && clientInteraction.agentGroup !== cell) return false
+      if (origin && clientInteraction.origin !== origin) return false
+      if (caseNumber && !clientInteraction.caseNumber.toString().includes(caseNumber)) return false
+      if (exa && !clientInteraction.agentId.toLowerCase().includes(exa.toLowerCase())) return false
+      if (motive && clientInteraction.contactReason.toLowerCase() !== motive.toLowerCase()) return false
       if (time && clientInteraction.date.split(' ')[0] !== moment(time).format('DD/MM/YYYY')) return false
 
       return true
@@ -88,13 +88,14 @@ export default function CaseList() {
           : <table>
             <thead>
               <tr>
+                <th>Legajo</th>
                 <th>Nombre</th>
                 <th>Número de caso</th>
                 <th>Origen</th>
                 <th>Motivo de consulta</th>
-                <th>Legajo</th>
                 <th>Célula</th>
-                <th>Fecha de gestión</th>
+                <th>Fecha atención</th>
+                <th>Percepción</th>
                 <th>Ver detalles</th>
               </tr>
             </thead>
@@ -108,10 +109,10 @@ export default function CaseList() {
               </tbody>
               : <tbody ref={animationParent}>
                 {filteredCases
-                  .sort((a, b) => b.fechaDeCarga - a.fechaDeCarga)
+                  .sort((a, b) => b.timestamp - a.timestamp)
                   .slice(0, 20)
-                  .map(clientInteraction => (
-                    <InteractionCase clientInteraction={clientInteraction} key={clientInteraction.id} />
+                  .map(caseData => (
+                    <InteractionCase caseData={caseData} key={caseData.id} />
                   ))}
               </tbody>
             }

@@ -8,8 +8,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 // Components
 import Filter from '../../components/Filter/Filter'
 // Utils
-import { handlePaste, handleKeyDown } from '../../utils/handleEvent'
-import { ORIGINS } from '../../utils/origins'
+import { handlePaste, handleKeyDown } from '../../utils/events'
+import { ORIGINS } from '../../utils/constants'
 // Context
 import { BasicDataContext } from '../../context/basicDataContext'
 

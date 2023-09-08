@@ -16,7 +16,7 @@ export default function ExaDetail() {
   const { user } = useContext(AuthContext)
   const { cases, loading, error } = useGetCases()
 
-  const userCases = cases.filter(clientInteraction => clientInteraction.exa === exa)
+  const userCases = cases.filter(casedata => casedata.agentId === exa)
 
   if (!user) return <Navigate to='/' />
   if (error.status) return <Error message={error.message} />
@@ -24,20 +24,19 @@ export default function ExaDetail() {
   return (
     <main>
       <h1>Detalles de asesor</h1>
-      <h2>{exa.toUpperCase()} - {userCases[0]?.nombre}</h2>
+      <h2>{exa.toUpperCase()} - {userCases[0]?.agentName}</h2>
       {loading
         ? <CircularProgress />
         : <section className='exa-detail'>
           <ul>
-            {userCases.map(clientInteraction => {
-              const { numeroCaso, date, motivoConsulta, puntoATrabajar, comentarioGestion, id } = clientInteraction
+            {userCases.map(casedata => {
+              const { caseNumber, date, contactReason, comment, id } = casedata
               return (
                 <li className='' key={id}>
-                  <p>{numeroCaso}</p>
+                  <p>{caseNumber}</p>
                   <p>{date}</p>
-                  <p>{motivoConsulta}</p>
-                  {puntoATrabajar !== '-' && <p>{puntoATrabajar}</p>}
-                  <p className='commentary'>{comentarioGestion.substring(0, 50)}...</p>
+                  <p>{contactReason}</p>
+                  <p className='commentary'>{comment.substring(0, 50)}...</p>
                   <Link to={`/monitoreo/${id}`}>
                     <FeedIcon color='primary' fontSize='large' />
                   </Link>
