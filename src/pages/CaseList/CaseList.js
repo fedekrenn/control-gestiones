@@ -44,11 +44,11 @@ export default function CaseList() {
 
   const filteredCases = useMemo(() => {
     return cases.filter((clientInteraction) => {
-      if (caseNumber && !clientInteraction.numeroCaso.toString().includes(caseNumber)) return false
-      if (exa && !clientInteraction.exa.toLowerCase().includes(exa.toLowerCase())) return false
-      if (cell && clientInteraction.celula !== cell) return false
-      if (origin && clientInteraction.origen !== origin) return false
-      if (motive && clientInteraction.motivoConsulta !== motive) return false
+      if (cell && clientInteraction.agentGroup !== cell) return false
+      if (origin && clientInteraction.origin !== origin) return false
+      if (caseNumber && !clientInteraction.caseNumber.toString().includes(caseNumber)) return false
+      if (exa && !clientInteraction.agentId.toLowerCase().includes(exa.toLowerCase())) return false
+      if (motive && clientInteraction.contactReason.toLowerCase() !== motive.toLowerCase()) return false
       if (time && clientInteraction.date.split(' ')[0] !== moment(time).format('DD/MM/YYYY')) return false
 
       return true
