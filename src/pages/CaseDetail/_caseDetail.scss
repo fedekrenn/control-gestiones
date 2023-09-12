@@ -1,12 +1,14 @@
 .case-detail {
   padding: 2em 0;
   background-color: #e2e5ed;
+
   h2 {
     font-size: 1.5em;
     font-weight: 600;
     margin: 0 0 1.4em 0;
   }
-  span {
+
+  span:not(.MuiChip-label) {
     text-decoration: underline;
   }
 }
@@ -25,61 +27,75 @@
   justify-content: space-between;
   width: 48%;
   min-width: 450px;
+  min-height: 350px;
   border-radius: 0.5em;
   padding: 1em;
   background-color: #f3f3f5;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
+
   .small-text {
     margin: .5em 0;
     font-size: 0.8em;
     font-weight: 600;
     color: #503df7;
+
     li {
       width: 80%;
       margin: 2px 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      span {
+
+      span:not(.MuiChip-label) {
         padding-right: 0;
       }
     }
   }
+
   ul {
     text-align: left;
+
     li {
       margin: 0.5em 0;
     }
   }
-  span {
+
+  span:not(.MuiChip-label) {
     font-weight: 600;
     padding-right: 0.3em;
   }
+
   hr {
     margin: 1em 0;
   }
+
   i {
     color: #09c228;
     font-size: 1.2em;
     font-style: normal;
     filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.7));
   }
+
   .case-detail__icon,
   .case-detail__icon-exa {
     color: #ebd917;
+
     &:hover {
       cursor: pointer;
       transform: scale(1.1);
       transition: transform 0.3s ease-in-out;
     }
   }
+
   .case-detail__icon-exa {
     color: rgb(16, 16, 143);
   }
+
   .card-detail {
     width: 75%;
     margin: 0 auto;
     padding: 0.5em;
+
     span {
       display: inline-block;
       margin: 0.3em 0;

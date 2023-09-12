@@ -1,8 +1,7 @@
 import { useState, useContext } from 'react'
 import { useParams, Navigate, Link } from 'react-router-dom'
 // Libraries
-// eslint-disable-next-line no-unused-vars
-import { CircularProgress, Rating, Box } from '@mui/material'
+import { CircularProgress, Rating, Box, Chip } from '@mui/material'
 // Iconos
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch'
 import TableChartIcon from '@mui/icons-material/TableChart'
@@ -40,7 +39,23 @@ export default function CaseDetail() {
     caseHabilities
   } = caseDetail
 
-  const formmatedDate = (string) => string?.split(' ').join(' - ')
+  const formattedDate = (string) => string?.split(' ').join(' - ')
+  const formattedChip = (string) => {
+    switch (string) {
+      case 'No se evalúa':
+        return 'default'
+      case 'Necesitamos cambiar cosas':
+        return 'error'
+      case 'Se podría haber hecho mejor':
+        return 'warning'
+      case 'Buena':
+        return 'success'
+      case 'Ejemplar':
+        return 'success'
+      default:
+        return 'error'
+    }
+  }
 
   if (!user) return <Navigate to='/' />
   if (error.status) return <Error message={error.message} />
@@ -71,7 +86,9 @@ export default function CaseDetail() {
                 <li>
                   <span>Origen:</span> {origin}
                 </li>
-                <li><span>Fecha de atención:</span> {formmatedDate(date)}</li>
+                <li>
+                  <span>Fecha de atención:</span> {formattedDate(date)}
+                </li>
               </ul>
               <Box sx={{ display: 'flex', justifyContent: 'center', paddingTop: '10px' }} >
                 <Link to={`/asesor/${agentId}`}>
@@ -95,35 +112,38 @@ export default function CaseDetail() {
                   <span>Motivo de contacto:</span> {contactReason}
                 </li>
                 <li>
-                  <span>Perspectiva:</span> {perspective}
-                </li>
-                <li>
-                  <span>Habilidades:</span>
-                  <ul className='small-text'>
-                    <li>
-                      Detección de la necesidad del cliente:
-                      <Rating size="small" name='read-only' value={caseHabilities?.customerNeedDetection} readOnly />
-                    </li>
-                    <li>
-                      Pensamiento analítico:
-                      <Rating size="small" name='read-only' value={caseHabilities?.commonSense} readOnly />
-                    </li>
-                    <li>
-                      Comunicación efectiva:
-                      <Rating size="small" name='read-only' value={caseHabilities?.effectiveCommunication} readOnly />
-                    </li>
-                    <li>
-                      Flexibilidad y adaptación:
-                      <Rating size="small" name='read-only' value={caseHabilities?.flexibility} readOnly />
-                    </li>
-                    <li>
-                      Capacidad resolutiva:
-                      <Rating size="small" name='read-only' value={caseHabilities?.problemSolving} readOnly />
-                    </li>
-                  </ul>
+                  <span>Perspectiva:</span>
+                  <Chip label={perspective} color={formattedChip(perspective)} />
                 </li>
               </ul>
+              <Box>
+                <h2>Habilidades:</h2>
+                <ul className='small-text'>
+                  <li>
+                    Detección de la necesidad del cliente:
+                    <Rating size="small" name='read-only' value={caseHabilities?.customerNeedDetection} readOnly />
+                  </li>
+                  <li>
+                    Pensamiento analítico:
+                    <Rating size="small" name='read-only' value={caseHabilities?.commonSense} readOnly />
+                  </li>
+                  <li>
+                    Comunicación efectiva:
+                    <Rating size="small" name='read-only' value={caseHabilities?.effectiveCommunication} readOnly />
+                  </li>
+                  <li>
+                    Flexibilidad y adaptación:
+                    <Rating size="small" name='read-only' value={caseHabilities?.flexibility} readOnly />
+                  </li>
+                  <li>
+                    Capacidad resolutiva:
+                    <Rating size="small" name='read-only' value={caseHabilities?.problemSolving} readOnly />
+                  </li>
+                </ul>
+              </Box>
             </Box>
+          </section>
+          <section>
             <Box>
               <h2>Comentarios de la gestión:</h2>
               <p className='detail-card__comment'>{comment}</p>
