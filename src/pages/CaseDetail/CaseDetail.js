@@ -113,7 +113,7 @@ export default function CaseDetail() {
                 </li>
                 <li>
                   <span>Perspectiva:</span>
-                  <Chip label={perspective} color={formattedChip(perspective)} />
+                  <Chip className='memita' label={perspective} color={formattedChip(perspective)} />
                 </li>
               </ul>
               <Box>
@@ -143,11 +143,9 @@ export default function CaseDetail() {
               </Box>
             </Box>
           </section>
-          <section>
-            <Box>
-              <h2>Comentarios de la gestión:</h2>
-              <p className='detail-card__comment'>{comment}</p>
-            </Box>
+          <section className='comment__section'>
+            <h2>Comentarios de la gestión:</h2>
+            <p className='detail-card'>{comment}</p>
           </section>
         </>
       }
