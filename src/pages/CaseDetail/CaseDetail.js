@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react'
 import { useParams, Navigate, Link } from 'react-router-dom'
 // Libraries
-import { CircularProgress, Rating, Box, Chip } from '@mui/material'
+import { Rating, Box, Chip } from '@mui/material'
 // Iconos
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch'
 import TableChartIcon from '@mui/icons-material/TableChart'
@@ -9,6 +9,7 @@ import AccessibilityIcon from '@mui/icons-material/Accessibility'
 // Componentes
 import CaseModal from '../../components/CaseModal/CaseModal'
 import Error from '../../components/Error/Error'
+import SkeletonContainer from '../../components/SkeletonContainer/SkeletonContainer'
 // Context
 import { AuthContext } from '../../context/authContext'
 // Custom hooks
@@ -61,10 +62,10 @@ export default function CaseDetail() {
   if (error.status) return <Error message={error.message} />
 
   return (
-    <main className='case-detail'>
+    <>
       {loading
-        ? <CircularProgress />
-        : <>
+        ? <SkeletonContainer />
+        : <main className='case-detail'>
           <h1>Detalle de la gestión:</h1>
           <section className='case-detail__section'>
             <Box className='detail-card'>
@@ -147,8 +148,8 @@ export default function CaseDetail() {
             <h2>Comentarios de la gestión:</h2>
             <p className='detail-card'>{comment}</p>
           </section>
-        </>
+        </main>
       }
-    </main>
+    </>
   )
 }
