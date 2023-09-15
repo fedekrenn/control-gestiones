@@ -1,8 +1,6 @@
 // SVG
 import ErrorSvg from '../../assets/error.svg'
 export default function Error({ message }) {
-  console.log(message)
-
   return (
     <div className='empty-state error'>
       <p>Upps! Algo sucedió al cargar los datos.</p>

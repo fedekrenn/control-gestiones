@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { useNavigate, Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 // Libraries
 import { TextField, Button } from '@mui/material'
 import Swal from 'sweetalert2'
@@ -14,7 +14,6 @@ export default function Login() {
   const [password, setPassword] = useState('')
 
   const { user } = useContext(AuthContext)
-  const navigate = useNavigate()
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -29,10 +28,6 @@ export default function Login() {
               text: 'Has iniciado sesión correctamente',
               confirmButtonText: 'Aceptar'
             })
-
-            setTimeout(() => {
-              navigate('/inicio')
-            }, 1500)
           })
           .catch(() => {
             Swal.fire({

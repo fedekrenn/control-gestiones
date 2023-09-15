@@ -104,7 +104,7 @@ export default function NewCase() {
       caseHabilities,
       id: crypto.randomUUID(),
       date: moment(caseData.date).format('DD/MM/YYYY HH:mm:ss'),
-      origin: 'Coordinador', // TODO: Tiene que tomar el valor del perfil del usuario
+      origin: user.displayName ? 'Calidad Cec' : 'Coordinador',
       timestamp: Date.now(),
       monitor: user.email
     }
