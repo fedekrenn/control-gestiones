@@ -30,7 +30,7 @@ const BasicDataProvider = ({ children }) => {
             console.warn('No such document!')
           }
         } catch (error) {
-          console.error(error)
+          console.info(error)
         }
       })()
     }

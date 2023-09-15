@@ -8,6 +8,7 @@ import Login from './pages/Login/Login'
 import CaseDetail from './pages/CaseDetail/CaseDetail'
 import CaseList from './pages/CaseList/CaseList'
 import ExaDetail from './pages/ExaDetail/ExaDetail'
+import NotFound from './pages/NotFound/NotFound'
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         <Route path='/monitoreo/:id' element={<CaseDetail />} />
         <Route path='/listado-casos' element={<CaseList />} />
         <Route path='/asesor/:exa' element={<ExaDetail />} />
-        <Route path='*' element={<h1>404, página no encontrada!</h1>} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   )
