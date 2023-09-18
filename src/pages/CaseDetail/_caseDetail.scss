@@ -1,10 +1,10 @@
 .case-detail {
-  padding: 2em 0;
+  padding: 30px 0;
   background-color: #e2e5ed;
   h2 {
     font-size: 1.5em;
     font-weight: 600;
-    margin: 0 0 1em 0;
+    margin: 0 0 15px 0;
   }
   span:not(.MuiChip-label) {
     text-decoration: underline;
@@ -15,8 +15,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  gap: 1em;
-  padding: 1em;
+  gap: 15px;
+  padding: 15px;
 }
 
 .detail-card {
@@ -26,15 +26,15 @@
   width: 48%;
   min-width: 450px;
   min-height: 350px;
-  border-radius: 0.5em;
-  padding: 1em;
+  border-radius: 10px;
+  padding: 15px;
   background-color: #f3f3f5;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
   .small-text {
-    margin: 0.5em 0;
+    margin: 10px 0;
     font-size: 0.8em;
     font-weight: 600;
-    color: #1976D2;
+    color: #1976d2;
     li {
       width: 80%;
       margin: 2px 0;
@@ -49,19 +49,19 @@
   ul {
     text-align: left;
     li {
-      margin: 0.5em 0;
+      margin: 8px 0;
     }
   }
 
-  .memita {
-    margin-left: 2em;
+  .chip {
+    margin-left: 30px;
   }
   span:not(.MuiChip-label) {
     font-weight: 600;
-    padding-right: 0.3em;
+    padding-right: 5px;
   }
   hr {
-    margin: 1em 0;
+    margin: 15px 0;
   }
   i {
     color: #09c228;
@@ -84,22 +84,22 @@
   .card-detail {
     width: 75%;
     margin: 0 auto;
-    padding: 0.5em;
+    padding: 10px;
     span {
       display: inline-block;
-      margin: 0.3em 0;
+      margin: 5px 0;
     }
   }
 }
 
 .comment__section {
-  margin: 2em 0;
+  margin: 30px 0;
   p {
     display: inline-block;
     background-color: #f3f3f5;
-    padding: 1em;
-    margin: 1em 0;
-    border-radius: 0.5em;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 10px;
     min-height: 0;
   }
 }

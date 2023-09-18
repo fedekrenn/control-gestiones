@@ -114,7 +114,7 @@ export default function CaseDetail() {
                 </li>
                 <li>
                   <span>Perspectiva:</span>
-                  <Chip className='memita' label={perspective} color={formattedChip(perspective)} />
+                  <Chip className='chip' label={perspective} color={formattedChip(perspective)} />
                 </li>
               </ul>
               <Box>
