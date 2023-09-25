@@ -11,12 +11,12 @@ import Error from '../../components/Error/Error'
 // Icons
 import FeedIcon from '@mui/icons-material/Feed'
 
-export default function ExaDetail() {
-  const { exa } = useParams()
+export default function EmployeeId() {
+  const { employeeId } = useParams()
   const { user } = useContext(AuthContext)
   const { cases, loading, error } = useGetCases()
 
-  const userCases = cases.filter(casedata => casedata.agentId === exa)
+  const userCases = cases.filter(casedata => casedata.agentId === employeeId)
 
   if (!user) return <Navigate to='/' />
   if (error.status) return <Error message={error.message} />
@@ -24,10 +24,10 @@ export default function ExaDetail() {
   return (
     <main>
       <h1>Detalles de asesor</h1>
-      <h2>{exa.toUpperCase()} - {userCases[0]?.agentName}</h2>
+      <h2>{employeeId.toUpperCase()} - {userCases[0]?.agentName}</h2>
       {loading
         ? <CircularProgress />
-        : <section className='exa-detail'>
+        : <section className='employee-detail'>
           <ul>
             {userCases.map(casedata => {
               const { caseNumber, date, contactReason, comment, id } = casedata

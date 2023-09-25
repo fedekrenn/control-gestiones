@@ -62,7 +62,7 @@ export default function UploadFromFile() {
       if (error) {
         return Swal.fire({
           title: 'Atención!',
-          html: `Uno o más EXA ingresados no son válidos, revisa los siguientes EXA:<br><br>
+          html: `Uno o más legajos de asesores ingresados no son válidos, revisa los siguientes:<br><br>
            ${buffer.join('<br> ')}<br><br>
            ${count > 0 ? `Los demás ${count} agentes han sido agregados correctamente` : ''}`,
           icon: 'warning',

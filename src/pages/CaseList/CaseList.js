@@ -24,14 +24,14 @@ export default function CaseList() {
 
   const [filters, setFilters] = useState({
     caseNumber: '',
-    exa: '',
+    employeeId: '',
     cell: '',
     origin: '',
     motive: '',
     time: null
   })
 
-  const { caseNumber, exa, cell, origin, motive, time } = filters
+  const { caseNumber, employeeId, cell, origin, motive, time } = filters
 
   const parent = useRef(null)
 
@@ -47,13 +47,13 @@ export default function CaseList() {
       if (cell && clientInteraction.agentGroup !== cell) return false
       if (origin && clientInteraction.origin !== origin) return false
       if (caseNumber && !clientInteraction.caseNumber.toString().includes(caseNumber)) return false
-      if (exa && !clientInteraction.agentId.toLowerCase().includes(exa.toLowerCase())) return false
+      if (employeeId && !clientInteraction.agentId.toLowerCase().includes(employeeId.toLowerCase())) return false
       if (motive && clientInteraction.contactReason.toLowerCase() !== motive.toLowerCase()) return false
       if (time && clientInteraction.date.split(' ')[0] !== moment(time).format('DD/MM/YYYY')) return false
 
       return true
     })
-  }, [caseNumber, exa, cell, origin, motive, time, cases])
+  }, [caseNumber, employeeId, cell, origin, motive, time, cases])
 
   if (!user) return <Navigate to='/' />
   if (error.status) return <Error message={error.message} />

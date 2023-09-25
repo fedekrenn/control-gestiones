@@ -14,7 +14,7 @@ import { ORIGINS } from '../../utils/constants'
 import { BasicDataContext } from '../../context/basicDataContext'
 
 export default function FiltersContainer({ setFilters, filters, motives }) {
-  const { caseNumber, exa, cell, origin, motive, time } = filters
+  const { caseNumber, employeeId, cell, origin, motive, time } = filters
   const { cells } = useContext(BasicDataContext)
 
   const handleFiltersChange = (filterName, value) => {
@@ -25,7 +25,7 @@ export default function FiltersContainer({ setFilters, filters, motives }) {
   }
 
   const handleReset = () => {
-    setFilters({ caseNumber: '', exa: '', cell: '', origin: '', motive: '', time: null })
+    setFilters({ caseNumber: '', employeeId: '', cell: '', origin: '', motive: '', time: null })
   }
 
   return (
@@ -46,15 +46,15 @@ export default function FiltersContainer({ setFilters, filters, motives }) {
         />
         <TextField
           autoFocus
-          id="exaSearch"
-          label="Buscar por Exa"
+          id="employeeIdSearch"
+          label="Buscar por Legajo de asesor"
           type="text"
           variant="outlined"
-          placeholder="Ej: EXA03419"
-          value={exa}
+          placeholder="Ej: ASE03419"
+          value={employeeId}
           onPaste={handlePaste}
           onKeyDown={handleKeyDown}
-          onChange={e => handleFiltersChange('exa', e.target.value)}
+          onChange={e => handleFiltersChange('employeeId', e.target.value)}
         />
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <DatePicker
