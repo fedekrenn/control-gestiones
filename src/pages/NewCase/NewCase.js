@@ -176,7 +176,7 @@ export default function NewCase() {
             onPaste={handlePaste}
             sx={{ width: 300 }}
             renderInput={params => (
-              <TextField {...params} required label='Exa' />
+              <TextField {...params} required label='Legajo' />
             )}
           />
           <TextField

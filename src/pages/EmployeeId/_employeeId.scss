@@ -1,4 +1,4 @@
-.exa-detail {
+.employee-detail {
   ul {
     display: flex;
     flex-direction: column;
@@ -8,9 +8,9 @@
       justify-content: flex-start;
       align-items: center;
       gap: 40px;
-      .commentary{
+      .commentary {
         font-style: italic;
-        font-size: 14px;
+        font-size: 0.9em;
       }
     }
   }

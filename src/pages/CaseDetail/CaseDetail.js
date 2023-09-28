@@ -75,7 +75,7 @@ export default function CaseDetail() {
                   <span>Nombre del asesor:</span> {agentName}
                 </li>
                 <li>
-                  <span>Exa:</span> {agentId?.toUpperCase()}
+                  <span>Legajo:</span> {agentId?.toUpperCase()}
                 </li>
                 <li>
                   <span>Célula:</span> {agentGroup}
@@ -93,7 +93,7 @@ export default function CaseDetail() {
               </ul>
               <Box sx={{ display: 'flex', justifyContent: 'center', paddingTop: '10px' }} >
                 <Link to={`/asesor/${agentId}`}>
-                  <i title='Más gestiones del asesor' className='case-detail__icon-exa' >
+                  <i title='Más gestiones del asesor' className='case-detail__icon-employeeId' >
                     <AccessibilityIcon />
                   </i>
                 </Link>
@@ -114,7 +114,7 @@ export default function CaseDetail() {
                 </li>
                 <li>
                   <span>Perspectiva:</span>
-                  <Chip className='memita' label={perspective} color={formattedChip(perspective)} />
+                  <Chip className='chip' label={perspective} color={formattedChip(perspective)} />
                 </li>
               </ul>
               <Box>

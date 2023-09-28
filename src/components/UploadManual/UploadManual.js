@@ -26,7 +26,7 @@ export default function UploadManual() {
     if (!regex.test(agentInfo.key)) {
       return Swal.fire({
         title: 'Error!',
-        text: 'El EXA ingresado no es válido',
+        text: 'El legajo ingresado no es válido',
         icon: 'error',
         confirmButtonText: 'Ok'
       })
@@ -68,12 +68,12 @@ export default function UploadManual() {
         <TextField
           required
           id='outlined-basic-one'
-          label='EXA'
+          label='Legajo'
           type='text'
           variant='outlined'
-          name='exa'
+          name='employeeId'
           size='small'
-          placeholder='Ej: EXA00112'
+          placeholder='Ej: ASE00112'
           value={agentInfo.key}
           onChange={e => setAgentInfo({ ...agentInfo, key: e.target.value })}
           onKeyDown={handleKeyDown}

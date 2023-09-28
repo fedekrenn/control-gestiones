@@ -32,7 +32,7 @@ export default function CaseModal({ open, handleClose, caseDetail }) {
         {/* <table id='send-case'>
           <thead>
             <tr>
-              <th colSpan={6}>CALIDAD CEC</th>
+              <th colSpan={6}>Calidad</th>
             </tr>
             <tr>
               <th colSpan={2}>Asesor</th>

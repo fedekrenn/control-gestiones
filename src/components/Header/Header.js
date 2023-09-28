@@ -21,7 +21,7 @@ import { AuthContext } from '../../context/authContext'
 // Icons
 import MenuIcon from '@mui/icons-material/Menu'
 // Assets
-import icon from '../../assets/logo-startek.png'
+import icon from '../../assets/logo-track360.png'
 import picProfile from '../../assets/profile.svg'
 
 const PAGES = [
@@ -87,7 +87,7 @@ export default function Header() {
                 ))}
             </Menu>
           </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, mr: '20px', justifyContent: 'right' }}>
             {user &&
               PAGES.map(page => (
                 <Link to={page.link} key={page.name}>
