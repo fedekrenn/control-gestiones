@@ -56,7 +56,7 @@ export default function Header() {
           <Link to='/'>
             <img className='img-logo' src={icon} alt='Logo de la empresa' />
           </Link>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          {user && <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'right' }}>
             <IconButton
               size='large'
               aria-label='account of current user'
@@ -77,16 +77,15 @@ export default function Header() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              {user &&
-                PAGES.map(page => (
-                  <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                    <Link to={page.link}>
-                      <Typography textAlign='center'>{page.name}</Typography>
-                    </Link>
-                  </MenuItem>
-                ))}
+              {PAGES.map(page => (
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <Link to={page.link}>
+                    <Typography textAlign='center'>{page.name}</Typography>
+                  </Link>
+                </MenuItem>
+              ))}
             </Menu>
-          </Box>
+          </Box>}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, mr: '20px', justifyContent: 'right' }}>
             {user &&
               PAGES.map(page => (
