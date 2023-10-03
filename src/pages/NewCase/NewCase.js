@@ -278,6 +278,7 @@ export default function NewCase() {
             </Select>
           </FormControl>
           <TextField
+            sx={{ width: { xs: '90%', md: '80%' } }}
             required
             multiline
             id='outlined-textarea-second'
