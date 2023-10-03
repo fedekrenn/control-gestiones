@@ -104,4 +104,13 @@
   }
 }
 
-// .detail-card__comment
+@media (max-width: 944px) {
+  .case-detail__section {
+    gap: 40px;
+    padding: 0;
+  }
+  .detail-card {
+    min-width: inherit;
+    width: 80%;
+  }
+}
