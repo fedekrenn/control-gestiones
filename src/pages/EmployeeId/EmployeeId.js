@@ -2,6 +2,8 @@ import { useContext, useState, useEffect, useMemo } from 'react'
 import { Navigate, useParams, Link } from 'react-router-dom'
 // Libraries
 import CircularProgress from '@mui/material/CircularProgress'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Doughnut } from 'react-chartjs-2'
 // Custom Hooks
 import { useGetCases } from '../../customHooks/indexHooks'
 // Context
@@ -12,6 +14,8 @@ import Error from '../../components/Error/Error'
 import FeedIcon from '@mui/icons-material/Feed'
 // Utils
 import { QUESTIONS } from '../../utils/constants'
+
+ChartJS.register(ArcElement, Tooltip, Legend)
 
 export default function EmployeeId() {
   const [userCases, setUserCases] = useState([])
@@ -38,9 +42,32 @@ export default function EmployeeId() {
     setAverage(myAvg.map(avg => avg / userCases.length))
   }, [userCases])
 
-  console.log(average)
-
   const name = useMemo(() => userCases[0]?.agentName, [userCases])
+
+  const data = {
+    labels: QUESTIONS,
+    datasets: [
+      {
+        label: 'Promedio',
+        data: average,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.5)',
+          'rgba(255, 159, 64, 0.5)',
+          'rgba(255, 205, 86, 0.5)',
+          'rgba(75, 192, 192, 0.5)',
+          'rgba(54, 162, 235, 0.5)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 205, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(54, 162, 235, 1)'
+        ],
+        borderWidth: 2
+      }
+    ]
+  }
 
   if (!user) return <Navigate to='/' />
   if (error.status) return <Error message={error.message} />
@@ -68,6 +95,7 @@ export default function EmployeeId() {
               )
             })}
           </ul>
+          <Doughnut data={data} />
         </section>
       }
     </main>

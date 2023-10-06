@@ -20,7 +20,7 @@ export const LABELS = {
 }
 
 export const QUESTIONS = [
-  'Capacidad de detectar e interpretar la necesidad del cliente',
+  'Capacidad de detectar la necesidad del cliente',
   'Pensamiento analítico y sentido común',
   'Comunicación efectiva',
   'Flexibilidad y adaptación',
