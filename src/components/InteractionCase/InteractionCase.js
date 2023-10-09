@@ -16,7 +16,11 @@ export default function InteractionCase({ caseData }) {
 
   return (
     <tr>
-      <td>{agentId.toUpperCase()}</td>
+      <td>
+        <Link to={`/asesor/${agentId}`}>
+          {agentId.toUpperCase()}
+        </Link>
+      </td>
       <td>{agentName}</td>
       <td>{caseNumber}</td>
       <td>{origin}</td>

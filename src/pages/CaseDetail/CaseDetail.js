@@ -14,6 +14,8 @@ import SkeletonContainer from '../../components/SkeletonContainer/SkeletonContai
 import { AuthContext } from '../../context/authContext'
 // Custom hooks
 import { useGetCaseDetail } from '../../customHooks/indexHooks'
+// Utils
+import { formatChip } from '../../utils/formatChip'
 
 export default function CaseDetail() {
   const [open, setOpen] = useState(false)
@@ -41,22 +43,6 @@ export default function CaseDetail() {
   } = caseDetail
 
   const formattedDate = (string) => string?.split(' ').join(' - ')
-  const formattedChip = (string) => {
-    switch (string) {
-      case 'No se evalúa':
-        return 'default'
-      case 'Necesitamos cambiar cosas':
-        return 'error'
-      case 'Se podría haber hecho mejor':
-        return 'warning'
-      case 'Buena':
-        return 'success'
-      case 'Ejemplar':
-        return 'success'
-      default:
-        return 'error'
-    }
-  }
 
   if (!user) return <Navigate to='/' />
   if (error.status) return <Error message={error.message} />
@@ -114,7 +100,7 @@ export default function CaseDetail() {
                 </li>
                 <li>
                   <span>Perspectiva:</span>
-                  <Chip className='chip' label={perspective} color={formattedChip(perspective)} />
+                  <Chip className='chip' label={perspective} color={formatChip(perspective)} />
                 </li>
               </ul>
               <Box>

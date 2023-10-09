@@ -18,3 +18,11 @@ export const LABELS = {
   4: 'Algo presente',
   5: 'Completamente presente'
 }
+
+export const QUESTIONS = [
+  'Capacidad de detectar la necesidad del cliente',
+  'Pensamiento analítico y sentido común',
+  'Comunicación efectiva',
+  'Flexibilidad y adaptación',
+  'Capacidad resolutiva'
+]

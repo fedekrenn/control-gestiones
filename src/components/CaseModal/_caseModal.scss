@@ -9,18 +9,12 @@ table#send-case {
     padding: 5px;
     text-align: center;
   }
-  th,
-  .marked {
+  th{
     background-color: #c0504d;
     color: white;
   }
-  .detail {
-    padding: 50px;
-  }
-  .data-row td {
-    height: 30px;
+  .perception{
     font-weight: bold;
     font-size: 1.2em;
-    color: #ff0800;
   }
 }
