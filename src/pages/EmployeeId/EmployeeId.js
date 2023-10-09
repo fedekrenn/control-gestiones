@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect, useMemo } from 'react'
 import { Navigate, useParams, Link } from 'react-router-dom'
 // Libraries
-import CircularProgress from '@mui/material/CircularProgress'
+import { CircularProgress, Box } from '@mui/material'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
 // Custom Hooks
@@ -74,12 +74,12 @@ export default function EmployeeId() {
 
   return (
     <main>
-      <h1>Detalles de asesor</h1>
-      <h2>{employeeId.toUpperCase()} - {name}</h2>
+      <h1>{employeeId.toUpperCase()} - {name}</h1>
       {loading
         ? <CircularProgress />
         : <section className='employee-detail'>
           <ul>
+            <h3>Lista de gestiones</h3>
             {userCases.map(casedata => {
               const { caseNumber, date, contactReason, comment, id } = casedata
               return (
@@ -95,7 +95,9 @@ export default function EmployeeId() {
               )
             })}
           </ul>
-          <Doughnut data={data} />
+          <Box sx={{ width: '400px' }}>
+            <Doughnut data={data} />
+          </Box>
         </section>
       }
     </main>
