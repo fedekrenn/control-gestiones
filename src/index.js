@@ -8,13 +8,11 @@ import { BasicDataProvider } from './context/basicDataContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <React.StrictMode>
-    <AuthProvider>
-      <BasicDataProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </BasicDataProvider>
-    </AuthProvider>
-  </React.StrictMode>
+  <AuthProvider>
+    <BasicDataProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </BasicDataProvider>
+  </AuthProvider>
 )

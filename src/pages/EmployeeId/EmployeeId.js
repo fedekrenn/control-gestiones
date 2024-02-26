@@ -1,13 +1,11 @@
-import { useContext, useState, useEffect, useMemo } from 'react'
-import { Navigate, useParams, Link } from 'react-router-dom'
+import { useState, useEffect, useMemo } from 'react'
+import { useParams, Link } from 'react-router-dom'
 // Libraries
 import { CircularProgress, Box } from '@mui/material'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
 // Custom Hooks
 import { useGetCases } from '../../customHooks/indexHooks'
-// Context
-import { AuthContext } from '../../context/authContext'
 // Components
 import Error from '../../components/Error/Error'
 // Icons
@@ -22,7 +20,6 @@ export default function EmployeeId() {
   const [average, setAverage] = useState([])
 
   const { employeeId } = useParams()
-  const { user } = useContext(AuthContext)
   const { cases, loading, error } = useGetCases()
 
   useEffect(() => {
@@ -69,7 +66,6 @@ export default function EmployeeId() {
     ]
   }
 
-  if (!user) return <Navigate to='/' />
   if (error.status) return <Error message={error.message} />
 
   return (

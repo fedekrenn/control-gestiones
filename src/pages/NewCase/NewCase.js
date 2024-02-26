@@ -153,7 +153,7 @@ export default function NewCase() {
     })
   }
 
-  if (!user) return <Navigate to='/' />
+  if (!user) return <Navigate to='/login' />
   if (error.status) return <Error message={error.message} />
 
   return (

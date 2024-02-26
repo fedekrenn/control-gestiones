@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef, useContext, useMemo } from 'react'
-import { Navigate } from 'react-router-dom'
+import { useState, useEffect, useRef, useMemo } from 'react'
 // Libraries
 import { Button } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -15,8 +14,6 @@ import Empty from '../../components/Empty/Empty'
 import { handleDownloadExcel } from '../../utils/handleDowloadExcel'
 // Custom hook
 import { useGetCases } from '../../customHooks/indexHooks'
-// Context
-import { AuthContext } from '../../context/authContext'
 
 export default function CaseList() {
   const [showFilters, setShowFilters] = useState(false)
@@ -39,7 +36,6 @@ export default function CaseList() {
     parent.current && autoAnimate(parent.current)
   }, [parent])
 
-  const { user } = useContext(AuthContext)
   const { cases, loading, motives, error } = useGetCases()
 
   const filteredCases = useMemo(() => {
@@ -55,7 +51,6 @@ export default function CaseList() {
     })
   }, [caseNumber, employeeId, cell, origin, motive, time, cases])
 
-  if (!user) return <Navigate to='/' />
   if (error.status) return <Error message={error.message} />
 
   return (

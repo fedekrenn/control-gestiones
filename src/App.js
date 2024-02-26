@@ -15,8 +15,8 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path='/inicio' element={<MainPage />} />
+        <Route path='/' element={<MainPage />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/nuevo-asesor' element={<NewAgent />} />
         <Route path='/nuevo-caso' element={<NewCase />} />
         <Route path='/monitoreo/:id' element={<CaseDetail />} />

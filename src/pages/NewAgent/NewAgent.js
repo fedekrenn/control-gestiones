@@ -30,7 +30,7 @@ export default function NewAgent() {
     margin: '2em 0'
   }
 
-  if (!user) return <Navigate to='/' />
+  if (!user) return <Navigate to='/login' />
 
   return (
     <main className='new-agent' ref={parent}>
