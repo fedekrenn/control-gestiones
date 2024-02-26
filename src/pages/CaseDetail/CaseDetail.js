@@ -1,5 +1,5 @@
-import { useState, useContext } from 'react'
-import { useParams, Navigate, Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useParams, Link } from 'react-router-dom'
 // Libraries
 import { Rating, Box, Chip } from '@mui/material'
 // Iconos
@@ -10,8 +10,6 @@ import AccessibilityIcon from '@mui/icons-material/Accessibility'
 import CaseModal from '../../components/CaseModal/CaseModal'
 import Error from '../../components/Error/Error'
 import SkeletonContainer from '../../components/SkeletonContainer/SkeletonContainer'
-// Context
-import { AuthContext } from '../../context/authContext'
 // Custom hooks
 import { useGetCaseDetail } from '../../customHooks/indexHooks'
 // Utils
@@ -25,7 +23,6 @@ export default function CaseDetail() {
 
   const { id } = useParams()
   const { caseDetail, loading, error } = useGetCaseDetail(id)
-  const { user } = useContext(AuthContext)
 
   const {
     agentName,
@@ -44,7 +41,6 @@ export default function CaseDetail() {
 
   const formattedDate = (string) => string?.split(' ').join(' - ')
 
-  if (!user) return <Navigate to='/' />
   if (error.status) return <Error message={error.message} />
 
   return (

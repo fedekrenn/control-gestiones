@@ -1,13 +1,4 @@
-import { useContext } from 'react'
-import { Navigate } from 'react-router-dom'
-// Context
-import { AuthContext } from '../../context/authContext'
-
 export default function MainPage() {
-  const { user } = useContext(AuthContext)
-
-  if (!user) return <Navigate to='/' />
-
   return (
     <main className='main-page'>
       <h1>Sistema de cargas de gestiones</h1>

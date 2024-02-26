@@ -1,63 +1,63 @@
 {
-    "browserslist": {
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ],
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ]
-    },
-    "dependencies": {
-        "@emotion/react": "11.11.1",
-        "@emotion/styled": "11.10.4",
-        "@fontsource/roboto": "4.5.8",
-        "@formkit/auto-animate": "0.7.0",
-        "@mui/icons-material": "5.14.6",
-        "@mui/material": "5.14.6",
-        "@mui/x-date-pickers": "5.0.12",
-        "@testing-library/jest-dom": "5.16.5",
-        "@testing-library/react": "13.4.0",
-        "@testing-library/user-event": "13.5.0",
-        "chart.js": "4.4.0",
-        "dayjs": "1.11.7",
-        "firebase": "9.10.0",
-        "million": "2.5.4-beta.2",
-        "moment": "2.29.4",
-        "react": "18.2.0",
-        "react-chartjs-2": "5.2.0",
-        "react-dom": "18.2.0",
-        "react-router-dom": "6.4.3",
-        "react-scripts": "5.0.1",
-        "sass": "1.54.9",
-        "sweetalert2": "11.7.20",
-        "web-vitals": "2.1.4",
-        "xlsx": "0.18.5"
-    },
-    "devDependencies": {
-        "@craco/craco": "7.1.0",
-        "standard": "17.1.0"
-    },
-    "eslintConfig": {
-        "extends": [
-            "react-app",
-            "react-app/jest",
-            "standard"
-        ],
-        "rules": {
-            "space-before-function-paren": "off"
-        }
-    },
-    "name": "mac-gestiones",
-    "private": true,
-    "scripts": {
-        "build": "craco build",
-        "eject": "react-scripts eject",
-        "start": "craco start",
-        "test": "craco test"
-    },
-    "version": "1.0.0"
+  "browserslist": {
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ]
+  },
+  "dependencies": {
+    "@emotion/react": "11.11.1",
+    "@emotion/styled": "11.10.4",
+    "@fontsource/roboto": "4.5.8",
+    "@formkit/auto-animate": "0.7.0",
+    "@mui/icons-material": "5.14.6",
+    "@mui/material": "5.14.6",
+    "@mui/x-date-pickers": "5.0.12",
+    "@testing-library/jest-dom": "5.16.5",
+    "@testing-library/react": "13.4.0",
+    "@testing-library/user-event": "13.5.0",
+    "chart.js": "4.4.0",
+    "dayjs": "1.11.7",
+    "firebase": "9.10.0",
+    "million": "2.5.4-beta.2",
+    "moment": "2.29.4",
+    "react": "18.2.0",
+    "react-chartjs-2": "5.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.4.3",
+    "react-scripts": "5.0.1",
+    "sass": "1.54.9",
+    "sweetalert2": "11.7.20",
+    "web-vitals": "2.1.4",
+    "xlsx": "0.18.5"
+  },
+  "devDependencies": {
+    "@craco/craco": "7.1.0",
+    "standard": "17.1.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "standard"
+    ],
+    "rules": {
+      "space-before-function-paren": "off"
+    }
+  },
+  "name": "mac-gestiones",
+  "private": true,
+  "scripts": {
+    "build": "craco build",
+    "eject": "react-scripts eject",
+    "start": "craco start",
+    "test": "craco test"
+  },
+  "version": "1.0.0"
 }

@@ -40,7 +40,7 @@ export default function Login() {
       })
   }
 
-  if (user) return <Navigate to="/inicio" />
+  if (user) return <Navigate to="/" />
 
   return (
     <main>
