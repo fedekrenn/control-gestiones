@@ -36,7 +36,7 @@ dependencies:
     specifier: 13.5.0
     version: 13.5.0(@testing-library/dom@9.3.1)
   chart.js:
-    specifier: ^4.4.0
+    specifier: 4.4.0
     version: 4.4.0
   dayjs:
     specifier: 1.11.7
@@ -54,7 +54,7 @@ dependencies:
     specifier: 18.2.0
     version: 18.2.0
   react-chartjs-2:
-    specifier: ^5.2.0
+    specifier: 5.2.0
     version: 5.2.0(chart.js@4.4.0)(react@18.2.0)
   react-dom:
     specifier: 18.2.0
