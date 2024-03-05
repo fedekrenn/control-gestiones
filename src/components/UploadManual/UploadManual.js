@@ -84,7 +84,7 @@ export default function UploadManual() {
           label='Célula'
           size='small'
           value={agentInfo.cell}
-          options={cells.Cecor}
+          options={cells.celulas}
           fWidth={false}
           onChange={e => setAgentInfo({ ...agentInfo, cell: e })}
         />

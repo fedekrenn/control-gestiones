@@ -71,7 +71,7 @@ export default function FiltersContainer({ setFilters, filters, motives }) {
         <Filter
           label="Célula"
           value={cell}
-          options={cells.Cecor}
+          options={cells.celulas}
           onChange={newValue => handleFiltersChange('cell', newValue)}
         />
         <Filter
