@@ -25,9 +25,9 @@ import icon from '../../assets/logo-track360.png'
 import picProfile from '../../assets/profile.svg'
 
 const PAGES = [
-  { name: 'Nuevo asesor', link: '/nuevo-asesor' },
-  { name: 'Nueva gestión', link: '/nuevo-caso' },
-  { name: 'Gestiones', link: '/listado-casos' }
+  { name: 'Nuevo asesor', link: '/nuevo-asesor', isProtected: true },
+  { name: 'Nueva gestión', link: '/nuevo-caso', isProtected: true },
+  { name: 'Listado de gestiones', link: '/listado-gestiones', isProtected: false }
 ]
 
 export default function Header() {
@@ -35,7 +35,6 @@ export default function Header() {
   const [anchorElUser, setAnchorElUser] = useState(null)
 
   const { user } = useContext(AuthContext)
-  console.log(user)
 
   const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget)
   const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget)
@@ -84,13 +83,16 @@ export default function Header() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              {PAGES.map((page) => (
-                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Link to={page.link}>
-                    <Typography textAlign="center">{page.name}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
+              {PAGES.map(({ name, link, isProtected }) => {
+                const isAbleToRender = (isProtected && user) || !isProtected
+                return isAbleToRender && (
+                  <MenuItem key={name} onClick={handleCloseNavMenu}>
+                    <Link to={link}>
+                      <Typography textAlign="center">{name}</Typography>
+                    </Link>
+                  </MenuItem>
+                )
+              })}
             </Menu>
           </Box>
           <Box
@@ -101,16 +103,19 @@ export default function Header() {
               justifyContent: 'right'
             }}
           >
-            {PAGES.map((page) => (
-              <Link to={page.link} key={page.name}>
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page.name}
-                </Button>
-              </Link>
-            ))}
+            {PAGES.map(({ name, link, isProtected }) => {
+              const isAbleToRender = (isProtected && user) || !isProtected
+              return isAbleToRender && (
+                <Link to={link} key={name}>
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    {name}
+                  </Button>
+                </Link>
+              )
+            })}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
@@ -133,9 +138,17 @@ export default function Header() {
               onClose={handleCloseUserMenu}
             >
               <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center" onClick={handleSignOut}>
-                  Cerrar Sesión
-                </Typography>
+                {user
+                  ? (
+                  <Typography textAlign="center" onClick={handleSignOut}>
+                    Cerrar Sesión
+                  </Typography>
+                    )
+                  : (
+                  <Link to="/login">
+                    <Typography textAlign="center">Iniciar Sesión</Typography>
+                  </Link>
+                    )}
               </MenuItem>
             </Menu>
           </Box>

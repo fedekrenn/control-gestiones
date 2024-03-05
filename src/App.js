@@ -20,7 +20,7 @@ function App() {
         <Route path='/nuevo-asesor' element={<NewAgent />} />
         <Route path='/nuevo-caso' element={<NewCase />} />
         <Route path='/monitoreo/:id' element={<CaseDetail />} />
-        <Route path='/listado-casos' element={<CaseList />} />
+        <Route path='/listado-gestiones' element={<CaseList />} />
         <Route path='/asesor/:employeeId' element={<EmployeeId />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
