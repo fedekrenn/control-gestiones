@@ -5,6 +5,7 @@ import MainPage from './pages/MainPage/MaingPage'
 import NewAgent from './pages/NewAgent/NewAgent'
 import NewCase from './pages/NewCase/NewCase'
 import Login from './pages/Login/Login'
+import Register from './pages/Register/Register'
 import CaseDetail from './pages/CaseDetail/CaseDetail'
 import CaseList from './pages/CaseList/CaseList'
 import EmployeeId from './pages/EmployeeId/EmployeeId'
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path='/' element={<MainPage />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/registro' element={<Register />} />
         <Route path='/nuevo-asesor' element={<NewAgent />} />
         <Route path='/nuevo-caso' element={<NewCase />} />
         <Route path='/monitoreo/:id' element={<CaseDetail />} />

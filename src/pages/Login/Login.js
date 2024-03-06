@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 // Libraries
 import { TextField, Button } from '@mui/material'
 import Swal from 'sweetalert2'
@@ -29,11 +29,11 @@ export default function Login() {
               confirmButtonText: 'Aceptar'
             })
           })
-          .catch(() => {
+          .catch(error => {
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'Ha ocurrido un error al iniciar sesión',
+              text: `Ha ocurrido un error al iniciar sesión: \n ${error.message}`,
               confirmButtonText: 'Aceptar'
             })
           })
@@ -48,11 +48,13 @@ export default function Login() {
         <TextField
           id="outlined-basic-usr"
           label="Usuario"
+          type='email'
           variant="outlined"
           name="email"
           autoComplete="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+          required
         />
         <TextField
           id="outlined-basic-pss"
@@ -62,10 +64,12 @@ export default function Login() {
           name="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
+          required
         />
         <Button variant="contained" size="large" type="submit">
           Acceder
         </Button>
+        <Link to="/registro">¿No tienes cuenta? Regístrate</Link>
       </form>
     </main>
   )
