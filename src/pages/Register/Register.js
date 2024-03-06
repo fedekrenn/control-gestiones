@@ -1,13 +1,11 @@
 import { useState, useContext } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 // Libraries
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Typography } from '@mui/material'
 import Swal from 'sweetalert2'
 // Firebase
 import { auth } from '../../config/firebaseConfig'
-import {
-  createUserWithEmailAndPassword
-} from 'firebase/auth'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 // Context
 import { AuthContext } from '../../context/authContext'
 
@@ -31,25 +29,24 @@ export default function Register() {
       return
     }
 
-    setPersistence(auth, browserSessionPersistence).then(() => {
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Bienvenido',
-            text: 'Has iniciado sesión correctamente',
-            confirmButtonText: 'Aceptar'
-          })
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Bienvenido',
+          text: 'Has iniciado sesión correctamente',
+          confirmButtonText: 'Aceptar'
         })
-        .catch(error => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: error.message,
-            confirmButtonText: 'Aceptar'
-          })
+        // console.log(userCredential.user)
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.message,
+          confirmButtonText: 'Aceptar'
         })
-    })
+      })
   }
 
   if (user) return <Navigate to="/" />
@@ -91,7 +88,14 @@ export default function Register() {
         <Button variant="contained" size="large" type="submit">
           Crear usuario
         </Button>
-        <Link to="/login">Ya tengo cuenta</Link>
+        <Link to="/login">
+          <Typography
+            sx={{ fontSize: '13px', textDecoration: 'underline', color: '#606060' }}
+            component="legend"
+          >
+            Ya tengo cuenta
+          </Typography>
+        </Link>
       </form>
     </main>
   )

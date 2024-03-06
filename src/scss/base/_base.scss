@@ -3,6 +3,10 @@ body {
   font-family: var(--font-roboto);
 }
 
+a:visited {
+  color: inherit;
+}
+
 main {
   text-align: center;
 }

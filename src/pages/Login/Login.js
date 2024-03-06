@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 // Libraries
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Typography } from '@mui/material'
 import Swal from 'sweetalert2'
 // Firebase
 import { auth } from '../../config/firebaseConfig'
@@ -69,7 +69,14 @@ export default function Login() {
         <Button variant="contained" size="large" type="submit">
           Acceder
         </Button>
-        <Link to="/registro">¿No tienes cuenta? Regístrate</Link>
+        <Link to="/registro">
+        <Typography
+            sx={{ fontSize: '13px', textDecoration: 'underline', color: '#606060' }}
+            component="legend"
+          >
+          ¿No tienes cuenta? Regístrate
+        </Typography>
+        </Link>
       </form>
     </main>
   )
