@@ -153,7 +153,7 @@ export default function NewCase() {
     })
   }
 
-  if (!user) return <Navigate to='/login' />
+  if (!user) return <Navigate to='/login' state={{ from: '/nuevo-caso' }} />
   if (error.status) return <Error message={error.message} />
 
   return (
