@@ -6,10 +6,10 @@ import { Navigate } from 'react-router-dom'
 import { Box } from '@mui/material'
 import autoAnimate from '@formkit/auto-animate'
 // Components
-import UploadFromFile from '../../components/UploadFromFile/UploadFromFile'
-import UploadManual from '../../components/UploadManual/UploadManual'
+import UploadFromFile from '../../components/UploadFromFile/UploadFromFile.jsx'
+import UploadManual from '../../components/UploadManual/UploadManual.jsx'
 // Context
-import { AuthContext } from '../../context/authContext'
+import { AuthContext } from '../../context/authContext.jsx'
 
 export default function NewAgent() {
   const [showManual, setShowManual] = useState(true)

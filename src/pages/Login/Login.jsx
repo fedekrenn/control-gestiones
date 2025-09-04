@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 import { auth } from '../../config/firebaseConfig'
 import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from 'firebase/auth'
 // Context
-import { AuthContext } from '../../context/authContext'
+import { AuthContext } from '../../context/authContext.jsx'
 
 export default function Login() {
   const [email, setEmail] = useState('')

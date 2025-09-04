@@ -7,7 +7,7 @@ import { Doughnut } from 'react-chartjs-2'
 // Custom Hooks
 import { useGetCases } from '../../customHooks/indexHooks'
 // Components
-import Error from '../../components/Error/Error'
+import Error from '../../components/Error/Error.jsx'
 // Icons
 import FeedIcon from '@mui/icons-material/Feed'
 // Utils

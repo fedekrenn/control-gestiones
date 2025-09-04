@@ -6,12 +6,12 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 // Components
-import Filter from '../../components/Filter/Filter'
+import Filter from '../../components/Filter/Filter.jsx'
 // Utils
 import { handlePaste, handleKeyDown } from '../../utils/events'
 import { ORIGINS } from '../../utils/constants'
 // Context
-import { BasicDataContext } from '../../context/basicDataContext'
+import { BasicDataContext } from '../../context/basicDataContext.jsx'
 
 export default function FiltersContainer({ setFilters, filters, motives }) {
   const { caseNumber, employeeId, cell, origin, motive, time } = filters

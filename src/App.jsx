@@ -1,15 +1,15 @@
 import { Routes, Route } from 'react-router-dom'
 // Components
-import Header from './components/Header/Header'
-import MainPage from './pages/MainPage/MaingPage'
-import NewAgent from './pages/NewAgent/NewAgent'
-import NewCase from './pages/NewCase/NewCase'
-import Login from './pages/Login/Login'
-import Register from './pages/Register/Register'
-import CaseDetail from './pages/CaseDetail/CaseDetail'
-import CaseList from './pages/CaseList/CaseList'
-import EmployeeId from './pages/EmployeeId/EmployeeId'
-import NotFound from './pages/NotFound/NotFound'
+import Header from './components/Header/Header.jsx'
+import MainPage from './pages/MainPage/MaingPage.jsx'
+import NewAgent from './pages/NewAgent/NewAgent.jsx'
+import NewCase from './pages/NewCase/NewCase.jsx'
+import Login from './pages/Login/Login.jsx'
+import Register from './pages/Register/Register.jsx'
+import CaseDetail from './pages/CaseDetail/CaseDetail.jsx'
+import CaseList from './pages/CaseList/CaseList.jsx'
+import EmployeeId from './pages/EmployeeId/EmployeeId.jsx'
+import NotFound from './pages/NotFound/NotFound.jsx'
 
 function App() {
   return (

@@ -6,10 +6,10 @@ import moment from 'moment'
 import autoAnimate from '@formkit/auto-animate'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 // Components
-import InteractionCase from '../../components/InteractionCase/InteractionCase'
-import Error from '../../components/Error/Error'
-import FiltersContainer from '../../components/FiltersContainer/FilterContainer'
-import Empty from '../../components/Empty/Empty'
+import InteractionCase from '../../components/InteractionCase/InteractionCase.jsx'
+import Error from '../../components/Error/Error.jsx'
+import FiltersContainer from '../../components/FiltersContainer/FilterContainer.jsx'
+import Empty from '../../components/Empty/Empty.jsx'
 // Utils
 import { handleDownloadExcel } from '../../utils/handleDowloadExcel'
 // Custom hook

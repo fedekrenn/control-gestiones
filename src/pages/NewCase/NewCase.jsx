@@ -15,11 +15,11 @@ import { db } from '../../config/firebaseConfig'
 // Hooks
 import { useGetAgents, useGetCases } from '../../customHooks/indexHooks'
 // Context
-import { AuthContext } from '../../context/authContext'
-import { BasicDataContext } from '../../context/basicDataContext'
+import { AuthContext } from '../../context/authContext.jsx'
+import { BasicDataContext } from '../../context/basicDataContext.jsx'
 // Components
-import Error from '../../components/Error/Error'
-import StarsRange from '../../components/StarsRange/StarsRange'
+import Error from '../../components/Error/Error.jsx'
+import StarsRange from '../../components/StarsRange/StarsRange.jsx'
 // Utils
 import { OPTIONS } from '../../utils/constants'
 

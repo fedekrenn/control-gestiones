@@ -4,14 +4,14 @@ import { useState, useContext } from 'react'
 import { TextField, Button } from '@mui/material'
 import Swal from 'sweetalert2'
 // Components
-import Filter from '../../components/Filter/Filter'
+import Filter from '../../components/Filter/Filter.jsx'
 // Utils
 import { handlePaste, handleKeyDown } from '../../utils/events'
 // Firebase
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
 // Context
-import { BasicDataContext } from '../../context/basicDataContext'
+import { BasicDataContext } from '../../context/basicDataContext.jsx'
 
 export default function UploadManual() {
   const [agentInfo, setAgentInfo] = useState({ key: '', name: '', cell: '' })
