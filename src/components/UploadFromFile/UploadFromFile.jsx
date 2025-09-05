@@ -1,6 +1,6 @@
 import { useState } from 'react'
 // Libraries
-import { read, utils } from 'xlsx'
+import ExcelJS from 'exceljs'
 import { Button, Box } from '@mui/material'
 import Swal from 'sweetalert2'
 // Firebase
@@ -12,20 +12,38 @@ import UploadSvg from '../../assets/upload.svg'
 export default function UploadFromFile() {
   const [xmlsData, setXmlsData] = useState([])
 
-  function handleUploadFile(event) {
+  async function handleUploadFile(event) {
     const file = event.target.files[0]
-    const reader = new FileReader()
+    
+    if (!file) return
 
-    reader.onload = (event) => {
-      const data = event.target.result
-      const workbook = read(data, { type: 'binary' })
-      const sheetName = workbook.SheetNames[0]
-      const sheet = workbook.Sheets[sheetName]
-      const processData = utils.sheet_to_json(sheet, { header: 1 })
+    try {
+      const workbook = new ExcelJS.Workbook()
+      await workbook.xlsx.load(file)
+      
+      // Obtener la primera hoja
+      const worksheet = workbook.worksheets[0]
+      const processData = []
+      
+      // Convertir cada fila a array
+      worksheet.eachRow((row, rowNumber) => {
+        const rowData = []
+        row.eachCell((cell, colNumber) => {
+          rowData.push(cell.value)
+        })
+        processData.push(rowData)
+      })
+      
       setXmlsData(processData)
+    } catch (error) {
+      console.error('Error al leer el archivo:', error)
+      Swal.fire({
+        title: 'Error!',
+        text: 'No se pudo leer el archivo. Asegúrate de que sea un archivo Excel válido.',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
     }
-
-    reader.readAsBinaryString(file)
   }
 
   const handleUploadAll = async (xmlsData) => {

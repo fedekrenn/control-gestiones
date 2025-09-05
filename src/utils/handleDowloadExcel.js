@@ -1,17 +1,31 @@
-// XLSX
-import { utils, write } from 'xlsx'
+// ExcelJS
+import ExcelJS from 'exceljs'
 
-export const handleDownloadExcel = (cases) => {
-  const workbook = utils.book_new()
-  const worksheet = utils.json_to_sheet(cases)
+export const handleDownloadExcel = async (cases) => {
+  const workbook = new ExcelJS.Workbook()
+  const worksheet = workbook.addWorksheet('ResultCases')
 
-  utils.book_append_sheet(workbook, worksheet, 'ResultCases')
-  const excelBuffer = write(workbook, {
-    bookType: 'xlsx',
-    type: 'array'
-  })
+  // Si cases tiene datos, agregar los headers y las filas
+  if (cases && cases.length > 0) {
+    // Obtener las columnas del primer objeto
+    const columns = Object.keys(cases[0]).map(key => ({
+      header: key,
+      key: key,
+      width: 15
+    }))
+    
+    worksheet.columns = columns
+    
+    // Agregar las filas de datos
+    cases.forEach(caseData => {
+      worksheet.addRow(caseData)
+    })
+  }
 
-  const data = new Blob([excelBuffer], {
+  // Generar el buffer
+  const buffer = await workbook.xlsx.writeBuffer()
+
+  const data = new Blob([buffer], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   })
   const url = URL.createObjectURL(data)

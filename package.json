@@ -26,6 +26,7 @@
     "chart.js": "4.4.3",
     "dayjs": "1.11.11",
     "eslint-config-standard": "^17.1.0",
+    "exceljs": "^4.4.0",
     "firebase": "12.2.1",
     "million": "3.1.11",
     "moment": "2.29.4",
@@ -35,8 +36,7 @@
     "react-router-dom": "6.23.1",
     "sass": "1.77.6",
     "sweetalert2": "11.22.4",
-    "web-vitals": "2.1.4",
-    "xlsx": "0.18.5"
+    "web-vitals": "2.1.4"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

@@ -10,39 +10,45 @@ CMS para carga de gestiones y control de las mismas para servicio de calidad de 
 - Moment.JS
 - Sass
 - Sweetalert2
-- Xlsx
+- ExcelJS
 - Material UI
 - AutoAnimate
 
-## 🔧 Instalación 
+## 🔧 Instalación
 
-1. Clonar este repositorio: 
+1. Clonar este repositorio:
+
 ```
 git clone https://github.com/fedekrenn/control-gestiones.git
 ```
-2. Instalar las dependencias: 
+
+2. Instalar las dependencias:
+
 ```
 pnpm install
 ```
-4. Crear una cuenta de Firebase, luego un archivo .env con las keys apuntando al servicio de firestore y auth de Firebase con los siguientes datos: 
+
+4. Crear una cuenta de Firebase, luego un archivo .env con las keys apuntando al servicio de firestore y auth de Firebase con los siguientes datos:
+
 ```
-REACT_APP_APIKEY=
-REACT_APP_AUTHDOMAIN=
-REACT_APP_PROJECTID=
-REACT_APP_STORAGEBUCKET=
-REACT_APP_MESSAGINGSENDERID=
-REACT_APP_APPID=
-```
-5. Inicializar la app
-```
-pnpm start 
+VITE_APP_APIKEY=
+VITE_APP_AUTHDOMAIN=
+VITE_APP_PROJECTID=
+VITE_APP_STORAGEBUCKET=
+VITE_APP_MESSAGINGSENDERID=
+VITE_APP_APPID=
 ```
 
+5. Inicializar la app
+
+```
+pnpm start
+```
 
 <br>
 
-
 ## 🙋‍♂️ Hola, Soy Federico Krenn
+
 :nerd_face: Desarrollador web Fullstack
 <br>
 👨‍🎓 Realizando la Tecnicatura en Desarrollo Web en ISPC y Tecnicatura en Software Libre en la UNL
