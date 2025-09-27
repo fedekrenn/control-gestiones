@@ -1,3 +1,27 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+
+/* CSS Custom Properties */
+:root {
+  --font-roboto: 'Roboto', sans-serif;
+}
+
+/* CSS Reset */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Base Styles */
 html,
 body {
   font-family: var(--font-roboto);

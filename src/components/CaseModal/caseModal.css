@@ -1,0 +1,23 @@
+table#send-case {
+  border: 1px solid #000;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 800px;
+}
+
+table#send-case th,
+table#send-case td {
+  border: 1px solid black;
+  padding: 5px;
+  text-align: center;
+}
+
+table#send-case th {
+  background-color: #c0504d;
+  color: white;
+}
+
+table#send-case .perception {
+  font-weight: bold;
+  font-size: 1.2em;
+}

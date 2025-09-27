@@ -1,0 +1,12 @@
+.error {
+  gap: 1rem;
+}
+
+.error .detail {
+  font-weight: 500;
+  font-size: 1.3em;
+}
+
+.error img {
+  margin-top: 30px;
+}

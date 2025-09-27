@@ -1,0 +1,134 @@
+.case-detail {
+  padding: 30px 0;
+  background-color: #e2e5ed;
+}
+
+.case-detail h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin: 0 0 15px 0;
+}
+
+.case-detail span:not(.MuiChip-label) {
+  text-decoration: underline;
+}
+
+.case-detail__section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 15px;
+  padding: 15px;
+}
+
+.detail-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 48%;
+  min-width: 450px;
+  min-height: 350px;
+  border-radius: 10px;
+  padding: 15px;
+  background-color: #f3f3f5;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
+}
+
+.detail-card .small-text {
+  margin: 10px 0;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: #1976d2;
+}
+
+.detail-card .small-text li {
+  width: 80%;
+  margin: 2px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detail-card .small-text li span:not(.MuiChip-label) {
+  padding-right: 0;
+}
+
+.detail-card ul {
+  text-align: left;
+}
+
+.detail-card ul li {
+  margin: 8px 0;
+}
+
+.detail-card .chip {
+  margin-left: 30px;
+}
+
+.detail-card span:not(.MuiChip-label) {
+  font-weight: 600;
+  padding-right: 5px;
+}
+
+.detail-card hr {
+  margin: 15px 0;
+}
+
+.detail-card i {
+  color: #09c228;
+  font-size: 1.2em;
+  font-style: normal;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.7));
+}
+
+.detail-card .case-detail__icon,
+.detail-card .case-detail__icon-employeeId {
+  color: #ebd917;
+}
+
+.detail-card .case-detail__icon:hover,
+.detail-card .case-detail__icon-employeeId:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.detail-card .case-detail__icon-employeeId {
+  color: rgb(16, 16, 143);
+}
+
+.detail-card .card-detail {
+  width: 75%;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.detail-card .card-detail span {
+  display: inline-block;
+  margin: 5px 0;
+}
+
+.comment__section {
+  margin: 30px 0;
+}
+
+.comment__section p {
+  display: inline-block;
+  background-color: #f3f3f5;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 10px;
+  min-height: 0;
+}
+
+@media (max-width: 944px) {
+  .case-detail__section {
+    gap: 40px;
+    padding: 0;
+  }
+  
+  .detail-card {
+    min-width: inherit;
+    width: 80%;
+  }
+}

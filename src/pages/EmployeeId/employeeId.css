@@ -1,0 +1,25 @@
+.employee-detail {
+  display: flex;
+  justify-content: space-around;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.employee-detail ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.employee-detail ul li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.employee-detail ul li .commentary {
+  font-style: italic;
+  font-size: 0.9em;
+}

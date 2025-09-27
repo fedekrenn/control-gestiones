@@ -1,0 +1,10 @@
+.main-page p {
+  width: 80%;
+  margin: 0 auto;
+}
+
+@media (max-width: 576px) {
+  .main-page h1 {
+    font-size: 1.7rem;
+  }
+}
