@@ -1,7 +1,8 @@
 // ExcelJS
 import ExcelJS from 'exceljs'
+import type { Case } from '../types/case'
 
-export const handleDownloadExcel = async (cases) => {
+export const handleDownloadExcel = async (cases: Case[]) => {
   const workbook = new ExcelJS.Workbook()
   const worksheet = workbook.addWorksheet('ResultCases')
 
@@ -10,12 +11,12 @@ export const handleDownloadExcel = async (cases) => {
     // Obtener las columnas del primer objeto
     const columns = Object.keys(cases[0]).map(key => ({
       header: key,
-      key: key,
+      key,
       width: 15
     }))
-    
+
     worksheet.columns = columns
-    
+
     // Agregar las filas de datos
     cases.forEach(caseData => {
       worksheet.addRow(caseData)

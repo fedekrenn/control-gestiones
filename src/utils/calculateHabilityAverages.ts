@@ -1,15 +1,9 @@
-export const HABILITY_KEYS = [
-  'customerNeedDetection',
-  'commonSense',
-  'effectiveCommunication',
-  'flexibility',
-  'problemSolving'
-]
+import { HABILITY_KEYS, type Case } from '../types/case'
 
-export const calculateHabilityAverages = (cases) => {
+export const calculateHabilityAverages = (cases: Case[]): number[] => {
   if (cases.length === 0) return HABILITY_KEYS.map(() => 0)
 
-  const totals = cases.reduce((acc, caseData) => {
+  const totals = cases.reduce<number[]>((acc, caseData) => {
     HABILITY_KEYS.forEach((key, i) => {
       acc[i] += caseData.caseHabilities?.[key] ?? 0
     })

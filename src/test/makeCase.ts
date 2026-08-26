@@ -1,4 +1,6 @@
-export const makeCase = (overrides = {}) => ({
+import type { Case } from '../types/case'
+
+export const makeCase = (overrides: Partial<Case> = {}): Case => ({
   id: 'uuid-1',
   agentId: 'ase001',
   agentName: 'Juan',

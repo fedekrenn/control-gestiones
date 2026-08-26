@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { calculateHabilityAverages, HABILITY_KEYS } from './calculateHabilityAverages'
+import { calculateHabilityAverages } from './calculateHabilityAverages'
+import { HABILITY_KEYS } from '../types/case'
 import { makeCase } from '../test/makeCase'
 
 describe('calculateHabilityAverages', () => {

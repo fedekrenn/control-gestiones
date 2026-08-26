@@ -1,6 +1,8 @@
 import moment from 'moment'
+import type { Case } from '../types/case'
+import type { Filters } from '../types/common'
 
-export const filterCases = (cases, filters) => {
+export const filterCases = (cases: Case[], filters: Filters): Case[] => {
   const { caseNumber, employeeId, cell, origin, motive, time } = filters
 
   return cases.filter((clientInteraction) => {

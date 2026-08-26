@@ -1,4 +1,6 @@
-export const formatChip = (string) => {
+export type ChipColor = 'default' | 'error' | 'warning' | 'success'
+
+export const formatChip = (string: string): ChipColor => {
   switch (string) {
     case 'No se evalúa':
       return 'default'
