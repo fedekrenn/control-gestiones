@@ -11,7 +11,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "test:run": "vitest run",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
