@@ -23,12 +23,8 @@ import MenuIcon from '@mui/icons-material/Menu'
 // Assets
 import icon from '../../assets/logo-track360.png'
 import picProfile from '../../assets/profile.svg'
-
-const PAGES = [
-  { name: 'Nuevo asesor', link: '/nuevo-asesor', isProtected: true },
-  { name: 'Nueva gestión', link: '/nuevo-caso', isProtected: true },
-  { name: 'Listado de gestiones', link: '/listado-gestiones', isProtected: false }
-]
+// Config
+import { NAV_LINKS } from '../../config/routes'
 
 export default function Header() {
   const [anchorElNav, setAnchorElNav] = useState(null)
@@ -83,7 +79,7 @@ export default function Header() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              {PAGES.map(({ name, link, isProtected }) => {
+              {NAV_LINKS.map(({ name, link, isProtected }) => {
                 const isAbleToRender = (isProtected && user) || !isProtected
                 return isAbleToRender && (
                   <MenuItem key={name} onClick={handleCloseNavMenu}>
@@ -103,7 +99,7 @@ export default function Header() {
               justifyContent: 'right'
             }}
           >
-            {PAGES.map(({ name, link, isProtected }) => {
+            {NAV_LINKS.map(({ name, link, isProtected }) => {
               const isAbleToRender = (isProtected && user) || !isProtected
               return isAbleToRender && (
                 <Link to={link} key={name}>

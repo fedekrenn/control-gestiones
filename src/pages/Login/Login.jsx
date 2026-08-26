@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { Navigate, Link, useLocation, useNavigate } from 'react-router-dom'
+import { Navigate, Link, useLocation } from 'react-router-dom'
 // Libraries
 import { TextField, Button, Typography } from '@mui/material'
 import Swal from 'sweetalert2'
@@ -8,6 +8,8 @@ import { auth } from '../../config/firebaseConfig'
 import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from 'firebase/auth'
 // Context
 import { AuthContext } from '../../context/authContext.jsx'
+// Config
+import { ROUTES } from '../../config/routes'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -15,7 +17,6 @@ export default function Login() {
 
   const { user } = useContext(AuthContext)
   const { state } = useLocation()
-  const navigate = useNavigate()
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -31,9 +32,6 @@ export default function Login() {
               confirmButtonText: 'Aceptar'
             })
           })
-          .then(() => {
-            navigate(state?.from || '/')
-          })
           .catch(error => {
             Swal.fire({
               icon: 'error',
@@ -45,7 +43,7 @@ export default function Login() {
       })
   }
 
-  if (user) return <Navigate to="/" />
+  if (user) return <Navigate to={state?.from || ROUTES.HOME} replace />
 
   return (
     <main>

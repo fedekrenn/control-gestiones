@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import FeedIcon from '@mui/icons-material/Feed'
+// Config
+import { caseDetailPath, employeePath } from '../../config/routes'
 
 export default function InteractionCase({ caseData }) {
   const {
@@ -17,7 +19,7 @@ export default function InteractionCase({ caseData }) {
   return (
     <tr>
       <td>
-        <Link to={`/asesor/${agentId}`}>
+        <Link to={employeePath(agentId)}>
           {agentId.toUpperCase()}
         </Link>
       </td>
@@ -29,7 +31,7 @@ export default function InteractionCase({ caseData }) {
       <td>{date}</td>
       <td>{perspective}</td>
       <td className='table-icon' title='Haz click para conocer los detalles del monitoreo'>
-        <Link to={`/monitoreo/${id}`}>
+        <Link to={caseDetailPath(id)}>
           <FeedIcon color='primary' fontSize='large' />
         </Link>
       </td>

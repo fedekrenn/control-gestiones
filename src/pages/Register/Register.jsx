@@ -49,7 +49,7 @@ export default function Register() {
       })
   }
 
-  if (user) return <Navigate to="/" />
+  if (user) return <Navigate to="/" replace />
 
   return (
     <main>

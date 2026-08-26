@@ -13,6 +13,8 @@ import FeedIcon from '@mui/icons-material/Feed'
 // Utils
 import { QUESTIONS } from '../../utils/constants'
 import { calculateHabilityAverages } from '../../utils/calculateHabilityAverages'
+// Config
+import { caseDetailPath } from '../../config/routes'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -73,7 +75,7 @@ export default function EmployeeId() {
                   <p>{date}</p>
                   <p>{contactReason}</p>
                   <p className='commentary'>{comment.substring(0, 50)}...</p>
-                  <Link to={`/monitoreo/${id}`}>
+                  <Link to={caseDetailPath(id)}>
                     <FeedIcon color='primary' fontSize='large' />
                   </Link>
                 </li>

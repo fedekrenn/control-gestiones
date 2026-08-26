@@ -1,22 +1,16 @@
 // React
-import { useState, useContext, useEffect, useRef } from 'react'
-// React router dom
-import { Navigate } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
 // Libraries
 import { Box } from '@mui/material'
 import autoAnimate from '@formkit/auto-animate'
 // Components
 import UploadFromFile from '../../components/UploadFromFile/UploadFromFile.jsx'
 import UploadManual from '../../components/UploadManual/UploadManual.jsx'
-// Context
-import { AuthContext } from '../../context/authContext.jsx'
 
 export default function NewAgent() {
   const [showManual, setShowManual] = useState(true)
 
   const parent = useRef(null)
-
-  const { user } = useContext(AuthContext)
 
   useEffect(() => {
     parent.current && autoAnimate(parent.current)
@@ -29,8 +23,6 @@ export default function NewAgent() {
     gap: '.7em',
     margin: '2em 0'
   }
-
-  if (!user) return <Navigate to='/login' state={{ from: '/nuevo-asesor' }} />
 
   return (
     <main className='new-agent' ref={parent}>

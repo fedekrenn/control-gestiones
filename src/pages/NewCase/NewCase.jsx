@@ -1,5 +1,5 @@
 import { useState, useMemo, useContext } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 // Libraries
 import { TextField, Autocomplete, Button, Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
@@ -22,6 +22,8 @@ import Error from '../../components/Error/Error.jsx'
 import StarsRange from '../../components/StarsRange/StarsRange.jsx'
 // Utils
 import { OPTIONS } from '../../utils/constants'
+// Config
+import { caseDetailPath } from '../../config/routes'
 
 export default function NewCase() {
   const [caseData, setCaseData] = useState({
@@ -134,7 +136,7 @@ export default function NewCase() {
             confirmButtonText: 'Ir al caso',
             cancelButtonText: 'Cargar otra gestión'
           }).then((result) => {
-            if (result.isConfirmed) navigate(`/monitoreo/${newCase.id}`)
+            if (result.isConfirmed) navigate(caseDetailPath(newCase.id))
           })
           handleReset()
         } catch (error) {
@@ -153,7 +155,6 @@ export default function NewCase() {
     })
   }
 
-  if (!user) return <Navigate to='/login' state={{ from: '/nuevo-caso' }} />
   if (error.status) return <Error message={error.message} />
 
   return (
