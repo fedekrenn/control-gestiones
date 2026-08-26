@@ -17,7 +17,7 @@ import {
 import { auth } from '../../config/firebaseConfig'
 import { signOut } from 'firebase/auth'
 // Context
-import { AuthContext } from '../../context/authContext.jsx'
+import { AuthContext } from '../../context/authContext'
 // Icons
 import MenuIcon from '@mui/icons-material/Menu'
 // Assets

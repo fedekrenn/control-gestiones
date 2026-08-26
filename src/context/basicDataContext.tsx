@@ -1,14 +1,30 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import { getDoc, doc } from 'firebase/firestore'
 import { db } from '../config/firebaseConfig'
-import { AuthContext } from './authContext' // Importa el contexto de autenticación
+import { AuthContext } from './authContext'
+import type { Cells } from '../types/agents'
+import type { Habilities } from '../types/criteria'
 
-const BasicDataContext = createContext()
+export interface BasicDataContextValue {
+  cells: Cells
+  habilities: Habilities
+  perception: unknown[]
+}
 
-const BasicDataProvider = ({ children }) => {
-  const [cells, setCells] = useState({})
-  const [habilities, setHabilities] = useState([])
-  const [perception, setPerception] = useState([])
+const BasicDataContext = createContext<BasicDataContextValue>({
+  cells: { celulas: [] },
+  habilities: { questions: [] },
+  perception: []
+})
+
+interface BasicDataProviderProps {
+  children: ReactNode
+}
+
+const BasicDataProvider = ({ children }: BasicDataProviderProps) => {
+  const [cells, setCells] = useState<Cells>({ celulas: [] })
+  const [habilities, setHabilities] = useState<Habilities>({ questions: [] })
+  const [perception, setPerception] = useState<unknown[]>([])
 
   const { user } = useContext(AuthContext)
 
@@ -23,7 +39,7 @@ const BasicDataProvider = ({ children }) => {
           const docSnapAttributes = await getDoc(docRefAttributes)
 
           if (docSnapCells.exists() && docSnapAttributes.exists()) {
-            setCells(docSnapCells.data())
+            setCells(docSnapCells.data() as Cells)
             setHabilities(docSnapAttributes.data().info.habilities)
             setPerception(docSnapAttributes.data().info.perception)
           } else {

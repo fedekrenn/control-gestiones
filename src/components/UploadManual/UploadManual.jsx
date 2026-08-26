@@ -11,7 +11,7 @@ import { handlePaste, handleKeyDown } from '../../utils/events'
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
 // Context
-import { BasicDataContext } from '../../context/basicDataContext.jsx'
+import { BasicDataContext } from '../../context/basicDataContext'
 
 export default function UploadManual() {
   const [agentInfo, setAgentInfo] = useState({ key: '', name: '', cell: '' })

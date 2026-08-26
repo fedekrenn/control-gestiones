@@ -15,8 +15,8 @@ import { db } from '../../config/firebaseConfig'
 // Hooks
 import { useGetAgents, useGetCases } from '../../customHooks/indexHooks'
 // Context
-import { AuthContext } from '../../context/authContext.jsx'
-import { BasicDataContext } from '../../context/basicDataContext.jsx'
+import { AuthContext } from '../../context/authContext'
+import { BasicDataContext } from '../../context/basicDataContext'
 // Components
 import Error from '../../components/Error/Error.jsx'
 import StarsRange from '../../components/StarsRange/StarsRange.jsx'

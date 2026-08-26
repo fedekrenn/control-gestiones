@@ -20,8 +20,8 @@ import './pages/EmployeeId/employeeId.css'
 
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
-import { AuthProvider } from './context/authContext.jsx'
-import { BasicDataProvider } from './context/basicDataContext.jsx'
+import { AuthProvider } from './context/authContext'
+import { BasicDataProvider } from './context/basicDataContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

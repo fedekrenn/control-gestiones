@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 import { auth } from '../../config/firebaseConfig'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 // Context
-import { AuthContext } from '../../context/authContext.jsx'
+import { AuthContext } from '../../context/authContext'
 
 export default function Register() {
   const [email, setEmail] = useState('')

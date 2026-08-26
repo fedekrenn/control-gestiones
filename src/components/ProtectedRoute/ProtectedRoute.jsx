@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 // Context
-import { AuthContext } from '../../context/authContext.jsx'
+import { AuthContext } from '../../context/authContext'
 // Config
 import { ROUTES } from '../../config/routes'
 

@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 import { auth } from '../../config/firebaseConfig'
 import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from 'firebase/auth'
 // Context
-import { AuthContext } from '../../context/authContext.jsx'
+import { AuthContext } from '../../context/authContext'
 // Config
 import { ROUTES } from '../../config/routes'
 

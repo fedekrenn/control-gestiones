@@ -11,7 +11,7 @@ import Filter from '../../components/Filter/Filter.jsx'
 import { handlePaste, handleKeyDown } from '../../utils/events'
 import { ORIGINS } from '../../utils/constants'
 // Context
-import { BasicDataContext } from '../../context/basicDataContext.jsx'
+import { BasicDataContext } from '../../context/basicDataContext'
 
 export default function FiltersContainer({ setFilters, filters, motives }) {
   const { caseNumber, employeeId, cell, origin, motive, time } = filters

@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../config/firebaseConfig'
+import type { Case } from '../types/case'
+import type { Agents } from '../types/agents'
+import type { ErrorState } from '../types/common'
 
 const useGetCases = () => {
-  const [cases, setCases] = useState([])
+  const [cases, setCases] = useState<Case[]>([])
   const [loading, setLoading] = useState(true)
-  const [motives, setMotives] = useState([])
-  const [error, setError] = useState({ status: false, message: '' })
+  const [motives, setMotives] = useState<string[]>([])
+  const [error, setError] = useState<ErrorState>({ status: false, message: '' })
 
   useEffect(() => {
     (async () => {
@@ -14,7 +17,7 @@ const useGetCases = () => {
         const docRef = doc(db, 'cases-list', 'NeCtxuFq7KGvryxgmBpn')
         const docSnap = await getDoc(docRef)
 
-        const docs = docSnap.data().cases
+        const docs = docSnap.data()!.cases as Case[]
 
         const motives = docs.map(doc => doc.contactReason)
         const uniqueMotives = motives[0] !== undefined ? [...new Set(motives)] : []
@@ -33,10 +36,10 @@ const useGetCases = () => {
   return { cases, loading, motives, error }
 }
 
-const useGetCaseDetail = (id) => {
-  const [caseDetail, setCaseDetail] = useState({})
+const useGetCaseDetail = (id: string | undefined) => {
+  const [caseDetail, setCaseDetail] = useState<Case | Record<string, never>>({})
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState({ status: false, message: '' })
+  const [error, setError] = useState<ErrorState>({ status: false, message: '' })
 
   useEffect(() => {
     (async () => {
@@ -44,7 +47,7 @@ const useGetCaseDetail = (id) => {
         const docRef = doc(db, 'cases-list', 'NeCtxuFq7KGvryxgmBpn')
         const docSnap = await getDoc(docRef)
 
-        const uniqueCase = docSnap.data().cases.find(doc => doc.id === id)
+        const uniqueCase = (docSnap.data()!.cases as Case[]).find(doc => doc.id === id)
 
         if (uniqueCase) {
           setCaseDetail(uniqueCase)
@@ -57,7 +60,7 @@ const useGetCaseDetail = (id) => {
       } finally {
         setLoading(false)
       }
-    })(id)
+    })()
 
     return () => {
       setCaseDetail({})
@@ -68,8 +71,8 @@ const useGetCaseDetail = (id) => {
 }
 
 const useGetAgents = () => {
-  const [agents, setAgents] = useState({})
-  const [error, setError] = useState({ status: false, message: '' })
+  const [agents, setAgents] = useState<Agents>({})
+  const [error, setError] = useState<ErrorState>({ status: false, message: '' })
 
   useEffect(() => {
     (async () => {
@@ -78,7 +81,7 @@ const useGetAgents = () => {
         const docSnap = await getDoc(docRef)
 
         if (docSnap.exists()) {
-          setAgents(docSnap.data())
+          setAgents(docSnap.data() as Agents)
         } else {
           setError({ status: true, message: 'En la base de datos no se encontraron resultados de agentes' })
           console.error('No such document!')
