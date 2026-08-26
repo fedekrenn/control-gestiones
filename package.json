@@ -32,7 +32,7 @@
     "react": "18.3.1",
     "react-chartjs-2": "5.3.1",
     "react-dom": "18.3.1",
-    "react-router-dom": "6.30.4",
+    "react-router-dom": "7.18.2",
     "sweetalert2": "11.26.25"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "million": "3.1.11",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.68.0",
-    "vite": "8.1.5",
+    "vite": "8.2.2",
     "vitest": "4.1.10"
   }
 }
