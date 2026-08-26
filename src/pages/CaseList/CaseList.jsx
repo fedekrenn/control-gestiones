@@ -8,7 +8,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 import InteractionCase from '../../components/InteractionCase/InteractionCase.jsx'
 import Error from '../../components/Error/Error.jsx'
 import FiltersContainer from '../../components/FiltersContainer/FilterContainer.jsx'
-import Empty from '../../components/Empty/Empty.jsx'
+import Empty from '../../components/Empty/Empty'
 // Utils
 import { handleDownloadExcel } from '../../utils/handleDowloadExcel'
 import { filterCases } from '../../utils/filterCases'
