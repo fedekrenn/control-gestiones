@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { calculateHabilityAverages } from './calculateHabilityAverages'
-import { HABILITY_KEYS } from '../types/case'
-import { makeCase } from '../test/makeCase'
+import { HABILITY_KEYS } from '@/types/case'
+import { makeCase } from '@/test/makeCase'
 
 describe('calculateHabilityAverages', () => {
   it('devuelve ceros para un array vacío, no NaN', () => {

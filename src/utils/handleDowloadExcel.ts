@@ -1,6 +1,6 @@
 // ExcelJS
 import ExcelJS from 'exceljs'
-import type { Case } from '../types/case'
+import type { Case } from '@/types/case'
 
 export const handleDownloadExcel = async (cases: Case[]) => {
   const workbook = new ExcelJS.Workbook()

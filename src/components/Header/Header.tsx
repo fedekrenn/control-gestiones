@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, type MouseEvent } from 'react'
 import { Link } from 'react-router-dom'
 // Libraries
 import {
@@ -14,26 +14,26 @@ import {
   MenuItem
 } from '@mui/material'
 // Firebase
-import { auth } from '../../config/firebaseConfig'
+import { auth } from '@/config/firebaseConfig'
 import { signOut } from 'firebase/auth'
 // Context
-import { AuthContext } from '../../context/authContext'
+import { AuthContext } from '@/context/authContext'
 // Icons
 import MenuIcon from '@mui/icons-material/Menu'
 // Assets
-import icon from '../../assets/logo-track360.png'
-import picProfile from '../../assets/profile.svg'
+import icon from '@/assets/logo-track360.png'
+import picProfile from '@/assets/profile.svg'
 // Config
-import { NAV_LINKS } from '../../config/routes'
+import { NAV_LINKS } from '@/config/routes'
 
 export default function Header() {
-  const [anchorElNav, setAnchorElNav] = useState(null)
-  const [anchorElUser, setAnchorElUser] = useState(null)
+  const [anchorElNav, setAnchorElNav] = useState<HTMLElement | null>(null)
+  const [anchorElUser, setAnchorElUser] = useState<HTMLElement | null>(null)
 
   const { user } = useContext(AuthContext)
 
-  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget)
-  const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget)
+  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => setAnchorElNav(event.currentTarget)
+  const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget)
   const handleCloseNavMenu = () => setAnchorElNav(null)
   const handleCloseUserMenu = () => setAnchorElUser(null)
 

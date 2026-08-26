@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import { getDoc, doc } from 'firebase/firestore'
-import { db } from '../config/firebaseConfig'
+import { db } from '@/config/firebaseConfig'
 import { AuthContext } from './authContext'
-import type { Cells } from '../types/agents'
-import type { Habilities } from '../types/criteria'
+import type { Cells } from '@/types/agents'
+import type { Habilities } from '@/types/criteria'
 
 export interface BasicDataContextValue {
   cells: Cells

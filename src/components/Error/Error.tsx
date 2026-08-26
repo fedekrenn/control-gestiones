@@ -1,6 +1,11 @@
 // SVG
-import ErrorSvg from '../../assets/error.svg'
-export default function Error({ message }) {
+import ErrorSvg from '@/assets/error.svg'
+
+interface ErrorProps {
+  message: string
+}
+
+export default function Error({ message }: ErrorProps) {
   return (
     <div className='empty-state error'>
       <p>Upps! Algo sucedió al cargar los datos.</p>

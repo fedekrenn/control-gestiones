@@ -5,16 +5,16 @@ import { CircularProgress, Box } from '@mui/material'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
 // Custom Hooks
-import { useGetCases } from '../../customHooks/indexHooks'
+import { useGetCases } from '@/customHooks/indexHooks'
 // Components
-import Error from '../../components/Error/Error.jsx'
+import Error from '@/components/Error/Error'
 // Icons
 import FeedIcon from '@mui/icons-material/Feed'
 // Utils
-import { QUESTIONS } from '../../utils/constants'
-import { calculateHabilityAverages } from '../../utils/calculateHabilityAverages'
+import { QUESTIONS } from '@/utils/constants'
+import { calculateHabilityAverages } from '@/utils/calculateHabilityAverages'
 // Config
-import { caseDetailPath } from '../../config/routes'
+import { caseDetailPath } from '@/config/routes'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 

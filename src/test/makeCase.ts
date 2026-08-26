@@ -1,4 +1,4 @@
-import type { Case } from '../types/case'
+import type { Case } from '@/types/case'
 
 export const makeCase = (overrides: Partial<Case> = {}): Case => ({
   id: 'uuid-1',

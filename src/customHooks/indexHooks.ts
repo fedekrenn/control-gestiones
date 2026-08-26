@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../config/firebaseConfig'
-import type { Case } from '../types/case'
-import type { Agents } from '../types/agents'
-import type { ErrorState } from '../types/common'
+import { db } from '@/config/firebaseConfig'
+import type { Case } from '@/types/case'
+import type { Agents } from '@/types/agents'
+import type { ErrorState } from '@/types/common'
 
 const useGetCases = () => {
   const [cases, setCases] = useState<Case[]>([])

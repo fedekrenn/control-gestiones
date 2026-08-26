@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom/client'
+// Vite resuelve el alias @/ para módulos JS/TS, pero no para imports de CSS
 import './styles/globals.css'
 // Component styles
 import './components/Header/header.css'
@@ -18,10 +19,10 @@ import './pages/CaseList/caseList.css'
 import './pages/CaseDetail/caseDetail.css'
 import './pages/EmployeeId/employeeId.css'
 
-import App from './App.jsx'
+import App from '@/App'
 import { BrowserRouter } from 'react-router-dom'
-import { AuthProvider } from './context/authContext'
-import { BasicDataProvider } from './context/basicDataContext'
+import { AuthProvider } from '@/context/authContext'
+import { BasicDataProvider } from '@/context/basicDataContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

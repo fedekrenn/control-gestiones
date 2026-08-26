@@ -4,10 +4,10 @@ import { Navigate, Link } from 'react-router-dom'
 import { TextField, Button, Typography } from '@mui/material'
 import Swal from 'sweetalert2'
 // Firebase
-import { auth } from '../../config/firebaseConfig'
+import { auth } from '@/config/firebaseConfig'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 // Context
-import { AuthContext } from '../../context/authContext'
+import { AuthContext } from '@/context/authContext'
 
 export default function Register() {
   const [email, setEmail] = useState('')

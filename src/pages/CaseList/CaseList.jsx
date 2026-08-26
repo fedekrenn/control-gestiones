@@ -5,16 +5,16 @@ import CircularProgress from '@mui/material/CircularProgress'
 import autoAnimate from '@formkit/auto-animate'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 // Components
-import InteractionCase from '../../components/InteractionCase/InteractionCase.jsx'
-import Error from '../../components/Error/Error.jsx'
-import FiltersContainer from '../../components/FiltersContainer/FilterContainer.jsx'
-import Empty from '../../components/Empty/Empty'
+import InteractionCase from '@/components/InteractionCase/InteractionCase'
+import Error from '@/components/Error/Error'
+import FiltersContainer from '@/components/FiltersContainer/FilterContainer'
+import Empty from '@/components/Empty/Empty'
 // Utils
-import { handleDownloadExcel } from '../../utils/handleDowloadExcel'
-import { filterCases } from '../../utils/filterCases'
-import { sortCasesByRecency } from '../../utils/sortCasesByRecency'
+import { handleDownloadExcel } from '@/utils/handleDowloadExcel'
+import { filterCases } from '@/utils/filterCases'
+import { sortCasesByRecency } from '@/utils/sortCasesByRecency'
 // Custom hook
-import { useGetCases } from '../../customHooks/indexHooks'
+import { useGetCases } from '@/customHooks/indexHooks'
 
 export default function CaseList() {
   const [showFilters, setShowFilters] = useState(false)

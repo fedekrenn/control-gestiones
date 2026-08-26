@@ -1,12 +1,20 @@
 // Libraries
 import { Modal, Box, Chip } from '@mui/material'
 // Utils
-import { formatChip } from '../../utils/formatChip'
+import { formatChip } from '@/utils/formatChip'
+// Types
+import type { Case } from '@/types/case'
 
-export default function CaseModal({ open, handleClose, caseDetail }) {
-  const { agentGroup, agentName, caseHabilities, caseNumber, comment, perspective } = caseDetail
+interface CaseModalProps {
+  open: boolean
+  handleClose: () => void
+  caseDetail: Case | Record<string, never>
+}
 
-  const formmatCaseHabilities = (hability) => {
+export default function CaseModal({ open, handleClose, caseDetail }: CaseModalProps) {
+  const { agentGroup, agentName, caseHabilities, caseNumber, comment, perspective } = caseDetail as Partial<Case>
+
+  const formmatCaseHabilities = (hability: number | undefined) => {
     switch (hability) {
       case 1:
         return 'Completamente ausente'
@@ -67,16 +75,16 @@ export default function CaseModal({ open, handleClose, caseDetail }) {
               <th>Capacidad resolutiva</th>
             </tr>
             <tr>
-              <td>{formmatCaseHabilities(caseHabilities.customerNeedDetection)}</td>
-              <td>{formmatCaseHabilities(caseHabilities.commonSense)}</td>
-              <td>{formmatCaseHabilities(caseHabilities.effectiveCommunication)}</td>
-              <td>{formmatCaseHabilities(caseHabilities.flexibility)}</td>
-              <td>{formmatCaseHabilities(caseHabilities.problemSolving)}</td>
+              <td>{formmatCaseHabilities(caseHabilities?.customerNeedDetection)}</td>
+              <td>{formmatCaseHabilities(caseHabilities?.commonSense)}</td>
+              <td>{formmatCaseHabilities(caseHabilities?.effectiveCommunication)}</td>
+              <td>{formmatCaseHabilities(caseHabilities?.flexibility)}</td>
+              <td>{formmatCaseHabilities(caseHabilities?.problemSolving)}</td>
             </tr>
             <tr>
               <th colSpan={2}>Percepción general del caso</th>
               <td colSpan={3} className='perception'>
-                <Chip className='chip' label={perspective} color={formatChip(perspective)} />
+                <Chip className='chip' label={perspective} color={formatChip(perspective ?? '')} />
               </td>
             </tr>
             <tr>

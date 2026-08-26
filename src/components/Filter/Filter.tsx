@@ -1,7 +1,16 @@
 import { useId } from 'react'
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 
-export default function FilterSelect({ label, value, options, onChange, size = 'medium', fWidth = true }) {
+interface FilterProps {
+  label: string
+  value: string
+  options: string[]
+  onChange: (value: string) => void
+  size?: 'small' | 'medium'
+  fWidth?: boolean
+}
+
+export default function FilterSelect({ label, value, options, onChange, size = 'medium', fWidth = true }: FilterProps) {
   const labelID = useId()
   const inputID = useId()
 

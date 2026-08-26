@@ -1,18 +1,18 @@
 import { Routes, Route } from 'react-router-dom'
 // Components
-import Header from './components/Header/Header.jsx'
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx'
-import MainPage from './pages/MainPage/MaingPage.jsx'
-import NewAgent from './pages/NewAgent/NewAgent.jsx'
-import NewCase from './pages/NewCase/NewCase.jsx'
-import Login from './pages/Login/Login.jsx'
-import Register from './pages/Register/Register.jsx'
-import CaseDetail from './pages/CaseDetail/CaseDetail.jsx'
-import CaseList from './pages/CaseList/CaseList.jsx'
-import EmployeeId from './pages/EmployeeId/EmployeeId.jsx'
-import NotFound from './pages/NotFound/NotFound.jsx'
+import Header from '@/components/Header/Header'
+import ProtectedRoute from '@/components/ProtectedRoute/ProtectedRoute'
+import MainPage from '@/pages/MainPage/MaingPage.jsx'
+import NewAgent from '@/pages/NewAgent/NewAgent.jsx'
+import NewCase from '@/pages/NewCase/NewCase.jsx'
+import Login from '@/pages/Login/Login.jsx'
+import Register from '@/pages/Register/Register.jsx'
+import CaseDetail from '@/pages/CaseDetail/CaseDetail.jsx'
+import CaseList from '@/pages/CaseList/CaseList.jsx'
+import EmployeeId from '@/pages/EmployeeId/EmployeeId.jsx'
+import NotFound from '@/pages/NotFound/NotFound.jsx'
 // Config
-import { ROUTES } from './config/routes'
+import { ROUTES } from '@/config/routes'
 
 function App() {
   return (

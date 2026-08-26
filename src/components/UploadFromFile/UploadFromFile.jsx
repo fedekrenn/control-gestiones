@@ -5,9 +5,9 @@ import { Button, Box } from '@mui/material'
 import Swal from 'sweetalert2'
 // Firebase
 import { doc, setDoc } from 'firebase/firestore'
-import { db } from '../../config/firebaseConfig'
+import { db } from '@/config/firebaseConfig'
 // SVG
-import UploadSvg from '../../assets/upload.svg'
+import UploadSvg from '@/assets/upload.svg'
 
 export default function UploadFromFile() {
   const [xmlsData, setXmlsData] = useState([])

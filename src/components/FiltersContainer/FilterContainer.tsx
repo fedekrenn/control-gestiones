@@ -1,23 +1,31 @@
 // React
-import { useContext } from 'react'
+import { useContext, type Dispatch, type SetStateAction } from 'react'
 // Libraries
 import { TextField, Button, Box, Autocomplete } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 // Components
-import Filter from '../../components/Filter/Filter.jsx'
+import Filter from '@/components/Filter/Filter'
 // Utils
-import { handlePaste, handleKeyDown } from '../../utils/events'
-import { ORIGINS } from '../../utils/constants'
+import { handlePaste, handleKeyDown } from '@/utils/events'
+import { ORIGINS } from '@/utils/constants'
 // Context
-import { BasicDataContext } from '../../context/basicDataContext'
+import { BasicDataContext } from '@/context/basicDataContext'
+// Types
+import type { Filters } from '@/types/common'
 
-export default function FiltersContainer({ setFilters, filters, motives }) {
+interface FiltersContainerProps {
+  setFilters: Dispatch<SetStateAction<Filters>>
+  filters: Filters
+  motives: string[]
+}
+
+export default function FiltersContainer({ setFilters, filters, motives }: FiltersContainerProps) {
   const { caseNumber, employeeId, cell, origin, motive, time } = filters
   const { cells } = useContext(BasicDataContext)
 
-  const handleFiltersChange = (filterName, value) => {
+  const handleFiltersChange = <K extends keyof Filters>(filterName: K, value: Filters[K]) => {
     setFilters({
       ...filters,
       [filterName]: value
@@ -83,15 +91,13 @@ export default function FiltersContainer({ setFilters, filters, motives }) {
         <Autocomplete
           fullWidth
           freeSolo
-          required
           disablePortal
           clearOnEscape
           clearIcon={null}
           options={motives}
-          variant="outlined"
           value={motive}
           sx={{ textAlign: 'left' }}
-          onChange={(_, newValue) => handleFiltersChange('motive', newValue)}
+          onChange={(_, newValue) => handleFiltersChange('motive', newValue ?? '')}
           renderInput={params => (
             <TextField
               {...params}

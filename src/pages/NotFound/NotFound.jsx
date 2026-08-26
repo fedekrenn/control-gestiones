@@ -1,4 +1,4 @@
-import notFound from '../../assets/404.svg'
+import notFound from '@/assets/404.svg'
 
 export default function NotFound() {
   return (

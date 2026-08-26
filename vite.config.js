@@ -8,6 +8,9 @@ export default defineConfig({
     million.vite({ auto: true }),
     react()
   ],
+  resolve: {
+    tsconfigPaths: true
+  },
   server: {
     port: 3000,
     open: true

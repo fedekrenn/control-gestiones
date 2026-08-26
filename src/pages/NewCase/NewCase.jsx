@@ -8,22 +8,22 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import moment from 'moment'
 import Swal from 'sweetalert2'
 // Utils
-import { handlePaste } from '../../utils/events'
+import { handlePaste } from '@/utils/events'
 // Firebase
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore'
-import { db } from '../../config/firebaseConfig'
+import { db } from '@/config/firebaseConfig'
 // Hooks
-import { useGetAgents, useGetCases } from '../../customHooks/indexHooks'
+import { useGetAgents, useGetCases } from '@/customHooks/indexHooks'
 // Context
-import { AuthContext } from '../../context/authContext'
-import { BasicDataContext } from '../../context/basicDataContext'
+import { AuthContext } from '@/context/authContext'
+import { BasicDataContext } from '@/context/basicDataContext'
 // Components
-import Error from '../../components/Error/Error.jsx'
-import StarsRange from '../../components/StarsRange/StarsRange.jsx'
+import Error from '@/components/Error/Error'
+import StarsRange from '@/components/StarsRange/StarsRange'
 // Utils
-import { OPTIONS } from '../../utils/constants'
+import { OPTIONS } from '@/utils/constants'
 // Config
-import { caseDetailPath } from '../../config/routes'
+import { caseDetailPath } from '@/config/routes'
 
 export default function NewCase() {
   const [caseData, setCaseData] = useState({

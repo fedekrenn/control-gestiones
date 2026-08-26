@@ -1,4 +1,4 @@
-import { HABILITY_KEYS, type Case } from '../types/case'
+import { HABILITY_KEYS, type Case } from '@/types/case'
 
 export const calculateHabilityAverages = (cases: Case[]): number[] => {
   if (cases.length === 0) return HABILITY_KEYS.map(() => 0)

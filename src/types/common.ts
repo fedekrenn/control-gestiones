@@ -3,11 +3,14 @@ export interface ErrorState {
   message: string
 }
 
+import type { Moment } from 'moment'
+
 export interface Filters {
   caseNumber: string
   employeeId: string
   cell: string
   origin: string
   motive: string
-  time: Date | null
+  // El DatePicker usa AdapterMoment, así que produce Moment, no Date
+  time: Moment | null
 }

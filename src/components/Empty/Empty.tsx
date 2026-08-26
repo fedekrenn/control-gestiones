@@ -1,5 +1,5 @@
 // SVG
-import EmptySvg from '../../assets/empty.svg'
+import EmptySvg from '@/assets/empty.svg'
 
 export default function Empty() {
   return (

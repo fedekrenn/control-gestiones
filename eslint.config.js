@@ -8,10 +8,6 @@ import tseslint from 'typescript-eslint'
 export default tseslint.config(
   { ignores: ['build'] },
   {
-    files: ['**/*.ts', '**/*.tsx'],
-    extends: [...tseslint.configs.recommended],
-  },
-  {
     files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
@@ -42,5 +38,11 @@ export default tseslint.config(
       ],
       'space-before-function-paren': 'off'
     },
+  },
+  {
+    // Va último a propósito: tiene que pisar el 'no-unused-vars' base del
+    // bloque anterior con la versión TS-aware para .ts/.tsx
+    files: ['**/*.ts', '**/*.tsx'],
+    extends: [...tseslint.configs.recommended],
   },
 )

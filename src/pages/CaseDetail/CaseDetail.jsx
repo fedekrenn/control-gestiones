@@ -7,13 +7,13 @@ import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch'
 import TableChartIcon from '@mui/icons-material/TableChart'
 import AccessibilityIcon from '@mui/icons-material/Accessibility'
 // Componentes
-import CaseModal from '../../components/CaseModal/CaseModal.jsx'
-import Error from '../../components/Error/Error.jsx'
-import SkeletonContainer from '../../components/SkeletonContainer/SkeletonContainer.jsx'
+import CaseModal from '@/components/CaseModal/CaseModal'
+import Error from '@/components/Error/Error'
+import SkeletonContainer from '@/components/SkeletonContainer/SkeletonContainer'
 // Custom hooks
-import { useGetCaseDetail } from '../../customHooks/indexHooks'
+import { useGetCaseDetail } from '@/customHooks/indexHooks'
 // Utils
-import { formatChip } from '../../utils/formatChip'
+import { formatChip } from '@/utils/formatChip'
 
 export default function CaseDetail() {
   const [open, setOpen] = useState(false)

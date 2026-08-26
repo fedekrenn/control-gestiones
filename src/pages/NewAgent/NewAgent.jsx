@@ -4,8 +4,8 @@ import { useState, useEffect, useRef } from 'react'
 import { Box } from '@mui/material'
 import autoAnimate from '@formkit/auto-animate'
 // Components
-import UploadFromFile from '../../components/UploadFromFile/UploadFromFile.jsx'
-import UploadManual from '../../components/UploadManual/UploadManual.jsx'
+import UploadFromFile from '@/components/UploadFromFile/UploadFromFile'
+import UploadManual from '@/components/UploadManual/UploadManual'
 
 export default function NewAgent() {
   const [showManual, setShowManual] = useState(true)

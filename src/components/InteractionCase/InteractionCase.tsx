@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom'
 import FeedIcon from '@mui/icons-material/Feed'
 // Config
-import { caseDetailPath, employeePath } from '../../config/routes'
+import { caseDetailPath, employeePath } from '@/config/routes'
+// Types
+import type { Case } from '@/types/case'
 
-export default function InteractionCase({ caseData }) {
+interface InteractionCaseProps {
+  caseData: Case
+}
+
+export default function InteractionCase({ caseData }: InteractionCaseProps) {
   const {
     id,
     agentId,

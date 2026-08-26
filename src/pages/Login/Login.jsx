@@ -4,12 +4,12 @@ import { Navigate, Link, useLocation } from 'react-router-dom'
 import { TextField, Button, Typography } from '@mui/material'
 import Swal from 'sweetalert2'
 // Firebase
-import { auth } from '../../config/firebaseConfig'
+import { auth } from '@/config/firebaseConfig'
 import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from 'firebase/auth'
 // Context
-import { AuthContext } from '../../context/authContext'
+import { AuthContext } from '@/context/authContext'
 // Config
-import { ROUTES } from '../../config/routes'
+import { ROUTES } from '@/config/routes'
 
 export default function Login() {
   const [email, setEmail] = useState('')

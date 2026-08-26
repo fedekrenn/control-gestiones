@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
+import moment from 'moment'
 import { filterCases } from './filterCases'
-import { makeCase } from '../test/makeCase'
+import { makeCase } from '@/test/makeCase'
 
 const baseFilters = {
   caseNumber: '',
@@ -67,7 +68,7 @@ describe('filterCases', () => {
       makeCase({ id: 'a', date: '05/03/2025 10:00:00' }),
       makeCase({ id: 'b', date: '06/03/2025 10:00:00' })
     ]
-    const result = filterCases(cases, { ...baseFilters, time: new Date(2025, 2, 5) })
+    const result = filterCases(cases, { ...baseFilters, time: moment([2025, 2, 5]) })
     expect(result.map(c => c.id)).toEqual(['a'])
   })
 

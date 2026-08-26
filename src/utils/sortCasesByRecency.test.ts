@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { sortCasesByRecency } from './sortCasesByRecency'
-import { makeCase } from '../test/makeCase'
+import { makeCase } from '@/test/makeCase'
 
 describe('sortCasesByRecency', () => {
   it('ordena los casos del más reciente al más antiguo', () => {
