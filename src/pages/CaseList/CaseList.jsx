@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 // Libraries
 import { Button } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
-import moment from 'moment'
 import autoAnimate from '@formkit/auto-animate'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 // Components
@@ -12,6 +11,8 @@ import FiltersContainer from '../../components/FiltersContainer/FilterContainer.
 import Empty from '../../components/Empty/Empty.jsx'
 // Utils
 import { handleDownloadExcel } from '../../utils/handleDowloadExcel'
+import { filterCases } from '../../utils/filterCases'
+import { sortCasesByRecency } from '../../utils/sortCasesByRecency'
 // Custom hook
 import { useGetCases } from '../../customHooks/indexHooks'
 
@@ -39,16 +40,7 @@ export default function CaseList() {
   const { cases, loading, motives, error } = useGetCases()
 
   const filteredCases = useMemo(() => {
-    return cases.filter((clientInteraction) => {
-      if (cell && clientInteraction.agentGroup !== cell) return false
-      if (origin && clientInteraction.origin !== origin) return false
-      if (caseNumber && !clientInteraction.caseNumber.toString().includes(caseNumber)) return false
-      if (employeeId && !clientInteraction.agentId.toLowerCase().includes(employeeId.toLowerCase())) return false
-      if (motive && clientInteraction.contactReason.toLowerCase() !== motive.toLowerCase()) return false
-      if (time && clientInteraction.date.split(' ')[0] !== moment(time).format('DD/MM/YYYY')) return false
-
-      return true
-    })
+    return filterCases(cases, { caseNumber, employeeId, cell, origin, motive, time })
   }, [caseNumber, employeeId, cell, origin, motive, time, cases])
 
   if (error.status) return <Error message={error.message} />
@@ -103,8 +95,7 @@ export default function CaseList() {
                 </tr>
               </tbody>
               : <tbody ref={animationParent}>
-                {filteredCases
-                  .sort((a, b) => b.timestamp - a.timestamp)
+                {sortCasesByRecency(filteredCases)
                   .slice(0, 20)
                   .map(caseData => (
                     <InteractionCase caseData={caseData} key={caseData.id} />

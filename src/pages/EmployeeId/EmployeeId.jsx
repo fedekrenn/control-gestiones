@@ -12,12 +12,12 @@ import Error from '../../components/Error/Error.jsx'
 import FeedIcon from '@mui/icons-material/Feed'
 // Utils
 import { QUESTIONS } from '../../utils/constants'
+import { calculateHabilityAverages } from '../../utils/calculateHabilityAverages'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export default function EmployeeId() {
   const [userCases, setUserCases] = useState([])
-  const [average, setAverage] = useState([])
 
   const { employeeId } = useParams()
   const { cases, loading, error } = useGetCases()
@@ -26,18 +26,7 @@ export default function EmployeeId() {
     setUserCases(cases.filter(casedata => casedata.agentId === employeeId))
   }, [cases, employeeId])
 
-  useEffect(() => {
-    const myAvg = userCases.reduce((acc, casedata) => {
-      const { customerNeedDetection, commonSense, effectiveCommunication, flexibility, problemSolving } = casedata.caseHabilities
-      acc[0] += customerNeedDetection
-      acc[1] += commonSense
-      acc[2] += effectiveCommunication
-      acc[3] += flexibility
-      acc[4] += problemSolving
-      return acc
-    }, [0, 0, 0, 0, 0])
-    setAverage(myAvg.map(avg => avg / userCases.length))
-  }, [userCases])
+  const average = useMemo(() => calculateHabilityAverages(userCases), [userCases])
 
   const name = useMemo(() => userCases[0]?.agentName, [userCases])
 
