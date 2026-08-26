@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 // Libraries
 import { CircularProgress, Box } from '@mui/material'
@@ -19,14 +19,13 @@ import { caseDetailPath } from '../../config/routes'
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export default function EmployeeId() {
-  const [userCases, setUserCases] = useState([])
-
   const { employeeId } = useParams()
   const { cases, loading, error } = useGetCases()
 
-  useEffect(() => {
-    setUserCases(cases.filter(casedata => casedata.agentId === employeeId))
-  }, [cases, employeeId])
+  const userCases = useMemo(
+    () => cases.filter(casedata => casedata.agentId === employeeId),
+    [cases, employeeId]
+  )
 
   const average = useMemo(() => calculateHabilityAverages(userCases), [userCases])
 

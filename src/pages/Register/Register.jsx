@@ -30,7 +30,7 @@ export default function Register() {
     }
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(() => {
         Swal.fire({
           icon: 'success',
           title: 'Bienvenido',

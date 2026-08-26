@@ -26,9 +26,9 @@ export default function UploadFromFile() {
       const processData = []
       
       // Convertir cada fila a array
-      worksheet.eachRow((row, rowNumber) => {
+      worksheet.eachRow((row) => {
         const rowData = []
-        row.eachCell((cell, colNumber) => {
+        row.eachCell((cell) => {
           rowData.push(cell.value)
         })
         processData.push(rowData)

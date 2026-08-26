@@ -139,7 +139,7 @@ export default function NewCase() {
             if (result.isConfirmed) navigate(caseDetailPath(newCase.id))
           })
           handleReset()
-        } catch (error) {
+        } catch {
           Swal.fire('Error', 'No se pudo guardar la gestión', 'error')
         }
       } else {
