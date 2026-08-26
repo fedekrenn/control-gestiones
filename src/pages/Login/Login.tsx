@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, type FormEvent } from 'react'
 import { Navigate, Link, useLocation } from 'react-router-dom'
 // Libraries
 import { TextField, Button, Typography } from '@mui/material'
@@ -11,14 +11,18 @@ import { AuthContext } from '@/context/authContext'
 // Config
 import { ROUTES } from '@/config/routes'
 
+interface LocationState {
+  from?: string
+}
+
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const { user } = useContext(AuthContext)
-  const { state } = useLocation()
+  const { state } = useLocation() as { state: LocationState | null }
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: FormEvent) => {
     e.preventDefault()
 
     setPersistence(auth, browserSessionPersistence)

@@ -15,12 +15,14 @@ import { filterCases } from '@/utils/filterCases'
 import { sortCasesByRecency } from '@/utils/sortCasesByRecency'
 // Custom hook
 import { useGetCases } from '@/customHooks/indexHooks'
+// Types
+import type { Filters } from '@/types/common'
 
 export default function CaseList() {
   const [showFilters, setShowFilters] = useState(false)
   const [animationParent] = useAutoAnimate()
 
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<Filters>({
     caseNumber: '',
     employeeId: '',
     cell: '',
@@ -31,10 +33,10 @@ export default function CaseList() {
 
   const { caseNumber, employeeId, cell, origin, motive, time } = filters
 
-  const parent = useRef(null)
+  const parent = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    parent.current && autoAnimate(parent.current)
+    if (parent.current) autoAnimate(parent.current)
   }, [parent])
 
   const { cases, loading, motives, error } = useGetCases()
@@ -89,7 +91,7 @@ export default function CaseList() {
             {filteredCases.length === 0
               ? <tbody>
                 <tr>
-                  <td colSpan='9'>
+                  <td colSpan={9}>
                     <Empty />
                   </td>
                 </tr>

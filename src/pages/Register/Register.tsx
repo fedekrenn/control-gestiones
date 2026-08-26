@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, type FormEvent } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 // Libraries
 import { TextField, Button, Typography } from '@mui/material'
@@ -16,7 +16,7 @@ export default function Register() {
 
   const { user } = useContext(AuthContext)
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: FormEvent) => {
     e.preventDefault()
 
     if (password !== password2) {

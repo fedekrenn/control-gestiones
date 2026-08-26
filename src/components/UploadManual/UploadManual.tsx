@@ -1,5 +1,5 @@
 // React
-import { useState, useContext } from 'react'
+import { useState, useContext, type FormEvent } from 'react'
 // Libraries
 import { TextField, Button } from '@mui/material'
 import Swal from 'sweetalert2'
@@ -18,7 +18,7 @@ export default function UploadManual() {
 
   const { cells } = useContext(BasicDataContext)
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
     try {
@@ -41,10 +41,10 @@ export default function UploadManual() {
 
       setAgentInfo({ key: '', name: '', cell: '' })
     } catch (error) {
-      console.error(error.message)
+      console.error((error as Error).message)
       Swal.fire({
         title: 'Error!',
-        text: `Ha ocurrido un error al agregar el nuevo agente: ${error.message}`,
+        text: `Ha ocurrido un error al agregar el nuevo agente: ${(error as Error).message}`,
         icon: 'error',
         confirmButtonText: 'Ok'
       })
@@ -86,7 +86,7 @@ export default function UploadManual() {
           value={agentInfo.cell}
           options={cells.celulas}
           fWidth={false}
-          onChange={e => setAgentInfo({ ...agentInfo, cell: e })}
+          onChange={newValue => setAgentInfo({ ...agentInfo, cell: newValue })}
         />
         <Button variant='contained' type='submit'>
           Agregar

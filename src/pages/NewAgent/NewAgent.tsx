@@ -10,10 +10,10 @@ import UploadManual from '@/components/UploadManual/UploadManual'
 export default function NewAgent() {
   const [showManual, setShowManual] = useState(true)
 
-  const parent = useRef(null)
+  const parent = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    parent.current && autoAnimate(parent.current)
+    if (parent.current) autoAnimate(parent.current)
   }, [parent])
 
   const config = {

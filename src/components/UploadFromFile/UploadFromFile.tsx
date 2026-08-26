@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, type ChangeEvent } from 'react'
 // Libraries
-import ExcelJS from 'exceljs'
+import ExcelJS, { type CellValue } from 'exceljs'
 import { Button, Box } from '@mui/material'
 import Swal from 'sweetalert2'
 // Firebase
@@ -10,30 +10,30 @@ import { db } from '@/config/firebaseConfig'
 import UploadSvg from '@/assets/upload.svg'
 
 export default function UploadFromFile() {
-  const [xmlsData, setXmlsData] = useState([])
+  const [xmlsData, setXmlsData] = useState<CellValue[][]>([])
 
-  async function handleUploadFile(event) {
-    const file = event.target.files[0]
-    
+  async function handleUploadFile(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0]
+
     if (!file) return
 
     try {
       const workbook = new ExcelJS.Workbook()
-      await workbook.xlsx.load(file)
-      
+      await workbook.xlsx.load(await file.arrayBuffer())
+
       // Obtener la primera hoja
       const worksheet = workbook.worksheets[0]
-      const processData = []
-      
+      const processData: CellValue[][] = []
+
       // Convertir cada fila a array
       worksheet.eachRow((row) => {
-        const rowData = []
+        const rowData: CellValue[] = []
         row.eachCell((cell) => {
           rowData.push(cell.value)
         })
         processData.push(rowData)
       })
-      
+
       setXmlsData(processData)
     } catch (error) {
       console.error('Error al leer el archivo:', error)
@@ -46,31 +46,32 @@ export default function UploadFromFile() {
     }
   }
 
-  const handleUploadAll = async (xmlsData) => {
+  const handleUploadAll = async (xmlsData: CellValue[][]) => {
     if (xmlsData.length === 0) return alert('No hay datos para cargar')
 
     let count = 0
     let error = false
-    const buffer = []
+    const buffer: string[] = []
 
     try {
       xmlsData.slice(1).forEach(async (agent) => {
         if (agent.length === 0) return
 
         const regex = /^ex[a-zA-Z]\d+$/i
+        const legajo = String(agent[0])
 
-        if (!regex.test(agent[0])) {
+        if (!regex.test(legajo)) {
           error = true
-          buffer.push(agent[0])
+          buffer.push(legajo)
           return
         }
 
         count++
         await setDoc(doc(db, 'agentsList', 'JUYcFTPxnTi8vQwCMoJC'),
           {
-            [agent[0].toLowerCase()]: {
-              name: agent[1].trim(),
-              cell: agent[2].trim()
+            [legajo.toLowerCase()]: {
+              name: String(agent[1]).trim(),
+              cell: String(agent[2]).trim()
             }
           },
           { merge: true }
@@ -138,7 +139,7 @@ export default function UploadFromFile() {
             <thead>
               <tr>
                 {xmlsData[0].map((headerValue, rowIndex) => (
-                  <th key={rowIndex}>{headerValue}</th>
+                  <th key={rowIndex}>{String(headerValue)}</th>
                 ))}
               </tr>
             </thead>
@@ -146,7 +147,7 @@ export default function UploadFromFile() {
               {xmlsData.slice(1).map((agent, rowIndex) => (
                 <tr key={rowIndex}>
                   {agent.map((tableValue, columIndex) => (
-                    <td key={columIndex}>{tableValue}</td>
+                    <td key={columIndex}>{String(tableValue)}</td>
                   ))}
                 </tr>
               ))}

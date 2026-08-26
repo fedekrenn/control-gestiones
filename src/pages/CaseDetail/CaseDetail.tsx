@@ -14,6 +14,10 @@ import SkeletonContainer from '@/components/SkeletonContainer/SkeletonContainer'
 import { useGetCaseDetail } from '@/customHooks/indexHooks'
 // Utils
 import { formatChip } from '@/utils/formatChip'
+// Config
+import { employeePath } from '@/config/routes'
+// Types
+import type { Case } from '@/types/case'
 
 export default function CaseDetail() {
   const [open, setOpen] = useState(false)
@@ -37,9 +41,9 @@ export default function CaseDetail() {
     timestamp,
     perspective,
     caseHabilities
-  } = caseDetail
+  } = caseDetail as Partial<Case>
 
-  const formattedDate = (string) => string?.split(' ').join(' - ')
+  const formattedDate = (string?: string) => string?.split(' ').join(' - ')
 
   if (error.status) return <Error message={error.message} />
 
@@ -74,12 +78,12 @@ export default function CaseDetail() {
                 </li>
               </ul>
               <Box sx={{ display: 'flex', justifyContent: 'center', paddingTop: '10px' }} >
-                <Link to={`/asesor/${agentId}`}>
+                <Link to={employeePath(agentId ?? '')}>
                   <i title='Más gestiones del asesor' className='case-detail__icon-employeeId' >
                     <AccessibilityIcon />
                   </i>
                 </Link>
-                <i title={`Monitoreado por ${monitor} el día ${new Date(timestamp).toLocaleString()} hs`} >
+                <i title={`Monitoreado por ${monitor} el día ${new Date(timestamp ?? 0).toLocaleString()} hs`} >
                   <ContentPasteSearchIcon />
                 </i>
                 <i className='case-detail__icon' onClick={handleOpen}>
@@ -96,7 +100,7 @@ export default function CaseDetail() {
                 </li>
                 <li>
                   <span>Perspectiva:</span>
-                  <Chip className='chip' label={perspective} color={formatChip(perspective)} />
+                  <Chip className='chip' label={perspective} color={formatChip(perspective ?? '')} />
                 </li>
               </ul>
               <Box>
@@ -104,23 +108,23 @@ export default function CaseDetail() {
                 <ul className='small-text'>
                   <li>
                     Detección de la necesidad del cliente:
-                    <Rating size="small" name='read-only' value={caseHabilities?.customerNeedDetection} readOnly />
+                    <Rating size="small" name='read-only' value={caseHabilities?.customerNeedDetection ?? 0} readOnly />
                   </li>
                   <li>
                     Pensamiento analítico:
-                    <Rating size="small" name='read-only' value={caseHabilities?.commonSense} readOnly />
+                    <Rating size="small" name='read-only' value={caseHabilities?.commonSense ?? 0} readOnly />
                   </li>
                   <li>
                     Comunicación efectiva:
-                    <Rating size="small" name='read-only' value={caseHabilities?.effectiveCommunication} readOnly />
+                    <Rating size="small" name='read-only' value={caseHabilities?.effectiveCommunication ?? 0} readOnly />
                   </li>
                   <li>
                     Flexibilidad y adaptación:
-                    <Rating size="small" name='read-only' value={caseHabilities?.flexibility} readOnly />
+                    <Rating size="small" name='read-only' value={caseHabilities?.flexibility ?? 0} readOnly />
                   </li>
                   <li>
                     Capacidad resolutiva:
-                    <Rating size="small" name='read-only' value={caseHabilities?.problemSolving} readOnly />
+                    <Rating size="small" name='read-only' value={caseHabilities?.problemSolving ?? 0} readOnly />
                   </li>
                 </ul>
               </Box>

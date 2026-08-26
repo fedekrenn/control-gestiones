@@ -60,7 +60,7 @@ export default function EmployeeId() {
 
   return (
     <main>
-      <h1>{employeeId.toUpperCase()} - {name}</h1>
+      <h1>{employeeId?.toUpperCase()} - {name}</h1>
       {loading
         ? <CircularProgress />
         : <section className='employee-detail'>

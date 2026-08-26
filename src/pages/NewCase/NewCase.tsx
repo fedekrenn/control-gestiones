@@ -1,11 +1,11 @@
-import { useState, useMemo, useContext } from 'react'
+import { useState, useMemo, useContext, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 // Libraries
 import { TextField, Autocomplete, Button, Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
-import moment from 'moment'
+import moment, { type Moment } from 'moment'
 import Swal from 'sweetalert2'
 // Utils
 import { handlePaste } from '@/utils/events'
@@ -24,9 +24,22 @@ import StarsRange from '@/components/StarsRange/StarsRange'
 import { OPTIONS } from '@/utils/constants'
 // Config
 import { caseDetailPath } from '@/config/routes'
+// Types
+import type { Case, CaseHabilities, HabilityKey } from '@/types/case'
+
+interface CaseDraft {
+  agentName: string
+  agentGroup: string
+  date: Moment | null
+  agentId: string
+  caseNumber: string
+  contactReason: string
+  perspective: string
+  comment: string
+}
 
 export default function NewCase() {
-  const [caseData, setCaseData] = useState({
+  const [caseData, setCaseData] = useState<CaseDraft>({
     agentName: 'Nombre',
     agentGroup: 'Célula',
     date: null,
@@ -37,7 +50,7 @@ export default function NewCase() {
     comment: ''
   })
 
-  const [caseHabilities, setCaseHabilities] = useState({
+  const [caseHabilities, setCaseHabilities] = useState<CaseHabilities>({
     customerNeedDetection: 0,
     commonSense: 0,
     effectiveCommunication: 0,
@@ -74,7 +87,7 @@ export default function NewCase() {
     })
   }
 
-  const handleChangeAutocomplete = (_, value) => {
+  const handleChangeAutocomplete = (_: unknown, value: string | null) => {
     setCaseData(prevState => ({
       ...prevState,
       agentName: 'Nombre',
@@ -98,17 +111,18 @@ export default function NewCase() {
     }
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
-    const newCase = {
+    const newCase: Case = {
       ...caseData,
+      caseNumber: parseInt(caseData.caseNumber),
       caseHabilities,
       id: crypto.randomUUID(),
       date: moment(caseData.date).format('DD/MM/YYYY HH:mm:ss'),
-      origin: user.displayName ? 'Calidad Cec' : 'Coordinador',
+      origin: user!.displayName ? 'Calidad Cec' : 'Coordinador',
       timestamp: Date.now(),
-      monitor: user.email
+      monitor: user!.email ?? ''
     }
 
     Swal.fire({
@@ -148,7 +162,7 @@ export default function NewCase() {
     })
   }
 
-  const handleDataChange = (dataToChange, value) => {
+  const handleDataChange = <K extends keyof CaseDraft>(dataToChange: K, value: CaseDraft[K]) => {
     setCaseData({
       ...caseData,
       [dataToChange]: value
@@ -205,7 +219,7 @@ export default function NewCase() {
             variant='outlined'
             placeholder='Ej: 2331244'
             value={caseData.caseNumber}
-            onChange={e => handleDataChange('caseNumber', parseInt(e.target.value))}
+            onChange={e => handleDataChange('caseNumber', e.target.value)}
           />
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DateTimePicker
@@ -225,10 +239,9 @@ export default function NewCase() {
             freeSolo
             id='outlined-basicFifth'
             size='small'
-            variant='outlined'
             value={caseData.contactReason}
             options={motives}
-            onChange={(_, value) => handleDataChange('contactReason', value)}
+            onChange={(_, value) => handleDataChange('contactReason', value ?? '')}
             renderInput={params => (
               <TextField
                 {...params}
@@ -248,7 +261,7 @@ export default function NewCase() {
                 <StarsRange
                   key={question.key}
                   question={question.text}
-                  value={caseHabilities[question.key]}
+                  value={caseHabilities[question.key as HabilityKey] ?? 0}
                   onChange={newValue =>
                     setCaseHabilities(prevState => ({
                       ...prevState,
